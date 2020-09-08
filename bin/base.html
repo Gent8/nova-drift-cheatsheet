@@ -20,7 +20,7 @@
 	
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="hex.css"/>
-	<link rel="stylesheet" href="style.css?v=2020-09-08"/>
+	<link rel="stylesheet" href="style.css?v=2020-09-08-2"/>
 	<title>Nova Drift Cheatsheet</title>
 </head>
 <body>
@@ -37,6 +37,7 @@
 		Active brightness: <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
 		Inactive brightness: <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
 		<input type="button" value="Reset selection" id="reset-selection" />
+		<input type="button" value="Copy link" id="copy-link" title="So that you can showcase a build or save it for later" />
 		<br/><br/>
 	</article>
 	<section id="mods">
@@ -96,12 +97,8 @@
 	//
 	function onModEnter(e) {
 		var hex = e.target;
-		var name = null;
-		for (var i = 0; i < hex.classList.length; i++) {
-			name = hex.classList[i];
-			if (name != "hex") break;
-		}
-		if (name == "hex") return;
+		var name = hex.getAttribute("data-hex-name");
+		if (!name) return;
 		var css = [];
 		if (!hex.parentElement.classList.contains("single")) {
 			css.push(".hex:not(." + name + ")" + cssInactive);
@@ -127,33 +124,73 @@
 			hexFilterUpdate(true);
 		} else if (hexCheckCount > 0) {
 			style.innerHTML = [
-				'.hex:not(.checked) ' + cssInactive,
-				'.hex.checked ' + cssActive,
+				'.hex:not([checked]) ' + cssInactive,
+				'.hex[checked] ' + cssActive,
 			].join("\n");
 		} else style.innerHTML = "";
 	}
 	document.getElementById("reset-selection").addEventListener("click", function(_) {
-		var els = document.querySelectorAll(".hex.checked");
-		for (var i = 0; i < els.length; i++) els[i].classList.remove("checked");
+		var els = document.querySelectorAll(".hex[checked]");
+		for (var i = 0; i < els.length; i++) els[i].removeAttribute("checked");
 		hexCheckCount = 0;
 		clearMatch();
 	});
+	document.getElementById("copy-link").addEventListener("click", function(_) {
+		var els = document.querySelectorAll(".hex[checked]");
+		var arr = [];
+		for (var i = 0; i < els.length; i++) arr.push(els[i].getAttribute("data-hex-name"));
+		var href = location.href;
+		var sep = href.indexOf("?");
+		var sep2 = href.indexOf("#");
+		if (sep < 0 || sep2 >= 0 && sep2 < sep) sep = sep2;
+		if (sep >= 0) href = href.substring(0, sep);
+		if (arr.length > 0) href += "?mods=" + arr.join("+");
+		prompt("Copy your link:", href);
+	});
 	function onHexToggle(e) {
-		var cl = e.target.classList;
-		if (cl.contains("checked")) {
-			cl.remove("checked");
+		var hex = e.target;
+		if (hex.hasAttribute("checked")) {
+			hex.removeAttribute("checked");
 			if (--hexCheckCount == 0) clearMatch();
 		} else {
-			cl.add("checked");
+			hex.setAttribute("checked", "");
 			if (++hexCheckCount == 1) clearMatch();
 		}
 	}
 	var hexagons = document.getElementsByClassName("hex");
 	for (var i = 0; i < hexagons.length; i++) {
 		var hex = hexagons[i];
+		for (var k = 0; k < hex.classList.length; k++) {
+			if (hex.classList[k] == "hex") continue;
+			hex.setAttribute("data-hex-name", hex.classList[k]);
+			break;
+		}
 		hex.addEventListener("mouseenter", onModEnter);
 		hex.addEventListener("mouseleave", clearMatch);
 		hex.addEventListener("click", onHexToggle);
+	}
+	//
+	if (location.search.charAt(0) == "?") {
+		var args = location.search.substring(1).split("&");
+		for (var i = 0; i < args.length; i++) {
+			var pair = args[i], key, val;
+			var sep = pair.indexOf("=");
+			if (sep >= 0) {
+				key = pair.substr(0, sep);
+				val = pair.substr(sep + 1);
+			} else { key = pair; val = ""; }
+			if (key == "mods") {
+				var modArr = val.split("+");
+				for (var i = 0; i < modArr.length; i++) try{
+					var el = document.querySelector(".hex." + modArr[i]);
+					if (!el) continue;
+					el.setAttribute("checked", "");
+					hexCheckCount++;
+				} catch (e) { console.log(e); }
+				clearMatch();
+				break;
+			}
+		}
 	}
 	//
 	function onTagEnter(e) {
