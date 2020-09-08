@@ -17,6 +17,9 @@ a, a:visited {
 	display: flex;
 	flex-wrap: wrap;
 }
+#mods > section.pad {
+	margin: 0.5em 0;
+}
 #mods > section > section {
 	position: relative;
 	margin: 4px;
@@ -97,4 +100,11 @@ section.super-text .text {
 .hextag:hover {
 	background: white;
 	color: black;
+}
+input[type="text"] {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 0.4em 0.4em;
+	color: white;
+	border: 0;
+	width: 15em;
 }
