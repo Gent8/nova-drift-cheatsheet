@@ -35,7 +35,7 @@
 		Also check out my <a href="https://yellowafterlife.itch.io/nova-drift-tweaks">Visual Clarity</a> mod.<br/>
 		<br/>
 		Active brightness: <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-		Inactive brightness: <input type="range" min="0" max="200" value="75" id="inactive-brightness" />
+		Inactive brightness: <input type="range" min="0" max="200" value="50" id="inactive-brightness" />
 		<br/><br/>
 	</article>
 	<section id="mods">
@@ -65,15 +65,33 @@
 	//
 	var cssActive = " { filter: brightness(125%) }";
 	var activeSlider = document.getElementById("active-brightness");
-	activeSlider.addEventListener("change", function(e) {
+	var keyActive = "nova-drift-sheet:active-brightness";
+	function syncActiveBrightness() {
 		cssActive = ' { filter: brightness(' + activeSlider.value + '%) }';
+	}
+	activeSlider.addEventListener("change", function(_) {
+		syncActiveBrightness();
+		localStorage.setItem(keyActive, activeSlider.value);
 	});
+	if (localStorage.getItem(keyActive)) {
+		activeSlider.value = 0|localStorage.getItem(keyActive);
+		syncActiveBrightness();
+	}
 	//
-	var cssInactive = " { filter: brightness(75%) }";
+	var cssInactive = " { filter: brightness(50%) }";
 	var inactiveSlider = document.getElementById("inactive-brightness");
-	inactiveSlider.addEventListener("change", function(e) {
+	var keyInactive = "nova-drift-sheet:inactive-brightness";
+	function syncInactiveBrightness() {
 		cssInactive = ' { filter: brightness(' + inactiveSlider.value + '%) }';
+	}
+	inactiveSlider.addEventListener("change", function() {
+		syncInactiveBrightness();
+		localStorage.setItem(keyInactive, inactiveSlider.value);
 	});
+	if (localStorage.getItem(keyInactive)) {
+		inactiveSlider.value = 0|localStorage.getItem(keyInactive);
+		syncInactiveBrightness();
+	}
 	//
 	function onModEnter(e) {
 		var hex = e.target;

@@ -110,4 +110,5 @@ input[type="text"] {
 }
 input[type="range"] {
 	vertical-align: top;
+	width: 250px;
 }
