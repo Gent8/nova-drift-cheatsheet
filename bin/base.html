@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta property="og:type" content="article" />
+	<meta property="og:locale" content="en_us" />
+	<meta property="og:site_name" content="YellowAfterlife" />
+	<meta property="og:title" content="Nova Drift cheatsheet" />
+	<meta property="og:url" content="https://yal.cc/game-tools/nova-drift/" />
+	<meta property="twitter:url" content="https://yal.cc/game-tools/nova-drift/" />
+	<meta property="og:description" content="A quick reference on the game's gear and mods" />
+	<meta property="twitter:description" content="A quick reference on the game's gear and mods" />
+	<meta property="twitter:card" content="summary_large_image" />
+		<meta property="og:image" content="https://yal.cc/game-tools/nova-drift/og.jpg" />
+	<meta property="og:image:width" content="1341" />
+	<meta property="og:image:height" content="869" />
+	<meta property="twitter:image" content="https://yal.cc/game-tools/nova-drift/og.jpg" />
+	<meta property="twitter:image:width" content="1341" />
+	<meta property="twitter:image:height" content="869" />
+	
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="hex.css"/>
+	<link rel="stylesheet" href="style.css?v=2020-09-08"/>
+	<title>Nova Drift Cheatsheet</title>
+</head>
+<body>
+	<style id="match-style"></style>
+	<article id="intro">
+	Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!<br/>
+	Special thanks to Silical#8156 and Jim-bot#0237 for helping with tags.<br/>
+	Last updated on 2020-09-08.<br/>
+	Also check out my <a href="https://yellowafterlife.itch.io/nova-drift-tweaks">Visual Clarity</a> mod.
+	<br/><br/>
+	</article>
+	<section id="mods">
+		<header>Weapons:</header>
+		<section><!--weapons--></section>
+		<header>Bodies:</header>
+		<section><!--bodies--></section>
+		<header>Shields:</header>
+		<section><!--shields--></section>
+		<header>Mod Trees:</header>
+		<section><!--branches--></section>
+		<header>Tags<noscript> (JavaScript required)</noscript>:</header>
+		<section style="padding: 0.5em 0"><!--tags--></section>
+		<header>Super Mods:</header>
+		<section><!--supers--></section>
+		<header>Common Wild Mods:</header>
+		<section><!--wildCommon--></section>
+		<header>Rare Wild Mods:</header>
+		<section><!--wildRare--></section>
+	</section>
+	<script src="https://unpkg.com/@popperjs/core@2"></script>
+	<script src="https://unpkg.com/tippy.js@6"></script>
+	<script>(function() {
+	if (window.tippy) tippy('.hex', {
+		content: function(el) {
+			var result = el.title;
+			result = result.replace(/^(.+)/, "<b>$1</b>");
+			//
+			var isList = false;
+			result = result.replace(/(\n*)◈/g, function(_, n) {
+				if (isList) {
+					if (n.length > 1) return '</li><li style="margin-top:0.5em">';
+					return "</li><li>";
+				}
+				isList = true;
+				return "<ul><li>";
+			});
+			if (isList) {
+				result += "</li></ul>";
+			}
+			//
+			result = result.replace(/\n/g, "<br/>");
+			el.title = "";
+			return result;
+		}, allowHTML: true
+	});
+	
+	var style = document.getElementById("match-style");
+	function onModEnter(e) {
+		var hex = e.target;
+		var name = null;
+		for (var i = 0; i < hex.classList.length; i++) {
+			name = hex.classList[i];
+			if (name != "hex") break;
+		}
+		if (name == "hex") return;
+		var css = [];
+		if (!hex.parentElement.classList.contains("single")) {
+			css.push(".hex:not(." + name + ") { filter: brightness(75%) }");
+			css.push(".hex." + name + " { filter: brightness(125%) }");
+		}
+		var tags = hex.getAttribute("data-hex-tags");
+		if (tags != null) {
+			tags = tags.split(";");
+			for (var i = 0; i < tags.length; i++) {
+				var tag = tags[i];
+				if (!tag) continue;
+				css.push('.hextag[data-hex-tag="' + tag + '"] { color: black; background: white; }');
+			}
+		}
+		style.innerHTML = css.join("\n");
+	}
+	function clearMatch(e) { style.innerHTML = ""; }
+	var hexagons = document.getElementsByClassName("hex");
+	for (var i = 0; i < hexagons.length; i++) {
+		var hex = hexagons[i];
+		hex.addEventListener("mouseenter", onModEnter);
+		hex.addEventListener("mouseleave", clearMatch);
+	}
+	//
+	function onTagEnter(e) {
+		var tag = e.target;
+		var name = tag.innerText || tag.textContent;
+		style.innerHTML = (
+			'.hex:not([data-hex-tags*="' + name + ';"]) { filter: brightness(75%) }\n' +
+			'.hex.[data-hex-tags*="' + name + ';"] { filter: brightness(125%) }'
+		);
+	}
+	var hextags = document.getElementsByClassName("hextag");
+	for (var i = 0; i < hextags.length; i++) {
+		var tag = hextags[i];
+		tag.addEventListener("mouseenter", onTagEnter);
+		tag.addEventListener("mouseleave", clearMatch);
+	}
+	
+	})();
+	var _gaq = _gaq||[];_gaq.push(['_setAccount','UA-36439133-1']);_gaq.push(['_trackPageview']);
+	</script>
+	<script type="text/javascript" async="true" src="https://www.google-analytics.com/ga.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+/base-full/*
+!/base-full/blank
+/base-mini/*
+!/base-mini/blank
+/bin/*.n
+*.min.css
+/bin/localization.csv
+/bin/index.html
+/bin/hex.png
