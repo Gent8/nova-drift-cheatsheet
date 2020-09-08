@@ -26,14 +26,17 @@
 <body>
 	<style id="match-style"></style>
 	<article id="intro">
-	Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!<br/>
-	Special thanks to Silical#8156 and Jim-bot#0237 for helping with tags.<br/>
-	Last updated on 2020-09-08.<br/>
-	<a href="https://github.com/YAL-Game-Tools/nova-drift-cheatsheet">Written</a> in
-	<a href="http://haxe.org/">Haxe</a>,
-	uses <a href="https://atomiks.github.io/tippyjs/">Tippy</a>.<br/>
-	Also check out my <a href="https://yellowafterlife.itch.io/nova-drift-tweaks">Visual Clarity</a> mod.
-	<br/><br/>
+		Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!<br/>
+		Special thanks to Silical#8156 and Jim-bot#0237 for helping with tags.<br/>
+		Last updated on 2020-09-08.<br/>
+		<a href="https://github.com/YAL-Game-Tools/nova-drift-cheatsheet">Written</a> in
+		<a href="http://haxe.org/">Haxe</a>,
+		uses <a href="https://atomiks.github.io/tippyjs/">Tippy</a>.<br/>
+		Also check out my <a href="https://yellowafterlife.itch.io/nova-drift-tweaks">Visual Clarity</a> mod.<br/>
+		<br/>
+		Active brightness: <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
+		Inactive brightness: <input type="range" min="0" max="200" value="75" id="inactive-brightness" />
+		<br/><br/>
 	</article>
 	<section id="mods">
 		<header>Weapons:</header>
@@ -59,8 +62,19 @@
 	<script src="script.js"></script>
 	<script>(function() {
 	var style = document.getElementById("match-style");
-	var cssInactive = " { filter: brightness(75%) }";
+	//
 	var cssActive = " { filter: brightness(125%) }";
+	var activeSlider = document.getElementById("active-brightness");
+	activeSlider.addEventListener("change", function(e) {
+		cssActive = ' { filter: brightness(' + activeSlider.value + '%) }';
+	});
+	//
+	var cssInactive = " { filter: brightness(75%) }";
+	var inactiveSlider = document.getElementById("inactive-brightness");
+	inactiveSlider.addEventListener("change", function(e) {
+		cssInactive = ' { filter: brightness(' + inactiveSlider.value + '%) }';
+	});
+	//
 	function onModEnter(e) {
 		var hex = e.target;
 		var name = null;

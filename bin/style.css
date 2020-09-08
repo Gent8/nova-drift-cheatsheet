@@ -108,3 +108,6 @@ input[type="text"] {
 	border: 0;
 	width: 15em;
 }
+input[type="range"] {
+	vertical-align: top;
+}
