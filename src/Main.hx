@@ -11,8 +11,9 @@ using StringTools;
  * @author YellowAfterlife
  */
 class Main {
-	static var loc:Map<String, String>;
-	static var tagsPerMod:Map<String, Array<String>> = new Map();
+	public static var loc:Map<String, String>;
+	static var tagsPerMod:Map<Mod, Array<String>> = new Map();
+	static var tagsPerModInit:Map<String, Array<String>> = new Map();
 	static var tagsFound:Map<String, Bool> = new Map();
 	static var tagList:Array<String> = [];
 	static function parseText(s:String) {
@@ -65,10 +66,18 @@ class Main {
 		}
 		
 		// add tags:
-		var tagKey = title.toLowerCase();
-		tagKey = ~/^(weapon|body|shield|wild mod): /.replace(tagKey, "");
-		var tags = tagsPerMod[tagKey];
-		if (tags == null) tagsPerMod[(mod:String).toLowerCase()];
+		var tags:Array<String> = tagsPerMod[mod];
+		if (tags == null) {
+			tags = [];
+			inline function add(arr:Array<String>) {
+				if (arr != null) for (tag in arr) tags.push(tag);
+			}
+			var tagKey = title.toLowerCase();
+			tagKey = ~/^(weapon|body|shield|wild mod): /.replace(tagKey, "");
+			add(tagsPerModInit[tagKey]);
+			add(tagsPerModInit[(mod:String).toLowerCase()]);
+			tagsPerMod[mod] = tags;
+		}
 		if (tags != null) {
 			b.add(' data-hex-tags="');
 			for (tag in tags) {
@@ -266,25 +275,42 @@ class Main {
 		return b.toString();
 	}
 	static function loadTags() {
-		var json:DynamicAccess<Array<String>> = Json.parse(File.getContent("tags.json"));
-		json.remove("mods");
-		json.remove("construct");
-		json.remove("charge");
-		json.remove("wild mods");
-		json.remove("weapons");
-		json.remove("ships");
-		json.remove("shields");
-		for (tag => mods in json) {
-			for (mod in mods) {
-				mod = mod.toLowerCase();
-				var arr = tagsPerMod[mod];
-				if (arr == null) tagsPerMod[mod] = arr = [];
-				arr.push(tag);
+		//
+		var autoJson:DynamicAccess<Array<String>> = Json.parse(File.getContent("tags.json"));
+		for (key in [
+			"mods", "super mods", "wild mods", "weapons", "ships", "shields",
+			"construct", "charge",
+		]) autoJson.remove(key);
+		//
+		for (json in [autoJson, CustomTags.get()]) {
+			for (tag => mods in json) {
+				for (mod in mods) {
+					mod = mod.toLowerCase();
+					var arr = tagsPerModInit[mod];
+					if (arr == null) tagsPerModInit[mod] = arr = [];
+					arr.push(tag);
+				}
 			}
 		}
+		//
+		//dumpTags(tagsPerModInit, "tags-init.json");
+	}
+	static function dumpTags<T:String>(tags:Map<T, Array<String>>, path:String) {
+		var dump = new StringBuf();
+		dump.add("{");
+		var modNames:Array<T> = [for (key in tags.keys()) key];
+		modNames.sort((a, b) -> a > b ? 1: -1);
+		var sep = false;
+		for (key in modNames) {
+			if (sep) dump.add(","); else sep = true;
+			dump.add("\r\n\t" + Json.stringify(key) + ": " + Json.stringify(tags[key]));
+		}
+		dump.add("\r\n}\r\n");
+		File.saveContent(path, dump.toString());
 	}
 	static function genTags() {
 		var b = new StringBuf();
+		tagList.sort((a, b) -> a > b ? 1 : -1);
 		for (tag in tagList) b.add('<span class="hextag" data-hex-tag="$tag">$tag</span>');
 		return b.toString();
 	}
@@ -304,6 +330,7 @@ class Main {
 		html = StringTools.replace(html, "<!--bodies-->", bodies());
 		html = StringTools.replace(html, "<!--shields-->", genShields());
 		html = StringTools.replace(html, "<!--tags-->", genTags());
+		//dumpTags(tagsPerMod, "tags-final.json");
 		File.saveContent("index.html", html);
 		Sys.println("All good!");
 	}
