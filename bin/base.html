@@ -35,7 +35,8 @@
 		Also check out my <a href="https://yellowafterlife.itch.io/nova-drift-tweaks">Visual Clarity</a> mod.<br/>
 		<br/>
 		Active brightness: <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-		Inactive brightness: <input type="range" min="0" max="200" value="50" id="inactive-brightness" />
+		Inactive brightness: <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
+		<input type="button" value="Reset selection" id="reset-selection" />
 		<br/><br/>
 	</article>
 	<section id="mods">
@@ -119,17 +120,40 @@
 	}
 	//
 	var hexFilter = document.getElementById("hex-filter");
+	var hexCheckCount = 0;
 	var hexFilterUpdate;
 	function clearMatch(e) {
 		if (document.activeElement == hexFilter) {
 			hexFilterUpdate(true);
+		} else if (hexCheckCount > 0) {
+			style.innerHTML = [
+				'.hex:not(.checked) ' + cssInactive,
+				'.hex.checked ' + cssActive,
+			].join("\n");
 		} else style.innerHTML = "";
+	}
+	document.getElementById("reset-selection").addEventListener("click", function(_) {
+		var els = document.querySelectorAll(".hex.checked");
+		for (var i = 0; i < els.length; i++) els[i].classList.remove("checked");
+		hexCheckCount = 0;
+		clearMatch();
+	});
+	function onHexToggle(e) {
+		var cl = e.target.classList;
+		if (cl.contains("checked")) {
+			cl.remove("checked");
+			if (--hexCheckCount == 0) clearMatch();
+		} else {
+			cl.add("checked");
+			if (++hexCheckCount == 1) clearMatch();
+		}
 	}
 	var hexagons = document.getElementsByClassName("hex");
 	for (var i = 0; i < hexagons.length; i++) {
 		var hex = hexagons[i];
 		hex.addEventListener("mouseenter", onModEnter);
 		hex.addEventListener("mouseleave", clearMatch);
+		hex.addEventListener("click", onHexToggle);
 	}
 	//
 	function onTagEnter(e) {
