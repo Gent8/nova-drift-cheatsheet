@@ -3,6 +3,7 @@ import format.csv.Data.Csv;
 import format.csv.Reader;
 import haxe.DynamicAccess;
 import haxe.Json;
+import haxe.Utf8;
 import sys.FileSystem;
 import sys.io.File;
 using StringTools;
@@ -16,21 +17,26 @@ class Main {
 	static var tagsPerModInit:Map<String, Array<String>> = new Map();
 	static var tagsFound:Map<String, Bool> = new Map();
 	static var tagList:Array<String> = [];
-	static function parseText(s:String) {
-		s = s.replace("[$=*]", "◈ ");
-		/*var pos = s.indexOf("[$=");
+	static var parseText_meta:Array<String>;
+	static function parseText(src:UnicodeString) {
+		src = src.replace("\r", "");
+		src = src.replace("[$=*]", "◈ ");
 		var start = 0;
-		var rx = ~/
+		var result = new StringBuf();
+		var pos = src.indexOf("[$=");
+		var meta = [];
 		while (pos >= 0) {
-			var end = s.indexOf("]", pos);
-			start = pos;
-			pos = s.indexOf("[$=", pos + 1);
-		}*/
-		//s = s.replace("[$=rgb(84,184,255)]", "📘");
-		//s = s.replace("[$=rgb(250,50,105)]", "📙");
-		//s = s.replace("[$=/]", "📗");
-		s = ~/\[\$=.*?\]/g.replace(s, "");
-		return s;
+			var end = src.indexOf("]", pos);
+			var sub:UnicodeString = src.substring(start, pos);
+			result.add(sub);
+			result.add("\u200b"); // ZERO WIDTH SPACE
+			meta.push(src.substring(pos + 3, end));
+			start = end + 1;
+			pos = src.indexOf("[$=", pos + 1);
+		}
+		result.addSub(src, start);
+		parseText_meta = meta;
+		return result.toString();
 	}
 	static function fixup(name:String):String {
 		return switch (name) {
@@ -90,7 +96,11 @@ class Main {
 		// add title:
 		var desc = loc[kind + "Full" + post + name];
 		if (desc == null && mod == Mod.BladeDrone) desc = loc["GearFullWeaponBlade"];
-		if (desc != null) title += "\n\n" + parseText(desc);
+		if (desc != null) {
+			title = parseText(title + "\n\n" + desc);
+			title = title.replace("\n", "&#10;");
+			if (parseText_meta != null) b.add(' data-hex-meta="${parseText_meta.join(";")}"');
+		}
 		title = title.replace('"', '&quot;');
 		b.add(' title="$title"');
 		b.add('>');

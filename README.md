@@ -1,3 +1,12 @@
+## What this is
+It's an interactive cheat sheet for Nova Drift.
+
+
+## Initial setup for build
+```
+haxelib install csv
+```
+
 ## Building
 Copy `localization.csv` from Nova Drift directory to `bin/`
 
@@ -7,7 +16,13 @@ haxe -lib csv -cp src -neko bin/gen.n -main Main
 cd bin
 neko gen.n
 ```
-This re-generates `index.html`.
+which generates `index.html`.
+
+And
+```
+haxe -cp src -js bin/script.js -main WebMain
+```
+which generates `script.js`
 
 ## [Re-]building textures
 1. Extract game sprites using [YYTextureView](https://yal.cc/r/17/yytextureview/) (open data.win, Show Sprites, Save Images).

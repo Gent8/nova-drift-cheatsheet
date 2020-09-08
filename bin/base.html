@@ -56,32 +56,8 @@
 	</section>
 	<script src="https://unpkg.com/@popperjs/core@2"></script>
 	<script src="https://unpkg.com/tippy.js@6"></script>
+	<script src="script.js"></script>
 	<script>(function() {
-	if (window.tippy) tippy('.hex', {
-		content: function(el) {
-			var result = el.title;
-			el.setAttribute('data-hex-text', result.toLowerCase());
-			result = result.replace(/^(.+)/, "<b>$1</b>");
-			//
-			var isList = false;
-			result = result.replace(/(\n*)◈/g, function(_, n) {
-				if (isList) {
-					if (n.length > 1) return '</li><li style="margin-top:0.5em">';
-					return "</li><li>";
-				}
-				isList = true;
-				return "<ul><li>";
-			});
-			if (isList) {
-				result += "</li></ul>";
-			}
-			//
-			result = result.replace(/\n/g, "<br/>");
-			el.title = "";
-			return result;
-		}, allowHTML: true
-	});
-	
 	var style = document.getElementById("match-style");
 	var cssInactive = " { filter: brightness(75%) }";
 	var cssActive = " { filter: brightness(125%) }";
