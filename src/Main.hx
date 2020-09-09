@@ -4,6 +4,7 @@ import format.csv.Reader;
 import haxe.DynamicAccess;
 import haxe.Json;
 import haxe.Utf8;
+import haxe.ds.Map;
 import sys.FileSystem;
 import sys.io.File;
 using StringTools;
@@ -54,6 +55,7 @@ class Main {
 			default: name;
 		}
 	}
+	
 	static function addTile(b:StringBuf, mod:Mod, kind:String = "Mod", post:String = "") {
 		b.add('<div class="hex $mod"');
 		var name = fixup(mod);
@@ -92,6 +94,8 @@ class Main {
 			}
 			b.add('"');
 		}
+		
+		//ModShortNames.check(mod, title);
 		
 		// add title:
 		var desc = loc[kind + "Full" + post + name];
@@ -340,6 +344,7 @@ class Main {
 		html = StringTools.replace(html, "<!--bodies-->", bodies());
 		html = StringTools.replace(html, "<!--shields-->", genShields());
 		html = StringTools.replace(html, "<!--tags-->", genTags());
+		html = StringTools.replace(html, "[[shorten_data]]", ModShortNames.print());
 		//dumpTags(tagsPerMod, "tags-final.json");
 		File.saveContent("index.html", html);
 		Sys.println("All good!");

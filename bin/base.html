@@ -124,6 +124,18 @@
 		style.innerHTML = css.join("\n");
 	}
 	//
+	var modShorten = Object.create(null);
+	var modLongen = Object.create(null);
+	var modSlPairs = "[[shorten_data]]".split(";");
+	for (var i = 0; i < modSlPairs.length; i++) {
+		var pair = modSlPairs[i];
+		var sep = pair.indexOf("=");
+		var sh = pair.substring(0, sep);
+		var lg = pair.substring(sep + 1);
+		modShorten[lg] = sh;
+		modLongen[sh] = lg;
+	}
+	//
 	var hexFilter = document.getElementById("hex-filter");
 	var hexCheckCount = 0;
 	var hexCheckCountSpan = document.getElementById("hex-select-count");
@@ -147,8 +159,12 @@
 	});
 	document.getElementById("copy-link").addEventListener("click", function(_) {
 		var els = document.querySelectorAll(".hex[checked]");
-		var arr = [];
-		for (var i = 0; i < els.length; i++) arr.push(els[i].getAttribute("data-hex-name"));
+		var arr = [], found = Object.create(null);
+		for (var i = 0; i < els.length; i++) {
+			var mod = els[i].getAttribute("data-hex-name");
+			if (found[mod]) continue; else found[mod] = true;
+			arr.push(modShorten[mod] || mod);
+		}
 		var href = location.href;
 		var sep = href.indexOf("?");
 		var sep2 = href.indexOf("#");
@@ -194,11 +210,13 @@
 			if (key == "mods") {
 				var modArr = val.split("+");
 				for (var i = 0; i < modArr.length; i++) try{
-					var els = document.querySelectorAll(".hex." + modArr[i]);
+					var mod = modArr[i];
+					var els = document.querySelectorAll(".hex." + (modLongen[mod] || mod));
 					if (els.length == 0) continue;
 					for (var k = 0; k < els.length; k++) els[k].setAttribute("checked", "");
 					hexCheckCount++;
 				} catch (e) { console.log(e); }
+				hexCheckCountSpan.innerHTML = "" + hexCheckCount;
 				clearMatch();
 				break;
 			}
