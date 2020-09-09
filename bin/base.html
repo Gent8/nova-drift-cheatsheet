@@ -149,13 +149,15 @@
 	});
 	function onHexToggle(e) {
 		var hex = e.target;
+		var els = document.querySelectorAll(".hex." + hex.getAttribute("data-hex-name"));
 		if (hex.hasAttribute("checked")) {
-			hex.removeAttribute("checked");
+			for (var i = 0; i < els.length; i++) els[i].removeAttribute("checked");
 			if (--hexCheckCount == 0) clearMatch();
 		} else {
-			hex.setAttribute("checked", "");
+			for (var i = 0; i < els.length; i++) els[i].setAttribute("checked", "");
 			if (++hexCheckCount == 1) clearMatch();
 		}
+		hexCheckCountSpan.innerHTML = "" + hexCheckCount;
 	}
 	var hexagons = document.getElementsByClassName("hex");
 	for (var i = 0; i < hexagons.length; i++) {
@@ -182,9 +184,9 @@
 			if (key == "mods") {
 				var modArr = val.split("+");
 				for (var i = 0; i < modArr.length; i++) try{
-					var el = document.querySelector(".hex." + modArr[i]);
-					if (!el) continue;
-					el.setAttribute("checked", "");
+					var els = document.querySelectorAll(".hex." + modArr[i]);
+					if (els.length == 0) continue;
+					for (var k = 0; k < els.length; k++) els[k].setAttribute("checked", "");
 					hexCheckCount++;
 				} catch (e) { console.log(e); }
 				clearMatch();
