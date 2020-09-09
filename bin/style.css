@@ -83,6 +83,9 @@ section.super-text .text {
 .tippy-box {
 	background-color: rgba(0, 0, 0, 0.8);
 }
+.tippy-arrow {
+	color: rgba(0, 0, 0, 0.8);
+}
 .tippy-box ul {
 	padding-left: 20px;
 	margin: 0.5em 0;
