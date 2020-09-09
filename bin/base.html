@@ -34,11 +34,19 @@
 		uses <a href="https://atomiks.github.io/tippyjs/">Tippy</a>.<br/>
 		Also check out my <a href="https://yellowafterlife.itch.io/nova-drift-tweaks">Visual Clarity</a> mod.<br/>
 		<br/>
-		Active brightness: <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-		Inactive brightness: <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
-		<input type="button" value="Reset selection" id="reset-selection" />
-		<input type="button" value="Copy link" id="copy-link" title="So that you can showcase a build or save it for later" />
-		<br/><br/>
+		<noscript><style>
+		#js-controls {
+			display: none;
+		}
+		</style>Some additional options are only available with JavaScript enabled.</noscript>
+		<section id="js-controls">
+			Active brightness: <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
+			Inactive brightness: <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
+			<input type="button" value="Reset selection" id="reset-selection" />
+			<input type="button" value="Copy link" id="copy-link" title="So that you can showcase a build or save it for later" />
+			Selected: <span id="hex-select-count">0</span>
+		</section>
+		<br/>
 	</article>
 	<section id="mods">
 		<header>Weapons:</header>
@@ -118,6 +126,7 @@
 	//
 	var hexFilter = document.getElementById("hex-filter");
 	var hexCheckCount = 0;
+	var hexCheckCountSpan = document.getElementById("hex-select-count");
 	var hexFilterUpdate;
 	function clearMatch(e) {
 		if (document.activeElement == hexFilter) {
@@ -133,6 +142,7 @@
 		var els = document.querySelectorAll(".hex[checked]");
 		for (var i = 0; i < els.length; i++) els[i].removeAttribute("checked");
 		hexCheckCount = 0;
+		hexCheckCountSpan.innerHTML = "0";
 		clearMatch();
 	});
 	document.getElementById("copy-link").addEventListener("click", function(_) {
