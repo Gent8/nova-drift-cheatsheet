@@ -29,23 +29,27 @@ which generates `script.js`
 
 2. Copy all textures starting with sHex to `base-full/`.
 
-3. Generate lower-resolution textures using ImageMagick:
+3. Run `preproc.bat` to remove extra textures.
+
+4. Generate lower-resolution textures using ImageMagick:
 ```
-for %v in (base-full\*) do @magick %v -resize 64x64^ base-mini\%~nxv
+for %v in (base-full\*.png) do @magick %v -resize 64x64^ base-mini\%~nxv
 ```
 
-4. Generate texture atlas and texture CSS using [free web variant of TexturePacker](https://www.codeandweb.com/free-sprite-sheet-packer) (set "Data format" to "CSS", set "Sprite prefix" to "hex").
+5. Generate texture atlas and texture CSS using [free web variant of TexturePacker](https://www.codeandweb.com/free-sprite-sheet-packer) (set "Data format" to "CSS", set "Sprite prefix" to "hex").
 
-5. Find-replace with regex in generated CSS file:
+6. Find-replace with regex in generated CSS file:
 ```
--sHex(\w+?)(?:_0)?
+-sHex(\w+?)(?:_0)?\b
 ```
 to
 ```
 .$1
 ```
 
-6. Convert the PNG spritesheet to JPEG. Background color doesn't matter since we're using clipping anyway.
+7. Replace `url(spritesheet.png)` with `url(hex.jpg)` in generated CSS file.
+
+8. Convert the PNG spritesheet to JPEG. Background color doesn't matter since we're using clipping anyway.
 
 ## [Re-]building module hint file
 ```

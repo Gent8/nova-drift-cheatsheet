@@ -6,7 +6,7 @@ import haxe.DynamicAccess;
  * @author YellowAfterlife
  */
 class CustomTags {
-	public static function get():DynamicAccess<Array<String>> {
+	public static function getModsByTag():DynamicAccess<Array<String>> {
 		return {
 			"global damage": [
 				Mod.KineticBoost, Mod.AdrenalModule,
@@ -34,4 +34,18 @@ class CustomTags {
 			"rate of fire": [Mod.Warpath, Mod.SiegeWeaponry],
 		}
 	}
+	public static function getTagsByMod():DynamicAccess<Array<String>> {
+		var q = new DynamicAccess();
+		q[Mod.EvolutionaryNiche] = [Tag.Hull];
+		q[Mod.Grandeur] = [Tag.CrashDamage];
+		q[Mod.Maelstrom] = [Tag.Shield];
+		return q;
+	}
+}
+enum abstract Tag(String) from String to String {
+	var Shield = "shield";
+	var RateOfFire = "rate of fire";
+	var Hull = "hull";
+	var GlobalDamage = "global damage";
+	var CrashDamage = "crash damage";
 }

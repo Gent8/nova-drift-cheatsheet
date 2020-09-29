@@ -67,6 +67,7 @@ enum abstract Mod(String) to String {
 	var EmergencySystems;
 	var EnergizedShields;
 	var Engineer;
+	var Enmity;
 	var EssenceSap;
 	var Evasion;
 	var Evolution;
@@ -84,6 +85,7 @@ enum abstract Mod(String) to String {
 	var Fusillade;
 	var GalvanicOutburst;
 	var Gemini;
+	var Grandeur;
 	var Grenade;
 	var Guardian;
 	var Halo;
@@ -105,12 +107,11 @@ enum abstract Mod(String) to String {
 	var Lance;
 	var LastStand;
 	var LeafOnTheWind;
+	var Leviathan;
 	var LoadedMines;
-	var LockedGrey;
-	var Locked;
+	var Maelstrom;
 	var Magnetism;
 	var Magnitude;
-	var Mask;
 	var Masochism;
 	var Mastery;
 	var Max;
@@ -130,6 +131,7 @@ enum abstract Mod(String) to String {
 	var PointDefense;
 	var PolarInversion;
 	var PowerReserves;
+	var PowerSpike;
 	var PredatorDrones;
 	var PriorityZero;
 	var PropulsiveMunitions;
@@ -183,6 +185,7 @@ enum abstract Mod(String) to String {
 	var SpecialistTurret;
 	var SplinterShot;
 	var Split;
+	var SpontaneousGeneration;
 	var Stabilization;
 	var Stealth;
 	var Strafe;

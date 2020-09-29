@@ -236,6 +236,11 @@ class Main {
 		add(Mod.Winnow);
 		add(Mod.Obsession);
 		add(Mod.Bravado);
+		add(Mod.EvolutionaryNiche);
+		add(Mod.Grandeur);
+		add(Mod.PowerSpike);
+		add(Mod.Maelstrom);
+		add(Mod.SpontaneousGeneration);
 		return b.toString();
 	}
 	static function weapons() {
@@ -271,6 +276,7 @@ class Main {
 		add(Mod.Research);
 		add(Mod.Viper);
 		add(Mod.Courser);
+		add(Mod.Leviathan);
 		return b.toString();
 	}
 	static function genShields() {
@@ -296,10 +302,20 @@ class Main {
 			"construct", "charge",
 		]) autoJson.remove(key);
 		//
-		for (json in [autoJson, CustomTags.get()]) {
+		for (json in [autoJson, CustomTags.getModsByTag()]) {
 			for (tag => mods in json) {
 				for (mod in mods) {
 					mod = mod.toLowerCase();
+					var arr = tagsPerModInit[mod];
+					if (arr == null) tagsPerModInit[mod] = arr = [];
+					arr.push(tag);
+				}
+			}
+		}
+		for (json in [CustomTags.getTagsByMod()]) {
+			for (mod => tags in json) {
+				mod = mod.toLowerCase();
+				for (tag in tags) {
 					var arr = tagsPerModInit[mod];
 					if (arr == null) tagsPerModInit[mod] = arr = [];
 					arr.push(tag);
