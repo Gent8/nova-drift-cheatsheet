@@ -5,9 +5,6 @@
 /docs/*.n
 *.min.css
 /docs/localization.csv
-/docs/index.html
-/docs/hex.png
-/docs/script.js
 *.code-workspace
 /.vscode
 *.n

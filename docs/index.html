@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+	<meta property="og:type" content="article" />
+	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:site_name" content="Nova Drift cheatsheet" />
+	<meta property="og:title" content="Nova Drift cheatsheet" />
+	<meta property="og:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+	<meta property="twitter:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+	<meta property="og:description" content="Nova Drift ビルド共有ツール" />
+	<meta property="twitter:description" content="Nova Drift ビルド共有ツール" />
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="og:image" content="og.png" />
+	<meta property="og:image:width" content="1024" />
+	<meta property="og:image:height" content="600" />
+	<meta property="twitter:image" content="og.png" />
+	<meta property="twitter:image:width" content="1024" />
+	<meta property="twitter:image:height" content="600" />
+
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
+
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="hex.css?v=2022-06-01"/>
+	<link rel="stylesheet" href="style.css?v=2022-06-02"/>
+	<title>Nova Drift Cheatsheet</title>
+</head>
+<body>
+	<style id="match-style"></style>
+	<article id="intro">
+		<a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートの日本語版です。<br/>
+		最終更新日： 2022-06-04<br/>
+		<br/>
+		<noscript><style>
+		#js-controls {
+			display: none;
+		}
+		</style>Some additional options are only available with JavaScript enabled.</noscript>
+		<section id="js-controls">
+			選択中項目の明るさ <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
+			非選択項目の明るさ <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
+			<input type="button" value="リセット" id="reset-selection" />
+			<input type="button" value="リンクのコピー" id="copy-link" title="ビルドの保存や共有に使用できます" />
+			選択中： <span id="hex-select-count">0</span>
+		</section>
+	</article>
+	<section id="mods">
+		<header>武器</header>
+		<section><section class="single">
+<div class="hex DefaultWeapon" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: ブラスター&#10;&#10;​◈ 同時2発の弾&#10;◈ 弾体サイズが時間経過で減衰する​&#10;&#10;◈ ダメージ: 20&#10;弾体数: 1 x 2&#10;発射速度: 6/秒"></div>
+</section>
+<section class="single">
+<div class="hex Split" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: スプリットショット&#10;&#10;​◈ 扇状に並んだ弾が広がっていく&#10;◈ 弾体が接触時に円錐状の爆発を生成し、他の対象物に爆発ダメージを与える​&#10;&#10;◈ ダメージ: 22&#10;爆発ダメージ: 基本ダメージの40%&#10;弾体数: 3&#10;発射速度: 7.5/秒"></div>
+</section>
+<section class="single">
+<div class="hex Railgun" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: レールガン&#10;&#10;​◈ 高速・長射程の弾体を発射&#10;◈ 弾体は破壊した対象物を貫通し、破片の散乱を生成して爆発ダメージを与える​&#10;&#10;◈ ダメージが弾体速度に応じて増加する&#10;&#10;◈ ダメージ: 165&#10;弾体数: 1&#10;破片ダメージ: 基本ダメージの25%&#10;破片数: 弾体サイズに応じて増加し、射撃した弾体間で分配される&#10;発射速度: 1.33/秒"></div>
+</section>
+<section class="single">
+<div class="hex Grenade" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: グレネード&#10;&#10;​◈ 爆発性のクラスターグレネードを射出&#10;◈ 接触時か一定時間後に爆発する&#10;◈ 最初の爆発後、クラスター爆発物がその領域に飛散する&#10;◈ クラスターの飛散範囲は爆発半径に応じて拡大する​&#10;&#10;◈ ダメージ: 85&#10;弾体数: 1&#10;クラスターダメージ: 基本ダメージの30%&#10;クラスター数: 弾体サイズに応じて増加し、射撃した弾体間で分配される&#10;発射速度: 0.9/秒"></div>
+</section>
+<section class="single">
+<div class="hex Torrent" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: トレント&#10;&#10;​◈ 短射程・広範囲な連射エネルギーの格子パターンを展開​&#10;&#10;◈ 弾体は波形状に進み時間経過で減衰する&#10;◈ 射撃中、推力-30%&#10;&#10;◈ ダメージ: 20&#10;弾体数: 3 x 2&#10;発射速度: 12/秒"></div>
+</section>
+<section class="single">
+<div class="hex Pulse" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: パルス&#10;&#10;​◈ 自機を中心に強力な電磁爆発を生成&#10;◈ 2重の放射波がそれぞれにヒットする。小さな波は2倍のダメージを与える&#10;◈ 二次弾体を240°の円錐状に発射​&#10;&#10;◈ ダメージ: 220, 110&#10;弾体数: 0&#10;破片ダメージ: 基本ダメージの40%&#10;破片数: 12&#10;発射速度: 1/秒"></div>
+</section>
+<section class="single">
+<div class="hex Flak" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: フラック&#10;&#10;​◈ 近距離の対象物を粉砕する、強烈な散弾の炸裂&#10;◈ アップグレードで得られる弾体数の増加が2倍になる&#10;◈ 弾体が時間経過で減速・減衰する​&#10;&#10;◈ ダメージ: 45&#10;弾体数: 12&#10;発射速度: 1.5/秒"></div>
+</section>
+<section class="single">
+<div class="hex ThermalLance" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: サーマルランス&#10;&#10;​◈ 収束した熱のランスをチャージ・維持し、対象物を燃焼させる。また対象物はその後のダメージに対して脆弱になる&#10;◈ サーマルランスを維持中、自機は蛇行するスパークを同時に射撃する。スパークは弾体系MODの影響を受ける&#10;◈ サーマルランスとそのスパークは対象物を120持続燃焼ダメージ/秒で発火させる&#10;◈ サーマルランスとそのスパークからのダメージは対象物に脆弱性を付加&#10;◈ 脆弱性は対象物があらゆる発生源から受けるダメージを増加させる。対象物が脆弱性を1秒間付加されなかった後、この効果は時間経過で低下する​&#10;&#10;◈ 爆発半径と発射速度への修正がサーマルランスのチャージ性能に影響&#10;◈ チャージ中、推力-30%・旋回速度-50%&#10;&#10;◈ ダメージ: サーマルランスのダメージはそのチャージレベルに応じて増加する&#10;スパークダメージ: 6&#10;スパーク数: 1&#10;スパーク発射速度: 7.5/秒"></div>
+</section>
+<section class="single">
+<div class="hex Salvo" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: サルヴォ&#10;&#10;​◈ 無作為機動型熱追尾ミサイルの一斉発射を展開。ミサイルは小さな爆発半径で爆発する&#10;◈ 射撃停止中、0.5秒間隔で4発のミサイルをストックする。ストックは大きくなるほど増加量が低下していく&#10;◈ 射撃時、ストック全てを解放する&#10;◈ 弾体数への修正が、間隔毎にストックされるミサイル数に影響&#10;◈ 発射速度への修正が、間隔の長さに影響​&#10;&#10;◈ ダメージ: 60&#10;弾体数: 0.5秒間隔毎に 4&#10;発射速度: 0.5/秒"></div>
+</section>
+<section class="single">
+<div class="hex Vortex" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105);/" title="武器: ヴォーテックス&#10;&#10;​◈ 回転・低速移動する渦流をチャージ、解放する&#10;◈ 対象物はヴォーテックスに引き込まれつつ燃焼ダメージを受ける&#10;◈ 対象物を30持続燃焼ダメージ/秒で発火させる&#10;&#10;​◈ チャージ中、増大していく船体自己ダメージを受ける​&#10;&#10;◈ チャージ中の推力-30%&#10;◈ ヴォーテックスの減衰速度は弾体数に応じて上昇&#10;&#10;◈ ダメージ: ヴォーテックスのダメージはそのチャージレベルに応じて増加する&#10;弾体数: 1&#10;発射速度: 爆発半径・弾体サイズ・発射速度への修正がチャージ性能に影響"></div>
+</section>
+<section class="single">
+<div class="hex BladeDrone" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: ブレード&#10;&#10;​◈ 対象物を切り刻む刃状のドローンを展開&#10;◈ ブレードは自動的に射出源に戻る&#10;◈ ブレードは武器とコンストラクト両方として扱う&#10;◈ 自機が展開するブレードはより大きく、展開速度が速く、与ダメージが+50%され、子弾を発射する​&#10;&#10;◈ 自機が展開するブレードは構築の必要があり、コンストラクト上限数を超えられない&#10;&#10;◈ タイプ: 標準コンストラクト&#10;コンストラクト上限数: 自機の弾体数によって増加&#10;ダメージ: 32&#10;弾体数: 1&#10;子弾ダメージ: 基本ダメージの50%&#10;船体値: 60&#10;発射速度: 0.8/秒&#10;構築時間: 1.5秒。発射速度への修正が構築時間に影響"></div>
+</section>
+<section class="single">
+<div class="hex Dart" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: ダート&#10;&#10;​◈ 逆棘状の弾体を射出。弾体は対象物に食い込み、充填された苛性物質を付与する&#10;◈ 対象物にヒットした時、ダメージの50%を爆発ダメージとして付近の対象物に与える&#10;◈ 与ダメージはダートのサイズに応じて増加し、ダートの持続時間分の燃焼ダメージとして扱う&#10;◈ 各ダートは同じ対象物に食い込んだ全ダート1本毎に+1%の燃焼ダメージを与える&#10;◈ ダートの基本持続時間は2秒で、サイズ・発火持続時間によって修正を受ける&#10;◈ ダートはヒット時に破壊した対象物を貫通する​&#10;&#10;◈ ダメージ: 45&#10;弾体数: 1&#10;発射速度: 2.5/秒"></div>
+</section>
+</section>
+		<header>ボディ</header>
+		<section><section class="single">
+<div class="hex DefaultBody" data-hex-tags="" data-hex-meta="" title="ボディ: スタンダード&#10;&#10;◈ 船体値: 100&#10;推力: 100"></div>
+</section>
+<section class="single">
+<div class="hex Assault" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: アサルト&#10;&#10;​◈ 自機が武器を射撃した時、8%の確率で攻撃が増強される&#10;◈ 発射速度・弾体拡散度・弾体速度を15%向上&#10;◈ 自機の武器による機動性低下効果への耐性+15%​&#10;&#10;◈ 最大シールド値-10%&#10;&#10;◈ 船体値: 90&#10;推力: 100"></div>
+</section>
+<section class="single">
+<div class="hex Stealth" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: スペクター&#10;&#10;​◈ 自機の武器を射撃せず高速移動もしていない時、ステルスを開始&#10;◈ ステルス中に射撃時、最大で総武器ダメージ+250%&#10;◈ 自機レベル1毎にステルス速度+1%&#10;◈ このボーナスは射撃か高速移動をすることで急速に減少する​&#10;&#10;◈ 船体値: 100&#10;推力: 130"></div>
+</section>
+<section class="single">
+<div class="hex Sentinel" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: センティネル&#10;&#10;​◈ シールドダメージ耐性+10%&#10;◈ シールド効果半径+15%&#10;◈ シールド効果力+15%​&#10;&#10;◈ 発射速度-10%&#10;&#10;◈ 船体値: 100&#10;推力: 100"></div>
+</section>
+<section class="single">
+<div class="hex Engineer" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: エンジニア&#10;&#10;​◈ 基礎・標準コンストラクト上限数+2&#10;◈ 高度コンストラクト上限数+1&#10;◈ 未構築の標準・高度コンストラクト1つ毎に構築速度+2%​&#10;&#10;◈ 最大シールド値-10%&#10;&#10;◈ 船体値: 90&#10;推力: 100"></div>
+</section>
+<section class="single">
+<div class="hex Firefly" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: ファイアフライ&#10;&#10;​◈ 激しい炎のスラスターが対象物を1000/秒で燃焼させる&#10;◈ スラスターは対象物を120持続燃焼ダメージ/秒で発火させる&#10;◈ 推力への修正はスラスターのサイズにも影響する&#10;◈ 自己ダメージ耐性+15%&#10;◈ 船体衝突ダメージ耐性+15%​&#10;&#10;◈ 船体値: 100&#10;推力: 140"></div>
+</section>
+<section class="single">
+<div class="hex Carrier" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: キャリアー&#10;&#10;​◈ 群生型コンストラクトを自動構築・自動展開。群生型コンストラクトは対象物に脆弱性を付加する&#10;◈ 自機防護中のシールドが損傷している場合、群生型コンストラクトの一部が自機シールドの回復に割り当てられる&#10;◈ 自機シールドが停止中もしくは自機がシールドを持たない場合、群生型コンストラクトの移動速度と発射速度が向上​&#10;◈ 発射速度-10%&#10;&#10;◈ 船体値: 110&#10;推力: 75&#10;&#10;◈ 群生型コンストラクト:&#10;タイプ: 基礎コンストラクト。低確率で高い性能を持つ標準もしくは高度コンストラクトとして生成される&#10;コンストラクト上限数: 4 + 自機レベル2毎に1&#10;船体値: 8&#10;ダメージ: 8。脆弱性+0.25%を付加&#10;発射速度: 1.5/秒&#10;構築時間: 1秒"></div>
+</section>
+<section class="single">
+<div class="hex Hullbreaker" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: ハルブレイカー&#10;&#10;​◈ 高速なほど対象物への衝突ダメージが上昇&#10;◈ 正面で衝突時、破壊した対象物を自機が貫通する&#10;◈ 船体衝突ダメージ耐性+65%&#10;◈ 回復性能+15%​&#10;&#10;◈ 最大シールド値-30%&#10;◈ 発射速度-30%&#10;&#10;◈ 船体値: 100&#10;推力: 130"></div>
+</section>
+<section class="single">
+<div class="hex Battery" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: バッテリー&#10;&#10;​◈ 弾体系武器の弾体+3&#10;◈ 武器ダメージ+15%・弾体サイズ+20%&#10;◈ 弾体拡散度-50%&#10;◈ ノックバックに耐性がある​&#10;&#10;◈ 側面の砲身から左右に弾体を発射&#10;◈ 発射速度に+0.075秒の遅滞&#10;◈ 発射速度-10%&#10;&#10;◈ 船体値: 125&#10;推力: 75"></div>
+</section>
+<section class="single">
+<div class="hex Architect" data-hex-tags="" data-hex-meta="rgb(250,50,105);rgb(84,184,255);/" title="ボディ: アーキテクト&#10;&#10;​◈ 同時展開できるコンストラクトは1つのみ&#10;&#10;​◈ 自機が展開するコンストラクトはダメージ・発射速度・構築速度+50%&#10;◈ 自機が展開するコンストラクトは最大船体値+30%&#10;◈ 機雷の爆発半径+30%&#10;◈ 機雷の性能+50%​&#10;&#10;◈ 新しいコンストラクトを展開時、自機が展開した古いコンストラクトは破壊される&#10;◈ 展開ボタンを押すと現在のコンストラクトが自壊する&#10;&#10;◈ 船体値: 120&#10;推力: 100"></div>
+</section>
+<section class="single">
+<div class="hex Research" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: リサーチ&#10;&#10;​◈ リロールすることでMODプールからMODを除外する能力を得る&#10;◈ 除外に用いたリロール1つ毎に総最大船体値・総最大シールド値+1%&#10;◈ オーブやパワーアップアイテムを引き寄せる距離が増加&#10;◈ パワーアップアイテムの持続時間が2倍になる​&#10;&#10;◈ 最大シールド値-15%&#10;◈ 不可測MODの除外にはリロールを2消費&#10;&#10;◈ 船体値: 85&#10;推力: 100"></div>
+</section>
+<section class="single">
+<div class="hex Viper" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: ヴァイパー&#10;&#10;​◈ 苛性バリアによる防護を持つ。バリアは時間経過でチャージされ、正面での船体衝突ダメージ耐性を最大90%まで、船体ダメージ耐性を最大12%まで与える&#10;◈ 正面で衝突した時、苛性バリアの構成物が対象物に付与され、バリアのチャージレベルに応じた持続時間・ダメージで発火させる。その後チャージレベルはリセットされる&#10;◈ 船体ヒットを受けた時、攻撃者に向けてヴェノムストライク弾体を放出&#10;◈ ヴェノムストライク弾体は対象物に90燃焼ダメージ/秒を与え、45持続燃焼ダメージ/秒で発火させる&#10;◈ 発火持続時間+20%​&#10;&#10;◈ 船体値: 100&#10;推力: 110"></div>
+</section>
+<section class="single">
+<div class="hex Courser" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: コーサー&#10;&#10;​◈ 弾体系武器の弾体+3&#10;◈ 発射速度+10%&#10;◈ 弾体拡散度-60%​&#10;&#10;◈ 武器ダメージ・爆発半径・弾体サイズ-10%&#10;◈ 側面の砲身から左右に弾体を発射&#10;&#10;◈ 船体値: 100&#10;推力: 140"></div>
+</section>
+<section class="single">
+<div class="hex Leviathan" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: リヴァイアサン&#10;&#10;◈ 基本のボディ分割体10を持つ&#10;◈ 自機レベル1毎に分割体+1&#10;&#10;​◈ 分割体が対象物・敵から受ける船体ダメージ-75%&#10;◈ 分割体が敵から受ける燃焼ダメージ・衝突ダメージはさらに-75%&#10;◈ 分割体1つ毎に全般ダメージ+0.5%&#10;◈ 分割体1つ毎にノックバック耐性+0.5%&#10;◈ 分割体が速く回転するほど与える衝突ダメージが上昇（最大+400%まで）​&#10;&#10;◈ 船体値: 60 + ボディ分割体1つ毎に2&#10;推力: 100"></div>
+</section>
+</section>
+		<header>シールド</header>
+		<section><section class="single">
+<div class="hex DefaultShield" data-hex-tags="" data-hex-meta="" title="シールド: 標準&#10;&#10;◈ シールド値: 100&#10;クールダウン: 6.5秒"></div>
+</section>
+<section class="single">
+<div class="hex Halo" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 光輪&#10;&#10;​◈ 効果半径内の対象物を180ダメージ/秒で燃焼させる灼熱のリング&#10;◈ 光輪は対象物を120持続燃焼ダメージ/秒で発火させる​&#10;&#10;◈ 光輪が対象物を燃焼させている間、自機はシールド自己ダメージを受ける&#10;&#10;◈ シールド値: 100&#10;クールダウン: 6.5秒"></div>
+</section>
+<section class="single">
+<div class="hex Temporal" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 時間&#10;&#10;​◈ シールド効果半径内の対象物・弾体が大幅に遅くなる​&#10;&#10;◈ シールド値: 70&#10;クールダウン: 7秒"></div>
+</section>
+<section class="single">
+<div class="hex Reflect" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 反射&#10;&#10;​◈ 敵弾体を強化して反射する&#10;◈ シールド効果半径内の敵を狙う&#10;◈ 効果を受けた敵武器のダメージ+900%&#10;◈ 効果を受けた敵弾体の速度+50%​&#10;&#10;◈ シールド値: 115&#10;クールダウン: 7.5秒"></div>
+</section>
+<section class="single">
+<div class="hex Warp" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 跳躍&#10;&#10;​◈ 崩壊時、シールド効果半径と等しい距離に自機をテレポートさせる&#10;◈ 開始座標と目的座標に強烈なパルスを発生させ、それぞれが600x2ダメージを与える​&#10;◈ 自機防護中のシールドが崩壊した時、自機はテレポートしながら0.75秒間、非実体化する。この状態中に目的座標を制御できる&#10;&#10;◈ シールド値: 90&#10;クールダウン: 6秒"></div>
+</section>
+<section class="single">
+<div class="hex Shockwave" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;/" title="シールド: 衝撃波&#10;&#10;​◈ 衝撃波シールドは脈動する波を放ち、周囲の対象物と弾体を押しのける&#10;◈ シールドが崩壊してからリセットされる時、衝撃波シールドは強力な波を放出。この波は120ダメージを与え、ヒットした対象物に脆弱性+25%を付加する&#10;◈ 脆弱性は対象物があらゆる発生源から受けるダメージを増加させる。対象物が脆弱性を1秒間付加されなかった後、この効果は時間経過で低下する​​&#10;&#10;◈ シールド値: 60&#10;クールダウン: 7秒"></div>
+</section>
+<section class="single">
+<div class="hex Amp" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 増幅&#10;&#10;​◈ 増幅シールドが作動中、推力・総武器ダメージ+20%&#10;◈ シールド効果半径内にある脅威の数に応じてダメージがさらに上昇する​&#10;&#10;◈ シールド値: 50&#10;クールダウン: 6秒"></div>
+</section>
+<section class="single">
+<div class="hex Bastion" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="シールド: 防砦&#10;&#10;​◈ 再生する円弧型の物理バリアを展開&#10;◈ 防砦が自機防護中、ブロックしたダメージを蓄積エネルギーに変換する。このエネルギーは船体ダメージ耐性を付与する&#10;◈ 自機が船体ダメージを受けた時、エネルギーはウェーブ状に放出される&#10;◈ シールドとコンストラクト両方への修正が防砦に影響する​&#10;&#10;◈ 展開・構築できる防砦シールドは1つのみ&#10;&#10;​◈ 防砦は直接系船体ダメージを防げない​&#10;&#10;◈ タイプ: 高度コンストラクト&#10;シールド値: 120。コンストラクトの船体値への修正が影響。&#10;クールダウン: 15秒。コンストラクトの構築速度への修正が影響。シールド崩壊後にのみクールダウンが開始し、クールダウンは中断されない"></div>
+</section>
+<section class="single">
+<div class="hex Helix" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 軌道&#10;&#10;​◈ 3つのエネルギーオーブがシールドを軌道周回する&#10;◈ オーブが対象物に触れた時、パルスを放ってダメージを与える。放出の頻度はシールドクールダウンの早さに応じる&#10;◈ 自機・自機シールドの受けたダメージによってオーブのチャージが増加し、同時にオーブのサイズ・ダメージが向上&#10;◈ チャージが特定の閾値を超えたオーブは敵弾体に当たり判定を持ち、敵弾体のダメージ・サイズを減衰、もしくはそのまま破壊する​&#10;◈ オーブのチャージは時間経過で低下&#10;&#10;◈ シールド値: 110&#10;クールダウン: 7.5秒"></div>
+</section>
+<section class="single">
+<div class="hex Siphon" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 吸収&#10;&#10;​◈ 120基本ダメージ/秒を半径内の敵に分配して与え、そのダメージの1.5%のシールド値を回復&#10;◈ 吸収シールドがダメージを与えている間、シールド効果力・シールド効果半径が時間経過で増加する（最大40%まで）&#10;◈ 吸収シールドは敵のシールドには+400%のダメージを与える​&#10;&#10;◈ 吸収シールドがダメージを与えていない間、この効果は時間経過で低下する&#10;&#10;◈ シールド値: 100&#10;クールダウン: 7秒"></div>
+</section>
+</section>
+		<header>MOD</header>
+		<section><section class="branch">
+<div class="hex Magnitude" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="マグニチュード&#10;&#10;​◈ 弾体サイズ+20%&#10;&#10;◈ 武器ダメージ+15%&#10;&#10;◈ 爆発半径+5%"></div>
+<div class="hex Payload" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ペイロード&#10;&#10;​◈ 武器ダメージ+30%&#10;&#10;◈ 弾体サイズ+12%&#10;&#10;◈ 爆発半径+5%​&#10;&#10;◈ 発射速度-12%"></div>
+<div class="hex SplinterShot" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="分裂&#10;&#10;​◈ 主要な弾体が接触で破壊された時、より弱い小弾体に分裂&#10;&#10;◈ 弾体サイズ・弾体数が弾体毎の破片数に影響する​&#10;&#10;◈ 発射速度-15%"></div>
+<div class="hex ChargedShot" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="チャージドショット&#10;&#10;​◈ 射撃ボタンを押し続けて武器をチャージ&#10;&#10;◈ チャージによって総武器ダメージ・総弾体速度・総弾体サイズ・総爆発半径が向上。射撃ボタンを離すと攻撃を解き放つ​&#10;&#10;◈ 基本弾体が2以上の武器はチャージで弾体数が向上&#10;&#10;◈ 発射速度がチャージ性能に影響する&#10;&#10;◈ 元からチャージ可能な武器はチャージ性能と、もしあるならチャージコストの両方が増加&#10;&#10;◈ チャージ中、推力-30%"></div>
+</section>
+<section class="branch">
+<div class="hex Velocity" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="弾速&#10;&#10;​◈ 弾体速度+20%&#10;&#10;◈ 武器ダメージ+5%"></div>
+<div class="hex Snipe" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スナイプ&#10;&#10;​◈ 弾体の移動した距離が長いほど高ダメージを対象物に与える（最大+120%まで）&#10;&#10;◈ 弾体速度+20%"></div>
+<div class="hex Calibrate" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="キャリブレート&#10;&#10;​◈ 自機が射撃停止中、武器がキャリブレートされる&#10;&#10;◈ キャリブレートによって弾体拡散度が縮小、弾体追尾性が向上、総弾体速度が上昇する​&#10;&#10;◈ 武器のクールダウン中、キャリブレートは迅速にリセットされる"></div>
+<div class="hex Breach" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="焼夷攻撃&#10;&#10;​◈ 自機の武器でヒットを受けた対象物が、そのヒットのダメージの125%で発火する​&#10;&#10;◈ この効果はそれ自身と累積しない"></div>
+</section>
+<section class="branch">
+<div class="hex RapidFire" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="ラピッドファイア&#10;&#10;​◈ 発射速度+15%"></div>
+<div class="hex BurstFire" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="バースト射撃&#10;&#10;​◈ 武器が高速3点バースト射撃になる&#10;&#10;◈ 発射速度+20%​&#10;&#10;◈ バーストとバーストの間に固定値+0.04秒の発射速度ディレイ"></div>
+<div class="hex Warpath" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="進撃&#10;&#10;​◈ 敵を1体倒す毎に進撃スタックを1つ獲得&#10;&#10;◈ スタック1つ毎に総発射速度・総推力+0.75%（最大+30%まで）​&#10;&#10;◈ スタックは時間経過で急激に減少する"></div>
+<div class="hex SiegeWeaponry" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="攻城兵装&#10;&#10;​◈ 連続して射撃する毎に総発射速度が上昇​&#10;&#10;◈ 射撃中、総推力-80%&#10;&#10;​◈ 連続して射撃する時、増大していく船体自己ダメージを受ける"></div>
+</section>
+<section class="branch">
+<div class="hex AddedProjectiles" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="斉射&#10;&#10;​◈ 弾体+2​&#10;&#10;◈ 爆発半径・総弾体ダメージ-20%&#10;&#10;◈ 弾体サイズ・総弾体速度-10%&#10;&#10;◈ 弾体拡散度+20%"></div>
+<div class="hex FocusFire" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="フォーカスファイア&#10;&#10;​◈ 総弾体拡散度-40%"></div>
+<div class="hex FiringArray" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="射線配置&#10;&#10;​◈ 中央の弾体の総弾体ダメージ・総爆発半径+15%。他の弾体も総弾体ダメージ・総爆発半径に修正を受けるが、この修正は最も外側の弾体に対する0%まで段階的に減少していく&#10;&#10;◈ 中央の弾体の総弾体サイズ+30%。他の弾体も総弾体サイズに修正を受けるが、この修正は最も外側の弾体に対する-30%まで段階的に減少していく​&#10;&#10;◈ 弾体拡散度+10%"></div>
+<div class="hex Fusillade" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="弾幕&#10;&#10;​◈ 基本弾体数を2倍にする&#10;&#10;◈ 弾体+1​&#10;&#10;◈ 爆発半径・総弾体ダメージ-15%&#10;&#10;◈ 弾体サイズ・総弾体速度-10%&#10;&#10;◈ 弾体拡散度+15%"></div>
+</section>
+<section class="branch">
+<div class="hex TargettingSystems" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="追尾性&#10;&#10;​◈ 弾体追尾性を付加、もしくは向上させる"></div>
+<div class="hex HeatSeeking" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="誘導&#10;&#10;​◈ 弾体追尾性を大幅に向上​&#10;&#10;◈ 総弾体速度-20%&#10;&#10;◈ 発射速度-5%"></div>
+<div class="hex HomingStrike" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ホーミングストライク&#10;&#10;​◈ 自機左右側面から小さく、単発化した武器の弾体で攻撃&#10;&#10;◈ ホーミングストライク弾体は弾体追尾性が大幅に向上し、減衰速度が緩和される​&#10;&#10;◈ ホーミングストライク弾体は総ダメージ-70%、総爆発半径・総弾体速度-60%&#10;&#10;◈ 武器拡散度+10%"></div>
+<div class="hex Convergence" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="収束&#10;&#10;​◈ 弾体追尾性がさらに向上&#10;&#10;◈ 弾体+2​&#10;&#10;◈ 弾体速度・発射速度・総弾体サイズ-15%&#10;&#10;◈ 弾体拡散度+75%"></div>
+</section>
+<section class="branch">
+<div class="hex BlastRadius" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="爆発半径&#10;&#10;​◈ 爆発半径+10%&#10;&#10;◈ 爆発型以外の弾体はそのダメージの15%を爆発ダメージとして他の対象物に与える​&#10;&#10;◈ 弾体が接触し破壊された時に発動する"></div>
+<div class="hex HighExplosive" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="高性能炸薬&#10;&#10;​◈ 爆発半径+20%"></div>
+<div class="hex ConcentratedBlast" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="収斂爆発&#10;&#10;​◈ 爆発ダメージ+35%​&#10;&#10;◈ 爆発半径-30%"></div>
+<div class="hex Rupture" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="爆散&#10;&#10;​◈ 敵が破壊された時、爆散して付近の他の対象物に爆発ダメージを与える&#10;&#10;◈ 爆散ダメージは破壊された敵の最大船体値の3%に等しい"></div>
+</section>
+<section class="branch">
+<div class="hex Candescence" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="白熱光&#10;&#10;​◈ 燃焼ダメージ+20%"></div>
+<div class="hex Corrosion" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="腐食&#10;&#10;​◈ 自機によるダメージが対象物に腐食スタックを付加し、スタック毎に2.5持続燃焼ダメージ/秒で発火させる&#10;&#10;◈ 腐食スタック影響下の対象物が死亡した時、付近の対象物にそのスタックを散布する。散布には破壊した敵の最大船体値に応じた数のスタックが追加される​&#10;&#10;◈ 腐食スタックは時間経過で消耗される。スタックが多いほど消耗が速くなる&#10;&#10;◈ 武器ダメージ-10%"></div>
+<div class="hex Purge" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="滅却&#10;&#10;​◈ 持続燃焼中の敵に正面で衝突ダメージを与えると、発火を取り除いて滅却を発動する&#10;&#10;◈ 滅却は苛性のノヴァを発生させ対象物を薙ぎ払う&#10;&#10;◈ 滅却のダメージはその敵の受けている持続燃焼ダメージの合計に応じて増加する&#10;&#10;◈ 滅却の持続時間は取り除いた発火の持続時間の合計に応じて増加する&#10;&#10;◈ 滅却は同一の対象物に対して2秒毎に発動可能"></div>
+<div class="hex Purification" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="浄化&#10;&#10;​◈ 燃焼ダメージ+20%&#10;&#10;◈ 発火持続時間+30%&#10;&#10;◈ 船体とシールドを発火中の敵1体毎に0.2/秒で回復​&#10;&#10;◈ 武器ダメージ-30%"></div>
+</section>
+<section class="branch">
+<div class="hex Ally" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="支援機&#10;&#10;​◈ 発展型自律支援機を構築・展開​&#10;&#10;◈ タイプ: 高度コンストラクト&#10;コンストラクト上限数: 1&#10;船体値: 120&#10;ダメージ: 30&#10;発射速度: 1/秒&#10;構築時間: 25秒"></div>
+<div class="hex Nanotech" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ナノ再構築&#10;&#10;​◈ 支援機がその最大船体値の2%/秒で再生​"></div>
+<div class="hex Evasion" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="回避機動&#10;&#10;​◈ 支援機が敵攻撃を瞬発的にかわそうとする&#10;&#10;◈ 回避機動は2.5秒のクールダウンを持つ&#10;&#10;◈ 上記に加え、支援機のパッシブな敵攻撃回避性能が向上"></div>
+<div class="hex Evolution" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="エヴォリューション&#10;&#10;​◈ 自機レベル1毎に支援機の最大船体値+1.25%・支援機の発射速度+0.75%&#10;&#10;◈ 支援機の弾体+1&#10;&#10;◈ タイプ別の特化型支援機MODをアンロック: ガーディアン・インターセプター​"></div>
+</section>
+<section class="branch">
+<div class="hex IntegratedWeaponry" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="インターセプター&#10;&#10;​◈ 支援機がインターセプターに変化する&#10;&#10;◈ インターセプターは自身の武器に加え、自機の武器を発射する。発射速度は自機より低下&#10;&#10;◈ インターセプターの移動速度+50%&#10;&#10;◈ インターセプターの弾体+1​&#10;&#10;◈ 〈ガーディアン〉アップグレードが取得不可になる"></div>
+<div class="hex Outmaneuver" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="翻弄&#10;&#10;​◈ インターセプターのパッシブな敵攻撃回避性能が大幅に向上&#10;&#10;◈ 回避機動を取得している場合、そのクールダウンを1.5秒に低減"></div>
+<div class="hex Wingman" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="僚機&#10;&#10;​◈ インターセプターが敵を追うのをやめ、自機の機首を中心に周回し、自機と同じ方向を向く​&#10;&#10;◈ インターセプターの最大船体値-25%&#10;&#10;◈ インターセプターの総発射速度-25%"></div>
+<div class="hex Overpower" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="オーバーパワー&#10;&#10;​◈ インターセプターが自機の武器を発射する頻度が上がる&#10;&#10;◈ インターセプターの弾体+2"></div>
+</section>
+<section class="branch">
+<div class="hex Guardian" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ガーディアン&#10;&#10;​◈ 支援機がガーディアンに変化する&#10;&#10;◈ ガーディアンは付近に損傷した他タイプの高度コンストラクトがいると、その船体値を回復する能力を得る&#10;&#10;◈ ガーディアンは敵型以外の対象物を優先的に対処する&#10;&#10;◈ ガーディアンの最大船体値+50%​&#10;&#10;◈ 〈インターセプター〉アップグレードが取得不可になる"></div>
+<div class="hex EchoStrike" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="エコーストライク&#10;&#10;​◈ ガーディアンの弾体に大きな爆発半径を付与&#10;&#10;◈ ガーディアンの弾体速度+50%&#10;&#10;◈ ガーディアンの弾体ダメージ+100%&#10;&#10;◈ ガーディアンの弾体が減衰しなくなる"></div>
+<div class="hex DecoySignal" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="デコイシグナル&#10;&#10;​◈ ガーディアンが付近の敵を誤認させ、自機の代わりに自身を攻撃させる&#10;&#10;◈ ガーディアンの最大船体値+50%&#10;&#10;◈ ガーディアンの総サイズ+25%​"></div>
+<div class="hex MediCharge" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="メディチャージ&#10;&#10;​◈ ガーディアンが15秒毎に1つメディチャージパワーアップを生成・保持。メディチャージは取得時、船体値・シールド値を1秒かけて20回復する&#10;&#10;◈ コンストラクトの発射速度への修正がメディチャージのクールダウンに影響&#10;&#10;◈ 他の高度コンストラクトを治癒する時は船体値回復+50%​"></div>
+</section>
+<section class="branch">
+<div class="hex Turret" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="タレット&#10;&#10;​◈ 連射型自動タレットを構築・展開​&#10;&#10;◈ タレットは5/秒を常時受ける&#10;&#10;◈ タイプ: 高度コンストラクト&#10;コンストラクト上限数: 1&#10;船体値: 150&#10;ダメージ: 35&#10;発射速度: 6.5/秒&#10;構築時間: 30秒"></div>
+<div class="hex PointDefense" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ポイントディフェンス&#10;&#10;​◈ 自機レベル1毎にタレットの最大船体値+3%&#10;&#10;◈ タレットが付近にいる間、自機の船体値・シールド値を3/秒で回復&#10;&#10;◈ タレットを防護しているシールドはシールド効果力・シールド効果半径+30%​"></div>
+<div class="hex WarMachine" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ウォーマシン&#10;&#10;​◈ 自機レベル1毎にタレットの発射速度と旋回速度+3%&#10;&#10;◈ タレットが自機のレベル2毎にミサイル2つを発射する​"></div>
+<div class="hex CounterArtillery" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="カウンター砲撃&#10;&#10;​◈ タレットの弾が敵弾体に当たり判定を持ち、敵弾体のダメージとサイズを減衰、もしくはそのまま破壊する&#10;&#10;◈ タレットの最大船体値・旋回速度・ダメージ+10%​"></div>
+</section>
+<section class="branch">
+<div class="hex Mines" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="機雷&#10;&#10;​◈ 機雷を構築・展開。機雷はその発動半径に敵が入った時か、10秒後に起爆する​&#10;&#10;◈ タイプ: 基礎コンストラクト&#10;コンストラクト上限数: 2&#10;船体値: 25&#10;ダメージ: 350&#10;構築時間: 4秒"></div>
+<div class="hex AutoMines" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="機雷原&#10;&#10;​◈ 全ての機雷をクラスター状に同時展開&#10;&#10;◈ 機雷のコンストラクト上限数+3&#10;&#10;◈ 機雷の構築速度+50%​&#10;&#10;◈ 機雷の最大船体値-50%&#10;&#10;◈ 機雷のダメージ・機雷の総性能・機雷の総発動半径-25%&#10;&#10;◈ 起爆時、機雷は連鎖反応を起こす"></div>
+<div class="hex LoadedMines" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="装弾型機雷&#10;&#10;​◈ 機雷が起爆時、自機の武器を放射状に発射​&#10;&#10;◈ 装弾型機雷の生成する武器インスタンス数は自機の発射速度・弾体数で決まる&#10;&#10;◈ 元からチャージ可能な武器の場合、機雷は自機のチャージ性能の75%で武器をチャージする。さらに機雷は4ダメージ/秒を常時受け、+100%のチャージコストを支払う"></div>
+<div class="hex Retribution" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="報復&#10;&#10;​◈ 最大船体値の最低15%のダメージを1回の船体ヒットで受けた時、機雷1つを自動展開​&#10;&#10;◈ 報復によって機雷のコンストラクト上限を超えた場合、既存の機雷が起爆する&#10;&#10;◈ 報復は0.5秒のクールダウンを持つ"></div>
+</section>
+<section class="branch">
+<div class="hex Drones" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ドローン&#10;&#10;​◈ 自動化ドローンを構築・展開。ドローンは自機を周回し対象物を攻撃する​&#10;&#10;◈ タイプ: 標準コンストラクト&#10;コンストラクト上限数: 2&#10;船体値: 25&#10;ダメージ: 30&#10;発射速度: 2/秒&#10;構築時間: 5秒"></div>
+<div class="hex RocketDrones" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ロケットドローン&#10;&#10;​◈ ドローンが弾の代わりに、大きな爆発半径を持つ加速型ロケットを発射&#10;&#10;◈ ドローンのダメージ+60%​&#10;&#10;◈ ドローンの発射速度-40%"></div>
+<div class="hex ReinforcedDrones" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="改修型ドローン&#10;&#10;​◈ ドローンの最大船体値+40%"></div>
+<div class="hex AdvancedEngineering" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="アドバンスドエンジニアリング&#10;&#10;​◈ ドローンのコンストラクト上限数+1&#10;&#10;◈ 自機レベル1毎にドローンの最大船体値・ダメージ+1.25%&#10;&#10;◈ タイプ別の特化型ドローンMODをアンロック"></div>
+</section>
+<section class="branch">
+<div class="hex AssaultDrones" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="アサルトドローン&#10;&#10;​◈ ドローンをアサルトドローンに転換&#10;&#10;◈ ドローンの発射速度+20%&#10;&#10;◈ ドローンのコンストラクト上限数+1&#10;&#10;◈ 以降の攻撃系アップグレードとフォーメーションを取得可能になる​&#10;&#10;◈ アサルトドローンは敵型の対象物を優先的に対処する&#10;&#10;◈ 〈ディフェンスドローン〉アップグレードが取得不可になる"></div>
+<div class="hex PredatorDrones" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="フォーメーション: 追跡&#10;&#10;​◈ 新しいドローンフォーメーションを取得し、切り換えが可能になる&#10;&#10;◈ フォーメーション: 追跡中のドローンは自機から離れ、敵を追い立てる&#10;&#10;◈ このフォーメーション中のドローンの総発射速度+50%"></div>
+<div class="hex BattalionDrones" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="フォーメーション: 戦列&#10;&#10;​◈ 新しいドローンフォーメーションを取得し、切り換えが可能になる&#10;&#10;◈ フォーメーション: 戦列中のドローンは自機の左右に整列し、自機前方に向け射撃する&#10;&#10;◈ このフォーメーション中のドローンの総発射速度+100%"></div>
+<div class="hex Fleet" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="艦隊&#10;&#10;​◈ ドローンのコンストラクト上限数+2"></div>
+</section>
+<section class="branch">
+<div class="hex DefenseDrone" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ディフェンスドローン&#10;&#10;​◈ ドローンをディフェンスドローンに転換&#10;&#10;◈ ドローンの最大船体値+120%&#10;&#10;◈ ディフェンスドローンは敵型以外の対象物を優先的に対処する​&#10;&#10;◈ 〈アサルトドローン〉アップグレードが取得不可になる"></div>
+<div class="hex FormationRampart" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="フォーメーション: 防壁&#10;&#10;​◈ 新しいドローンフォーメーションを取得し、切り換えが可能になる&#10;&#10;◈ フォーメーション: 防壁中のドローンは自機と最も近い危害物との間に位置取る"></div>
+<div class="hex Counterpulse" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="カウンターパルス&#10;&#10;​◈ ディフェンスドローンがヒットを受けた時、カウンターパルスを発動&#10;&#10;◈ カウンターパルスは近くの対象物に100ダメージを与える"></div>
+<div class="hex Flotilla" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="船団&#10;&#10;​◈ ドローンのコンストラクト上限数+1"></div>
+</section>
+<section class="branch">
+<div class="hex ElegantConstruction" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="機能的構築&#10;&#10;​◈ コンストラクトの最大船体値+25%&#10;&#10;◈ コンストラクトの構築速度+10%&#10;&#10;◈ 自機レベル1毎にコンストラクトの総構築速度+0.5%"></div>
+<div class="hex SelfDestruction" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="自爆&#10;&#10;​◈ コンストラクトが破壊された時、衝撃波を放ってダメージを与える&#10;&#10;◈ 衝撃波のダメージ・爆発半径は破壊されたコンストラクトの最大船体値に比例"></div>
+<div class="hex ShieldedDrones" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="シールド搭載型コンストラクト&#10;&#10;​◈ コンストラクトのシールドダメージ耐性+50%&#10;&#10;◈ シールド効果力+10%&#10;&#10;◈ 船体ダメージ耐性+10%&#10;&#10;◈ 基本船体値+10・最大船体値+10%​&#10;&#10;◈ 自機シールドが自機の展開した標準・高度コンストラクトを防護する&#10;&#10;◈ シールドが防護するコンストラクト数に応じてシールド効果力・シールド効果半径は微減する&#10;&#10;​◈ シールドは自機の船体を防護しなくなる"></div>
+<div class="hex Overseer" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="監理者&#10;&#10;​◈ 武器型以外の基礎・標準コンストラクト上限数が2倍になる&#10;&#10;◈ 高度コンストラクト上限数+1&#10;&#10;◈ コンストラクトの構築速度+x%​&#10;&#10;◈ 総推力-x%&#10;&#10;◈ xは標準・高度コンストラクト上限数の合計値の2倍&#10;&#10;​◈ 自機が武器を射撃できなくなる。他のMODによってコンストラクトに自機の武器を射撃させることは可能"></div>
+</section>
+<section class="branch">
+<div class="hex PriorityZero" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="プライオリティゼロ&#10;&#10;​◈ 敵を倒すと高度コンストラクトの構築時間が進行​&#10;&#10;◈ 構築完了した高度コンストラクトが無い時プライオリティゼロは最大効果を及ぼし、構築完了した高度コンストラクト数に比例して効果は減る"></div>
+<div class="hex Overclock" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="オーバークロック&#10;&#10;​◈ 付近の高度コンストラクトの総発射速度・総旋回速度+40%&#10;&#10;◈ オーバークロックの効果は最大に達するまで時間経過で急速に増大していく"></div>
+<div class="hex TacticalLink" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="タクティカルリンク&#10;&#10;​◈ 自機が高度コンストラクトの付近にいる間、自機とそのコンストラクトは8%の船体ダメージ耐性を得る"></div>
+<div class="hex SupportSpecialist" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105);/" title="サポートスペシャリスト&#10;&#10;​◈ コンストラクトの構築速度+20%&#10;&#10;◈ コンストラクトの発射速度+25%&#10;&#10;​◈ 総最大船体値・総最大シールド値-x%​&#10;&#10;◈ xは標準コンストラクトと高度コンストラクトの上限数の合計値の2倍"></div>
+</section>
+<section class="branch">
+<div class="hex HullStrength" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="船体強度&#10;&#10;​◈ 最大船体値+20%"></div>
+<div class="hex Absorption" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="緩衝&#10;&#10;​◈ 装甲+3&#10;&#10;◈ 装甲は受けた船体ダメージを固定値で軽減し、小刻みなダメージに対する防護を与える​&#10;&#10;◈ 装甲は燃焼ダメージと自己ダメージを軽減せず、ダメージを1未満にすることもできない"></div>
+<div class="hex Juggernaut" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ジャガーノート&#10;&#10;​◈ 最大船体値+20%&#10;&#10;◈ 対象物への衝突ダメージ・衝突ノックバック+40%&#10;&#10;◈ 衝突ノックバック耐性+20%​&#10;&#10;◈ サイズ・ドローン周回半径+20%&#10;&#10;◈ 推力-25%"></div>
+<div class="hex ForceArmor" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="フォースアーマー&#10;&#10;​◈ 船体ダメージ耐性+10%&#10;&#10;◈ 対象物への衝突ノックバック+20%&#10;&#10;◈ 衝突ノックバック耐性+20%&#10;&#10;◈ 自機の衝突ダメージにその25%のダメージの爆発半径が付加される"></div>
+</section>
+<section class="branch">
+<div class="hex HullRegeneration" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="再生&#10;&#10;​◈ パッシブな再生率+40%&#10;&#10;◈ 船体値が再生する速度はその最大値に比例"></div>
+<div class="hex RegenerativeShields" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="再生シールド&#10;&#10;​◈ パッシブなシールド再生を付加&#10;&#10;◈ シールドが再生する速度はその最大値に比例する​&#10;&#10;◈ シールド作動中、シールドが75%の性能で再生&#10;&#10;◈ シールド作動中、船体が50%の性能で再生&#10;&#10;◈ シールド停止中、船体が100%の性能で再生"></div>
+<div class="hex RapidReconstruction" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105);/" title="高速再構築&#10;&#10;​◈ 再生率+100%&#10;&#10;◈ 基本船体値+40&#10;&#10;◈ 装甲+1&#10;&#10;​◈ シールドを失う​&#10;&#10;◈ 全てのシールド系MODをアップグレードプールから削除する。シールドギアを取得していた場合、1アップグレードポイントを返還"></div>
+<div class="hex AdrenalModule" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="アドレナリン分泌モジュール&#10;&#10;​◈ 自機の受けているダメージが大きいほど対象物に与える全般ダメージが増加（最大+50%まで）​&#10;&#10;◈ このボーナスは船体とシールド両方のダメージの平均に比例"></div>
+</section>
+<section class="branch">
+<div class="hex ShieldDurability" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="シールド耐久度&#10;&#10;​◈ シールド値+20%"></div>
+<div class="hex RetaliationShields" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="反応性シールド&#10;&#10;​◈ シールドヒットを受けた時、シールドがエネルギーを攻撃者の方向に放出してダメージを与える&#10;&#10;◈ 最大シールド値+5%"></div>
+<div class="hex Barrier" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="バリア&#10;&#10;​◈ シールドが25を超えるダメージを1回のヒットで受けた場合、そのダメージを25に軽減&#10;&#10;◈ 最大シールド値+5%​&#10;&#10;◈ シールドクールダウンが5%遅くなる"></div>
+<div class="hex OmniShield" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105)" title="オムニシールド&#10;&#10;​◈ 基本シールド値+55&#10;&#10;◈ シールドダメージ耐性+15%&#10;&#10;◈ シールド効果力+15%&#10;&#10;◈ シールドがクールダウン中、重ねてダメージを受けることによるクールダウン遅滞への耐性が増加&#10;&#10;​◈ 総最大船体値-85%"></div>
+</section>
+<section class="branch">
+<div class="hex ShieldCooldown" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="シールドクールダウン&#10;&#10;​◈ シールドクールダウンが20%早くなる"></div>
+<div class="hex VolatileShields" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="揮発シールド&#10;&#10;​◈ シールド崩壊時、シールドが爆発的に解放され、付近の対象物を1200ダメージで破壊し尽くす&#10;&#10;◈ 最大シールド値+5%"></div>
+<div class="hex FlashShielding" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="フラッシュシールディング&#10;&#10;​◈ シールドクールダウンが25%早くなる​&#10;&#10;◈ 最大シールド値-40%"></div>
+<div class="hex Discharge" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="ディスチャージ&#10;&#10;​◈ 自機の射撃時、シールドがエネルギーの一部を解放して周囲にエネルギーボルトを打ち込む&#10;&#10;◈ エネルギーボルトに打たれた対象物は燃焼ダメージを受け、30持続燃焼ダメージ/秒で発火する​&#10;&#10;◈ 発射速度が遅い武器を使用時、ディスチャージのダメージと射程が増加&#10;&#10;​◈ 自機の射撃時、シールド自己ダメージを受ける​"></div>
+</section>
+<section class="branch">
+<div class="hex ShieldRadius" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="シールド効果半径:&#10;&#10;​◈ シールド効果半径+20%&#10;&#10;◈ シールド効果力+10%&#10;&#10;◈ シールドの付随効果やシールド攻撃に影響する"></div>
+<div class="hex RadiantShields" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="放散シールド&#10;&#10;​◈ シールド効果半径+40%​&#10;&#10;◈ シールドクールダウンが10%遅くなる&#10;&#10;◈ 最大シールド値-10%"></div>
+<div class="hex FocusedShields" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="集中シールド&#10;&#10;​◈ シールド効果力+25%&#10;&#10;◈ 最大シールド値+5%​&#10;&#10;◈ シールド効果半径-20%"></div>
+<div class="hex WeaponizedShields" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="攻撃型シールド&#10;&#10;​◈ 任意のシールドに攻撃型シールド効果を付加&#10;&#10;◈ 攻撃型シールド効果半径内の対象物は受ける総ダメージ+20%。この値はシールド効果力の修正を受ける"></div>
+</section>
+<section class="branch">
+<div class="hex Efficiency" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="効率化&#10;&#10;​◈ 自機が射撃停止中、総再生+20%&#10;&#10;◈ 自機が射撃停止中、総シールドクールダウンが20%早くなる"></div>
+<div class="hex Gemini" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="ジェミニプロトコル&#10;&#10;​◈ シールドが自機防護中、ダメージが船体とシールドで二等分される（それぞれに充分な残量がある場合のみ）&#10;&#10;◈ シールドがコンストラクト防護中、ダメージがコンストラクトの船体とシールドで二等分される（それぞれに充分な残量がある場合のみ）"></div>
+<div class="hex Conversion" data-hex-tags="" data-hex-meta="" title="転換&#10;&#10;◈ 最大船体値が最大シールド値より大きい場合、最大シールド値の30%を最大船体値に転換&#10;&#10;◈ それ以外の場合、最大船体値の30%を最大シールド値に転換&#10;&#10;◈ 転換は他の全ての船体値・シールド値計算後に発生する"></div>
+<div class="hex Regression" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="退化&#10;&#10;​◈ レベル+1​&#10;&#10;◈ 現在提示中の全ての第1段階MODを除外&#10;&#10;◈ この方法で除外されたMOD1つ毎にサイズ・摩擦-4%&#10;&#10;◈ 第1段階MODとはMODツリーに属していて、前段階がないMOD&#10;&#10;​◈ 除外されたMODはMODプールから永久に削除される"></div>
+</section>
+<section class="branch">
+<div class="hex AdaptiveArmor" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="適応性アーマー&#10;&#10;​◈ ダメージを受けた時、アーマースタックを獲得&#10;&#10;◈ アーマースタック1つ毎に1%のダメージ耐性を付与。この効果はスタックが増えるほど増加量が低下していく&#10;&#10;◈ 損害の大きなヒットは複数のアーマースタックを付与する&#10;&#10;◈ アーマースタックは2秒後に消耗される"></div>
+<div class="hex Channeling" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="経路&#10;&#10;​◈ アーマースタック1つ毎に総再生率+0.4%&#10;&#10;◈ アーマースタック1つ毎に総シールド効果力+1%&#10;&#10;◈ アーマースタックの持続時間+20%"></div>
+<div class="hex Rebuke" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="弾劾&#10;&#10;​◈ 自機の射撃時、アーマースタックが敵を攻撃し、接触で爆発する&#10;&#10;◈ アーマースタックは追加で爆発ダメージを与える。これは他に存在するアーマースタック数に応じて増加する&#10;&#10;◈ アーマースタックの持続時間+110%"></div>
+<div class="hex CoreShielding" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="コアシールディング&#10;&#10;​◈ 自己ダメージ耐性+20%&#10;&#10;◈ アーマースタックの持続時間+20%&#10;&#10;◈ 基本船体値+5&#10;&#10;◈ 基本シールド値+5"></div>
+</section>
+<section class="branch">
+<div class="hex ImprovedThrusters" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="改良型スラスター&#10;&#10;​◈ 推力+25%"></div>
+<div class="hex DeadlyWake" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="致死性航跡&#10;&#10;​◈ スラスターが軌跡を残す。軌跡は対象物を120ダメージ/秒で燃焼、さらに発火させる&#10;&#10;◈ 発火した対象物は120持続燃焼ダメージ/秒を受ける"></div>
+<div class="hex Streamline" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="流線型&#10;&#10;​◈ 推力+25%&#10;&#10;◈ サイズ・ドローン周回半径-10%​&#10;&#10;◈ 最大船体値-10%&#10;&#10;◈ 対象物への衝突ダメージ・衝突ノックバック-20%&#10;&#10;◈ 衝突ノックバック耐性-20%"></div>
+<div class="hex Blink" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ブリンク&#10;&#10;​◈ 一瞬だけ非実体化して自機前方にテレポートする能力を得る&#10;&#10;◈ 自機が再出現した時、周囲の対象物を押しのけ100ダメージを与える​&#10;&#10;◈ ブリンクは2秒のクールダウンを持つ"></div>
+</section>
+<section class="branch">
+<div class="hex KineticBoost" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="キネティックブースト&#10;&#10;​◈ 自機の移動速度が上昇するほど全般ダメージが増加"></div>
+<div class="hex Aegis" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="イージス&#10;&#10;​◈ 自機が推進停止時、シールドダメージ耐性+15%&#10;&#10;◈ 自機が推進停止時、船体ダメージ耐性+15%​&#10;&#10;◈ イージスが最大効果に達するまでに2.5秒かかる"></div>
+<div class="hex Lance" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="セレスティアルランス&#10;&#10;​◈ 高速移動中、灼熱のオーラを生成。オーラは自機と付近の対象物両方を燃焼させる&#10;&#10;◈ 対象物を45持続燃焼ダメージ/秒で発火させる​&#10;&#10;◈ オーラのサイズ・オーラの燃焼ダメージ・自己ダメージは自機の速度に比例&#10;&#10;​◈ オーラの燃焼ダメージ・自己ダメージは自機が高速移動を維持するほど増大していく"></div>
+<div class="hex EmergencySystems" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="緊急システム&#10;&#10;​◈ 自機防護中のシールドが崩壊すると、緊急システムが発動&#10;&#10;◈ 緊急システムは0.8秒間のダメージ無効・当たり判定無効を付与する&#10;&#10;◈ 緊急システムによって総推力・総再生率が+25%される"></div>
+</section>
+<section class="branch">
+<div class="hex Stabilization" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スタビライゼーション&#10;&#10;​◈ 自機についた慣性を任意に制動する能力を得る&#10;&#10;◈ 低速度域では弱い逆推進として動作&#10;&#10;◈ 推力+5%"></div>
+<div class="hex Agility" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="軽快性&#10;&#10;​◈ 旋回速度+30%"></div>
+<div class="hex PowerReserves" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="パワーリザーブ&#10;&#10;​◈ 自機の武器による機動性低下効果への耐性+50%"></div>
+<div class="hex Strafe" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="ストレイフ&#10;&#10;​◈ 前方・横方向への高速ダッシュ能力を得る。1秒毎に1回まで&#10;&#10;◈ 推力+10%"></div>
+</section>
+<section class="branch">
+<div class="hex Skirmish" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スカーミッシュ&#10;&#10;​◈ 自機が武器を射撃後、対象物の受ける総衝突ダメージ+50%&#10;&#10;◈ 衝突ダメージで対象物にヒットを与えた時、次の自機による武器攻撃は総武器ダメージ+50%&#10;&#10;◈ 衝突ダメージ+25%"></div>
+<div class="hex Blitz" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="ブリッツ&#10;&#10;​◈ 船体値がフルの対象物が武器ヒット・衝突ダメージで受ける総ダメージ+20%&#10;&#10;◈ 武器ダメージ+5%"></div>
+<div class="hex Terminate" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="ターミネート&#10;&#10;​◈ 船体値がその最大値の12%以下の対象物は、武器ダメージか衝突ダメージによって破壊される&#10;&#10;◈ 発射速度+5%"></div>
+<div class="hex EssenceSap" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="エッセンス収奪&#10;&#10;​◈ 敵にダメージを与えた時、そのダメージの1%をエッセンスとして蓄積。エッセンスは船体を時間経過で回復する​&#10;&#10;◈ エッセンスによって最大船体値の10%/秒の速度で船体を回復&#10;&#10;◈ エッセンスの蓄積量は最大船体値の5%を超えない&#10;&#10;​◈ 自機の船体が再生しなくなる"></div>
+</section>
+</section>
+		<header>スーパーMOD</header>
+		<section><section class="super-text"><div class="text"><span>副次ダメージ源 *4</span></div><div class="hex HiddenPower" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: 秘めた力&#10;&#10;​◈ 全般ダメージ+40%&#10;&#10;◈ 最大船体値・最大シールド値・シールド効果半径・シールド効果力・推力+5%&#10;&#10;◈ シールドクールダウン・再生率が10%早くなる​&#10;&#10;◈ 全ての武器・コンストラクト系MODをアップグレードプールから削除。武器ギアを取得していた場合、1アップグレードポイントを返還&#10;&#10;​◈ 自機の武器が無効化される。シールド型以外のコンストラクトを生成不可になる"></div>
+</section>
+<section class="super">
+<div class="hex Max" data-hex-tags="" title="Final-tier Construct"></div>
+<div class="hex RapidReconstruction" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105);/" title="高速再構築&#10;&#10;​◈ 再生率+100%&#10;&#10;◈ 基本船体値+40&#10;&#10;◈ 装甲+1&#10;&#10;​◈ シールドを失う​&#10;&#10;◈ 全てのシールド系MODをアップグレードプールから削除する。シールドギアを取得していた場合、1アップグレードポイントを返還"></div>
+<div class="hex VitalBond" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スーパーMOD: 生命結合&#10;&#10;​◈ コンストラクトが自機の再生の60%を適用される"></div>
+</section>
+<section class="super">
+<div class="hex DeadlyWake" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="致死性航跡&#10;&#10;​◈ スラスターが軌跡を残す。軌跡は対象物を120ダメージ/秒で燃焼、さらに発火させる&#10;&#10;◈ 発火した対象物は120持続燃焼ダメージ/秒を受ける"></div>
+<div class="hex FlashShielding" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="フラッシュシールディング&#10;&#10;​◈ シールドクールダウンが25%早くなる​&#10;&#10;◈ 最大シールド値-40%"></div>
+<div class="hex TempestBreak" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: テンペストブレイク&#10;&#10;​◈ シールドが崩壊時、強力なエネルギーボルトを放出&#10;&#10;◈ シールド停止中、クールダウンが中断されない&#10;&#10;◈ シールドクールダウンが30%早くなる&#10;&#10;◈ シールド効果力+30%&#10;&#10;◈ 推力+10%​&#10;&#10;◈ 最大シールド値-10%&#10;&#10;​◈ シールドは崩壊時にのみクールダウンを開始する"></div>
+</section>
+<section class="super">
+<div class="hex Calibrate" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="キャリブレート&#10;&#10;​◈ 自機が射撃停止中、武器がキャリブレートされる&#10;&#10;◈ キャリブレートによって弾体拡散度が縮小、弾体追尾性が向上、総弾体速度が上昇する​&#10;&#10;◈ 武器のクールダウン中、キャリブレートは迅速にリセットされる"></div>
+<div class="hex SiegeWeaponry" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="攻城兵装&#10;&#10;​◈ 連続して射撃する毎に総発射速度が上昇​&#10;&#10;◈ 射撃中、総推力-80%&#10;&#10;​◈ 連続して射撃する時、増大していく船体自己ダメージを受ける"></div>
+<div class="hex SaturationFire" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105)" title="スーパーMOD: 飽和射撃&#10;&#10;​◈ 時間経過でのキャリブレートの代わりに、攻城兵装の効果増大に合わせ武器をキャリブレートする。&#10;&#10;​◈ 攻城兵装から受ける自己ダメージ+15%"></div>
+</section>
+<section class="super">
+<div class="hex Overseer" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="監理者&#10;&#10;​◈ 武器型以外の基礎・標準コンストラクト上限数が2倍になる&#10;&#10;◈ 高度コンストラクト上限数+1&#10;&#10;◈ コンストラクトの構築速度+x%​&#10;&#10;◈ 総推力-x%&#10;&#10;◈ xは標準・高度コンストラクト上限数の合計値の2倍&#10;&#10;​◈ 自機が武器を射撃できなくなる。他のMODによってコンストラクトに自機の武器を射撃させることは可能"></div>
+<div class="hex LoadedMines" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="装弾型機雷&#10;&#10;​◈ 機雷が起爆時、自機の武器を放射状に発射​&#10;&#10;◈ 装弾型機雷の生成する武器インスタンス数は自機の発射速度・弾体数で決まる&#10;&#10;◈ 元からチャージ可能な武器の場合、機雷は自機のチャージ性能の75%で武器をチャージする。さらに機雷は4ダメージ/秒を常時受け、+100%のチャージコストを支払う"></div>
+<div class="hex Mortar" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: 迫撃砲&#10;&#10;​◈ 機雷を自機の射撃時、その射撃方向へ高弾速で展開​&#10;&#10;◈ 機雷はその発動半径に敵が入った時ではなく、弾速の低下時に起爆する&#10;&#10;◈ 機雷のダメージ・機雷の性能-25%&#10;&#10;◈ 構築完了した機雷が無い時に自機が射撃した場合、機雷1つが展開され、現在船体値・現在シールド値を-20% + 5没収される。没収は軽減することができないが、船体値やシールド値を1未満にすることもない"></div>
+</section>
+<section class="super">
+<div class="hex Lance" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="セレスティアルランス&#10;&#10;​◈ 高速移動中、灼熱のオーラを生成。オーラは自機と付近の対象物両方を燃焼させる&#10;&#10;◈ 対象物を45持続燃焼ダメージ/秒で発火させる​&#10;&#10;◈ オーラのサイズ・オーラの燃焼ダメージ・自己ダメージは自機の速度に比例&#10;&#10;​◈ オーラの燃焼ダメージ・自己ダメージは自機が高速移動を維持するほど増大していく"></div>
+<div class="hex Stabilization" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スタビライゼーション&#10;&#10;​◈ 自機についた慣性を任意に制動する能力を得る&#10;&#10;◈ 低速度域では弱い逆推進として動作&#10;&#10;◈ 推力+5%"></div>
+<div class="hex CelestialSurge" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: セレスティアルサージ&#10;&#10;​◈ セレスティアルランス中にスタビライゼーションを使用すると自機が急減速し、燃焼のオーブを前方に射出する。オーブのダメージはセレスティアルランスのサイズに比例​&#10;&#10;◈ セレスティアルランスから受ける自己ダメージ+25%"></div>
+</section>
+<section class="super">
+<div class="hex ChargedShot" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="チャージドショット&#10;&#10;​◈ 射撃ボタンを押し続けて武器をチャージ&#10;&#10;◈ チャージによって総武器ダメージ・総弾体速度・総弾体サイズ・総爆発半径が向上。射撃ボタンを離すと攻撃を解き放つ​&#10;&#10;◈ 基本弾体が2以上の武器はチャージで弾体数が向上&#10;&#10;◈ 発射速度がチャージ性能に影響する&#10;&#10;◈ 元からチャージ可能な武器はチャージ性能と、もしあるならチャージコストの両方が増加&#10;&#10;◈ チャージ中、推力-30%"></div>
+<div class="hex Absorption" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="緩衝&#10;&#10;​◈ 装甲+3&#10;&#10;◈ 装甲は受けた船体ダメージを固定値で軽減し、小刻みなダメージに対する防護を与える​&#10;&#10;◈ 装甲は燃焼ダメージと自己ダメージを軽減せず、ダメージを1未満にすることもできない"></div>
+<div class="hex Rancor" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: 怨恨&#10;&#10;​◈ 武器チャージ中、自機や自機シールドの被ダメージがチャージを増加させる（チャージ自体のダメージは除く）&#10;&#10;◈ 最大船体値+5%・武器ダメージ+5%&#10;&#10;◈ 装甲+1​&#10;&#10;◈ 推力-10%&#10;&#10;◈ 怨恨からのチャージボーナスは時間経過で低下する&#10;&#10;◈ チャージ中の推力ペナルティが-50%に増加"></div>
+</section>
+<section class="super">
+<div class="hex ChargedShot" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="チャージドショット&#10;&#10;​◈ 射撃ボタンを押し続けて武器をチャージ&#10;&#10;◈ チャージによって総武器ダメージ・総弾体速度・総弾体サイズ・総爆発半径が向上。射撃ボタンを離すと攻撃を解き放つ​&#10;&#10;◈ 基本弾体が2以上の武器はチャージで弾体数が向上&#10;&#10;◈ 発射速度がチャージ性能に影響する&#10;&#10;◈ 元からチャージ可能な武器はチャージ性能と、もしあるならチャージコストの両方が増加&#10;&#10;◈ チャージ中、推力-30%"></div>
+<div class="hex LoadedMines" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="装弾型機雷&#10;&#10;​◈ 機雷が起爆時、自機の武器を放射状に発射​&#10;&#10;◈ 装弾型機雷の生成する武器インスタンス数は自機の発射速度・弾体数で決まる&#10;&#10;◈ 元からチャージ可能な武器の場合、機雷は自機のチャージ性能の75%で武器をチャージする。さらに機雷は4ダメージ/秒を常時受け、+100%のチャージコストを支払う"></div>
+<div class="hex ChargedMines" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: チャージ型機雷&#10;&#10;​◈ 機雷が自機の武器を自機のチャージ性能の100%でチャージする​&#10;&#10;◈ チャージドショットが自機に適用されなくなる&#10;&#10;◈ 機雷がその発動半径に敵が入った時に起爆しなくなる。代わりに接触で起爆&#10;&#10;◈ 機雷のコンストラクト上限数-1&#10;&#10;◈ 機雷が2ダメージ/秒を常時受ける"></div>
+</section>
+<section class="super">
+<div class="hex Aegis" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="イージス&#10;&#10;​◈ 自機が推進停止時、シールドダメージ耐性+15%&#10;&#10;◈ 自機が推進停止時、船体ダメージ耐性+15%​&#10;&#10;◈ イージスが最大効果に達するまでに2.5秒かかる"></div>
+<div class="hex Barrier" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="バリア&#10;&#10;​◈ シールドが25を超えるダメージを1回のヒットで受けた場合、そのダメージを25に軽減&#10;&#10;◈ 最大シールド値+5%​&#10;&#10;◈ シールドクールダウンが5%遅くなる"></div>
+<div class="hex Sanctuary" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: 聖域&#10;&#10;​◈ シールドが自機防護中、失われたシールド値に比例してシールドが回復。最大シールド値に応じてさらに回復速度が加算される&#10;&#10;◈ 最大シールド値+8%・シールド効果力+8%・基本シールド値+8&#10;&#10;◈ 衝突ノックバック耐性+40%​&#10;&#10;◈ 推力-30%&#10;&#10;​◈ シールドは崩壊時にのみクールダウンを開始"></div>
+</section>
+<section class="super">
+<div class="hex Payload" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ペイロード&#10;&#10;​◈ 武器ダメージ+30%&#10;&#10;◈ 弾体サイズ+12%&#10;&#10;◈ 爆発半径+5%​&#10;&#10;◈ 発射速度-12%"></div>
+<div class="hex ConcentratedBlast" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="収斂爆発&#10;&#10;​◈ 爆発ダメージ+35%​&#10;&#10;◈ 爆発半径-30%"></div>
+<div class="hex Annihilation" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: 反物質弾&#10;&#10;​◈ 反物質弾は自機の発射した武器に影響する&#10;&#10;◈ ヒット系の武器の基本ダメージ+20&#10;&#10;◈ 総弾体サイズ・総弾体速度+10%&#10;&#10;◈ ダメージを与えるマズルブラストを付加​&#10;&#10;◈ 武器の反動を付加&#10;&#10;​◈ 射撃時に大きな船体自己ダメージを受ける。このダメージは射撃する弾体数が増える毎に微増する"></div>
+</section>
+<section class="super">
+<div class="hex Max" data-hex-tags="" title="Final-tier Construct"></div>
+<div class="hex ShieldedDrones" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="シールド搭載型コンストラクト&#10;&#10;​◈ コンストラクトのシールドダメージ耐性+50%&#10;&#10;◈ シールド効果力+10%&#10;&#10;◈ 船体ダメージ耐性+10%&#10;&#10;◈ 基本船体値+10・最大船体値+10%​&#10;&#10;◈ 自機シールドが自機の展開した標準・高度コンストラクトを防護する&#10;&#10;◈ シールドが防護するコンストラクト数に応じてシールド効果力・シールド効果半径は微減する&#10;&#10;​◈ シールドは自機の船体を防護しなくなる"></div>
+<div class="hex ApexMachinery" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: 最先端機構&#10;&#10;​◈ コンストラクトの最大船体値+30%&#10;&#10;◈ コンストラクトの発射速度+30%&#10;&#10;◈ 機雷のダメージ・機雷の性能+30%&#10;&#10;◈ シールド効果力+20%​&#10;&#10;◈ コンストラクトの構築時間が75%長くなる"></div>
+</section>
+<section class="super">
+<div class="hex Candescence" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="白熱光&#10;&#10;​◈ 燃焼ダメージ+20%"></div>
+<div class="hex CoreShielding" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="コアシールディング&#10;&#10;​◈ 自己ダメージ耐性+20%&#10;&#10;◈ アーマースタックの持続時間+20%&#10;&#10;◈ 基本船体値+5&#10;&#10;◈ 基本シールド値+5"></div>
+<div class="hex DyingStar" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105)" title="スーパーMOD: ダイイングスター&#10;&#10;​◈ 非常に大きな半径内の全てを発火&#10;&#10;◈ この持続燃焼ダメージは自機と対象物の近さ、自機が失った船体値・シールド値に比例して増加する&#10;&#10;◈ 発火持続時間+30%&#10;&#10;◈ 燃焼ダメージ+20%&#10;&#10;​◈ 11自己ダメージ/秒を常時受ける"></div>
+</section>
+<section class="super">
+<div class="hex Snipe" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スナイプ&#10;&#10;​◈ 弾体の移動した距離が長いほど高ダメージを対象物に与える（最大+120%まで）&#10;&#10;◈ 弾体速度+20%"></div>
+<div class="hex Blink" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ブリンク&#10;&#10;​◈ 一瞬だけ非実体化して自機前方にテレポートする能力を得る&#10;&#10;◈ 自機が再出現した時、周囲の対象物を押しのけ100ダメージを与える​&#10;&#10;◈ ブリンクは2秒のクールダウンを持つ"></div>
+<div class="hex WarpStrike" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: ワープストライク&#10;&#10;​◈ 弾体が1回だけ画面端でループする​&#10;&#10;◈ ループした弾体の総ダメージ-30%&#10;&#10;◈ 発射速度-12%&#10;&#10;◈ 弾体サイズ・総弾体速度-5%&#10;&#10;​◈ 自機が画面端でループした時、現在船体値・現在シールド値を10% + 5没収される。没収は軽減することができないが、船体値やシールド値を1未満にすることもない"></div>
+</section>
+<section class="super">
+<div class="hex SelfDestruction" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="自爆&#10;&#10;​◈ コンストラクトが破壊された時、衝撃波を放ってダメージを与える&#10;&#10;◈ 衝撃波のダメージ・爆発半径は破壊されたコンストラクトの最大船体値に比例"></div>
+<div class="hex Candescence" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="白熱光&#10;&#10;​◈ 燃焼ダメージ+20%"></div>
+<div class="hex BurnoutReactors" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105)" title="スーパーMOD: バーンアウトリアクター&#10;&#10;​◈ シールド型以外のコンストラクトの構築速度+30%&#10;&#10;◈ コンストラクトの発射速度・移動速度・旋回速度・周回速度+30%&#10;&#10;◈ 自爆のダメージが燃焼ダメージになり、対象物を30持続燃焼ダメージ/秒で発火させる&#10;&#10;◈ コンストラクトの船体値が減少するほど、その発射速度が上昇する。最大で総発射速度+50%まで&#10;&#10;​◈ コンストラクトは8船体ダメージ/秒を受ける"></div>
+</section>
+<section class="super-text"><div class="text"><span>防御MOD *10</span></div><div class="hex LastStand" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スーパーMOD: ラストスタンド&#10;&#10;​◈ 死亡時、巨大な爆発が敵を一掃する&#10;&#10;◈ 自機が1回だけ復活する。総最大船体値・総最大シールド値-75%&#10;&#10;◈ 復活後、オーブから得る総経験値+100%"></div>
+</section>
+<section class="super">
+<div class="hex FocusFire" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="フォーカスファイア&#10;&#10;​◈ 総弾体拡散度-40%"></div>
+<div class="hex BurstFire" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="バースト射撃&#10;&#10;​◈ 武器が高速3点バースト射撃になる&#10;&#10;◈ 発射速度+20%​&#10;&#10;◈ バーストとバーストの間に固定値+0.04秒の発射速度ディレイ"></div>
+<div class="hex Barrage" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: バラージ&#10;&#10;​◈ 弾体数+25%・弾体+1&#10;&#10;◈ ヒット系武器の基本ダメージ+10&#10;&#10;◈ 武器がバースト射撃や拡散射撃をする代わりに、弾体を1発ずつ集中砲火する​&#10;&#10;◈ 弾体が横幅方向に分散し、これは拡散度修正の影響を受ける&#10;&#10;◈ バラージの各弾体は諸元に-50%～-0%の修正がかかる&#10;&#10;◈ 発動用の条件としては、バラージは1度の射撃のように扱う&#10;&#10;​◈ 射撃中、総シールドクールダウンが15%遅くなり、総回復性能-15%"></div>
+</section>
+<section class="super">
+<div class="hex Blink" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ブリンク&#10;&#10;​◈ 一瞬だけ非実体化して自機前方にテレポートする能力を得る&#10;&#10;◈ 自機が再出現した時、周囲の対象物を押しのけ100ダメージを与える​&#10;&#10;◈ ブリンクは2秒のクールダウンを持つ"></div>
+<div class="hex Strafe" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="ストレイフ&#10;&#10;​◈ 前方・横方向への高速ダッシュ能力を得る。1秒毎に1回まで&#10;&#10;◈ 推力+10%"></div>
+<div class="hex Displacement" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: 転移&#10;&#10;​◈ ストレイフ発動時、その方向へブリンクする。転移は前後左右に使用可能&#10;&#10;◈ ブリンクダメージ+400%&#10;&#10;◈ 対象物へのブリンクノックバック+25%​&#10;&#10;◈ ストレイフとブリンク両方の機能が転移に置き換わる&#10;&#10;◈ 転移は1.5秒のクールダウンを持つ"></div>
+</section>
+<section class="super">
+<div class="hex Streamline" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="流線型&#10;&#10;​◈ 推力+25%&#10;&#10;◈ サイズ・ドローン周回半径-10%​&#10;&#10;◈ 最大船体値-10%&#10;&#10;◈ 対象物への衝突ダメージ・衝突ノックバック-20%&#10;&#10;◈ 衝突ノックバック耐性-20%"></div>
+<div class="hex Warpath" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="進撃&#10;&#10;​◈ 敵を1体倒す毎に進撃スタックを1つ獲得&#10;&#10;◈ スタック1つ毎に総発射速度・総推力+0.75%（最大+30%まで）​&#10;&#10;◈ スタックは時間経過で急激に減少する"></div>
+<div class="hex LeafOnTheWind" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スーパーMOD: リーフ オン ザ ウィンド&#10;&#10;​◈ 敵・危害物によるダメージを回避し続けるほどリーフ オン ザ ウィンド効果が上昇。最大で60秒かけて全般ダメージ+50%まで&#10;&#10;◈ サイズ-10%"></div>
+</section>
+<section class="super">
+<div class="hex Payload" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ペイロード&#10;&#10;​◈ 武器ダメージ+30%&#10;&#10;◈ 弾体サイズ+12%&#10;&#10;◈ 爆発半径+5%​&#10;&#10;◈ 発射速度-12%"></div>
+<div class="hex Juggernaut" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ジャガーノート&#10;&#10;​◈ 最大船体値+20%&#10;&#10;◈ 対象物への衝突ダメージ・衝突ノックバック+40%&#10;&#10;◈ 衝突ノックバック耐性+20%​&#10;&#10;◈ サイズ・ドローン周回半径+20%&#10;&#10;◈ 推力-25%"></div>
+<div class="hex SingularStrikeNew" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;/" title="スーパーMOD: 特異性攻撃&#10;&#10;​◈ 自機武器が弾体数1であるかのように振る舞う。1より多い自機の弾体は単一の弾体に融合し、これを強化する。最大で25弾体まで融合可能&#10;&#10;◈ ダメージ・サイズ・爆発半径+15%&#10;&#10;◈ 融合した各弾体がそのダメージの+50%を自機弾体にさらに追加する&#10;&#10;◈ 融合した各弾体が自機弾体のサイズと爆発半径をさらに増加させる。この効果は大きくなるほど増加量が低下していく​&#10;&#10;◈ +0.125秒の発射速度ディレイ​"></div>
+</section>
+<section class="super">
+<div class="hex Rupture" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="爆散&#10;&#10;​◈ 敵が破壊された時、爆散して付近の他の対象物に爆発ダメージを与える&#10;&#10;◈ 爆散ダメージは破壊された敵の最大船体値の3%に等しい"></div>
+<div class="hex Purge" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="滅却&#10;&#10;​◈ 持続燃焼中の敵に正面で衝突ダメージを与えると、発火を取り除いて滅却を発動する&#10;&#10;◈ 滅却は苛性のノヴァを発生させ対象物を薙ぎ払う&#10;&#10;◈ 滅却のダメージはその敵の受けている持続燃焼ダメージの合計に応じて増加する&#10;&#10;◈ 滅却の持続時間は取り除いた発火の持続時間の合計に応じて増加する&#10;&#10;◈ 滅却は同一の対象物に対して2秒毎に発動可能"></div>
+<div class="hex Deflagration" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: 爆燃&#10;&#10;​◈ 持続燃焼中の敵を破壊すると、発火を消費して爆燃を発動する​&#10;&#10;◈ 爆燃は苛性のノヴァを発生させ対象物を薙ぎ払う&#10;&#10;◈ 爆燃のダメージはその敵の受けている持続燃焼ダメージの合計に応じて増加する&#10;&#10;◈ 爆燃の持続時間は取り除いた発火の持続時間の合計に応じて増加する"></div>
+</section>
+<section class="super-text"><div class="text"><span>武器MOD *10</span></div><div class="hex Mastery" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スーパーMOD: 熟達&#10;&#10;​◈ 武器ダメージ・弾体速度・弾体サイズ・弾体拡散度・爆発半径・発射速度を+5%向上"></div>
+</section>
+<section class="super">
+<div class="hex KineticBoost" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="キネティックブースト&#10;&#10;​◈ 自機の移動速度が上昇するほど全般ダメージが増加"></div>
+<div class="hex Strafe" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="ストレイフ&#10;&#10;​◈ 前方・横方向への高速ダッシュ能力を得る。1秒毎に1回まで&#10;&#10;◈ 推力+10%"></div>
+<div class="hex Apotheosis" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="スーパーMOD: 神格&#10;&#10;​◈ 自機が敵・対象物・ほとんどの天体系危害物に当たり判定を持たなくなる​&#10;&#10;◈ 最大船体値-20%&#10;&#10;◈ 最大シールド値-20%"></div>
+</section>
+<section class="super-text"><div class="text"><span>未使用アップグレード *4</span></div><div class="hex Ataraxia" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スーパーMOD: 明鏡止水&#10;&#10;​◈ 未使用アップグレードポイント1つ毎に全般ダメージ+5%&#10;&#10;◈ 未使用アップグレードポイント1つ毎に総最大船体値・総最大シールド値・総推力+1%&#10;&#10;◈ オーブやパワーアップアイテムを引き寄せる距離が増加"></div>
+</section>
+</section>
+		<header>不可測MOD</header>
+		<section><section class="single">
+<div class="hex Slipstream" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: スリップストリーム&#10;&#10;​◈ 推力と旋回速度+7%​&#10;&#10;◈ 摩擦-7%&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex GalvanicOutburst" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 放電性バースト&#10;&#10;​◈ シールドヒットを受けた時、攻撃者の方向へエネルギーボルトを1つ放つ&#10;&#10;◈ シールド効果力+2%&#10;&#10;◈ エネルギーボルトに打たれた対象物は燃焼ダメージを受け、30持続燃焼ダメージ/秒で発火する​&#10;&#10;◈ 放電性バーストは自己ダメージでは発動しない&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex Rampage" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 暴走&#10;&#10;​◈ 全般ダメージ+7%&#10;&#10;◈ 最大船体値・最大シールド値+2%​&#10;&#10;◈ 恒常的な追加の推進力を自機に付与&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex Hypermetabolism" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 代謝亢進&#10;&#10;​◈ 再生率+45%​&#10;&#10;◈ 最大船体値・最大シールド値の15%が制約され、この部分は回復不能になる&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex DoubleTap" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: ダブルタップ&#10;&#10;​◈ 発射速度+7%&#10;&#10;◈ バースト射撃数+1​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex HeavyCaliber" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 大口径&#10;&#10;​◈ 武器ダメージ・弾体サイズ+7%​&#10;&#10;◈ 総弾体速度-7%&#10;&#10;◈ 発射速度-2%&#10;&#10;◈ 武器の反動を付加&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex EnergizedShields" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;/;/" title="不可測MOD: 励起性シールド&#10;&#10;​◈ 現在の自機移動速度に応じてシールド効果力が増加&#10;&#10;◈ シールドクールダウンが5%早くなる​&#10;&#10;◈ 発射速度-5%​&#10;&#10;◈ コンストラクトの構築速度-5%​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex SolarHeart" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="不可測MOD: ソーラーハート&#10;&#10;​◈ 所持する不可測MOD1つ毎にヒット系武器の基本ダメージ+2&#10;&#10;◈ 所持する不可測MOD1つ毎に燃焼ダメージ+2%​&#10;&#10;​◈ 所持する不可測MOD1つ毎に0.4/秒の燃焼ダメージを常時受ける​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex PolarInversion" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 極反転&#10;&#10;​◈ 爆発半径+15%​&#10;&#10;◈ 自機・コンストラクトが発生させるノックバック・引き寄せの方向を反転"></div>
+</section>
+<section class="single">
+<div class="hex PropulsiveMunitions" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;/" title="不可測MOD: 推力弾&#10;&#10;​◈ 自機の武器の射撃角度+180°&#10;&#10;◈ 総武器ダメージ+15%​&#10;&#10;◈ 総弾体サイズ+7%​&#10;&#10;◈ 武器の反動を付加&#10;&#10;◈ 機雷コンストラクトが発射する武器には影響しない"></div>
+</section>
+<section class="single">
+<div class="hex ScorchingWake" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 灼熱の航跡&#10;&#10;​◈ スラスターが火球群を放つ。火球は対象物に240燃焼ダメージ/秒を与え、45持続燃焼ダメージ/秒で発火させる​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex SpecialistMine" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 機雷スペシャリスト&#10;&#10;​◈ ◈ 機雷のコンストラクト上限数+2&#10;&#10;◈ 機雷のダメージ・機雷の性能+15%&#10;&#10;◈ 機雷の総構築速度+20%​&#10;&#10;◈ 他のコンストラクトの総構築速度-40%&#10;&#10;◈ コンストラクトスペシャリストMODは4種あるが取得できるのは1つのみ"></div>
+</section>
+<section class="single">
+<div class="hex SpecialistDrone" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: ドローンスペシャリスト&#10;&#10;​◈ ◈ ドローンのコンストラクト上限数+2&#10;&#10;◈ ドローンのダメージ+15%&#10;&#10;◈ ドローンの総構築速度+20%​&#10;&#10;◈ 他のコンストラクトの総構築速度-40%&#10;&#10;◈ コンストラクトスペシャリストMODは4種あるが取得できるのは1つのみ"></div>
+</section>
+<section class="single">
+<div class="hex SpecialistTurret" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: タレットスペシャリスト&#10;&#10;​◈ タレットの旋回速度+50%&#10;&#10;◈ タレットの船体値減衰-30%&#10;&#10;◈ タレットの総構築速度+20%​&#10;&#10;◈ 他のコンストラクトの総構築速度-40%&#10;&#10;◈ コンストラクトスペシャリストMODは4種あるが取得できるのは1つのみ"></div>
+</section>
+<section class="single">
+<div class="hex SpecialistAlly" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: 支援機スペシャリスト&#10;&#10;​◈ 支援機の最大船体値+20%&#10;&#10;◈ 支援機のパッシブな敵攻撃回避性能が向上&#10;&#10;◈ 支援機の弾体+2&#10;&#10;◈ 支援機の総構築速度+20%​&#10;&#10;◈ 他のコンストラクトの総構築速度-40%&#10;&#10;◈ コンストラクトスペシャリストMODは4種あるが取得できるのは1つのみ"></div>
+</section>
+<section class="single">
+<div class="hex Masochism" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="不可測MOD: マゾヒズム&#10;&#10;​◈ 自己ダメージ耐性+8%&#10;&#10;◈ 自機の受けているダメージが多いほど対象物に与える全般ダメージが増加（最大+15%まで）&#10;&#10;◈ このボーナスは船体値・シールド値両方のダメージの平均に比例​&#10;&#10;​◈ 敵から受けるダメージ+3%​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+</section>
+		<section><section class="single">
+<div class="hex ChaoticAmbition" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="レア不可測MOD: 混沌願望&#10;&#10;​◈ レベル毎に提示される不可測MODの最大数+1&#10;&#10;◈ リロール+1&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex Defiance" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="レア不可測MOD: 抗戦&#10;&#10;​◈ 装甲+0.5&#10;&#10;◈ 武器反動耐性+4%&#10;&#10;◈ 自己ダメージ耐性+4%&#10;&#10;◈ 自機の武器による機動性低下効果への耐性+4%​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex OutrageModule" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="レア不可測MOD: 激昂性モジュール&#10;&#10;​◈ 最大船体値の15%以上のダメージを1回の船体ヒットで受けた時、自機が自動的に増強された攻撃を1回発射する&#10;&#10;◈ 激昂性モジュールは自機の発射速度を無視する​&#10;&#10;◈ 激昂性モジュールは非常に短いクールダウンを持つ"></div>
+</section>
+<section class="single">
+<div class="hex PhantomStrike" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="レア不可測MOD: ファントムストライク&#10;&#10;​◈ 衝突ダメージを与えた後に対象物が破壊されていない場合、自機が反対側にテレポートし、その対象物を狙って増強された攻撃を1回発射する&#10;&#10;◈ 衝突ダメージ+25%&#10;&#10;◈ 船体衝突ダメージ耐性+25%"></div>
+</section>
+<section class="single">
+<div class="hex Discord" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="レア不可測MOD: 不協和音&#10;&#10;​◈ 不協和音オーブが自機を不規則に周回。オーブは付近の敵に襲いかかり、ヒット時に爆発ダメージを与える&#10;&#10;◈ 自機が支配する不協和音オーブ数は、2 + 所持する不可測MOD2つ毎に1つ"></div>
+</section>
+<section class="single">
+<div class="hex Transmogrification" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="レア不可測MOD: 変貌&#10;&#10;​◈ 次から3回のアップグレードは再帰型の不可測MODのみ提示される&#10;&#10;◈ レベル+1​&#10;&#10;◈ 全てのリロールを失う"></div>
+</section>
+<section class="single">
+<div class="hex DeathBlossom" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="レア不可測MOD: デスブロッサム&#10;&#10;​◈ 自機防護中のシールドが崩壊すると、デスブロッサムを発動&#10;&#10;◈ デスブロッサムは自機武器の弾体を1発ずつ360°放射状に連射する"></div>
+</section>
+<section class="single">
+<div class="hex Revelation" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="レア不可測MOD: 天啓&#10;&#10;​◈ 次に選択する再帰型の不可測MODが2回多く取得される"></div>
+</section>
+<section class="single">
+<div class="hex Winnow" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="レア不可測MOD: 淘汰&#10;&#10;​◈ 現在提示中の全てのMODを除外&#10;&#10;◈ リロール数+7&#10;&#10;◈ サイズ-7%"></div>
+</section>
+<section class="single">
+<div class="hex Obsession" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="レア不可測MOD: 強迫観念&#10;&#10;​◈ 再帰MODが1回多く取得されるようになる​&#10;&#10;​◈ 強迫観念によって得られた追加の不可測MOD1つ毎に総最大船体値・総最大シールド値-3%​"></div>
+</section>
+<section class="single">
+<div class="hex Bravado" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="レア不可測MOD: 示威&#10;&#10;​◈ ボディギアの基本ステータスが10%向上&#10;&#10;◈ ボディギアの固有能力が15%向上​&#10;&#10;​◈ 出現する敵が常にエリートかチャンピオンになる"></div>
+</section>
+<section class="single">
+<div class="hex EvolutionaryNiche" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="レア不可測MOD: 進化的ニッチ&#10;&#10;​◈ ボディギアの固有能力が10%向上​&#10;&#10;​◈ 〈虚無〉MODをランダム不可測MODプールに追加。〈虚無〉を削除することはできない​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex SpontaneousGeneration" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="レア不可測MOD: 自然発生&#10;&#10;​◈ 敵1体を倒した時、その残骸からある確率で1～複数体の群生型コンストラクトが発生&#10;&#10;◈ 倒した敵の最大船体値が大きいほど、1もしくは複数体の群生型コンストラクトが生成される確率が上昇​&#10;&#10;◈ 群生型コンストラクトは0.75船体ダメージ/秒を受ける&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+</section>
+		<section><section class="single">
+<div class="hex Grandeur" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ウルトラレア不可測MOD: 荘厳&#10;&#10;​◈ レベル+2​&#10;&#10;◈ サイズ・衝突ダメージ・対象物へのノックバック・衝突ノックバック耐性+8%&#10;&#10;◈ 推力-8%&#10;&#10;◈ 旋回速度-4%&#10;&#10;◈ 以降アップグレード2回の間、荘厳はランダムMODプールに出現しない&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex TwinStrike" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ウルトラレア不可測MOD: ツインストライク&#10;&#10;​◈ 弾体+1&#10;&#10;◈ 総弾体拡散度-10%​&#10;&#10;◈ 回復性能-7%&#10;&#10;◈ シールドクールダウンが7%遅くなる&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex Farsight" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105);/" title="ウルトラレア不可測MOD: 遠望&#10;&#10;​◈ 戦闘領域のサイズ+7%&#10;&#10;​◈ 敵から受けるダメージ+2%​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
+</section>
+<section class="single">
+<div class="hex ExplosiveGrowth" data-hex-tags="" data-hex-meta="" title="ウルトラレア不可測MOD: 爆発的成長&#10;&#10;◈ 次に選択する再帰型の不可測MODが3回多く取得される。その後、そのMODを除外"></div>
+</section>
+<section class="single">
+<div class="hex PowerSpike" data-hex-tags="" data-hex-meta="rgb(84,184,255);rgb(250,50,105);/" title="ウルトラレア不可測MOD: 量子デコヒーレンス&#10;&#10;​◈ レベル+5&#10;&#10;​◈ リロールを全て失い、以降は取得不能になる​"></div>
+</section>
+<section class="single">
+<div class="hex Maelstrom" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ウルトラレア不可測MOD: メイルシュトローム&#10;&#10;​◈ シールドが自機防護中、自機が大渦巻に囲まれる。大渦巻は周囲の対象物と敵弾体を押しのける&#10;&#10;◈ 自機・自機シールドの受けたダメージに応じて、大渦巻の効果・半径が増大​&#10;&#10;◈ 大渦巻の効果・半径は時間経過で低下"></div>
+</section>
+</section>
+	</section>
+	<script src="https://unpkg.com/@popperjs/core@2"></script>
+	<script src="https://unpkg.com/tippy.js@6"></script>
+	<script src="script.js"></script>
+	<script>(function() {
+	var style = document.getElementById("match-style");
+	//
+	var cssActive = " { filter: brightness(125%) }";
+	var activeSlider = document.getElementById("active-brightness");
+	var keyActive = "nova-drift-sheet:active-brightness";
+	function syncActiveBrightness() {
+		cssActive = ' { filter: brightness(' + activeSlider.value + '%) }';
+	}
+	activeSlider.addEventListener("change", function(_) {
+		syncActiveBrightness();
+		localStorage.setItem(keyActive, activeSlider.value);
+	});
+	if (localStorage.getItem(keyActive)) {
+		activeSlider.value = 0|localStorage.getItem(keyActive);
+		syncActiveBrightness();
+	}
+	//
+	var cssInactive = " { filter: brightness(50%) }";
+	var inactiveSlider = document.getElementById("inactive-brightness");
+	var keyInactive = "nova-drift-sheet:inactive-brightness";
+	function syncInactiveBrightness() {
+		cssInactive = ' { filter: brightness(' + inactiveSlider.value + '%) }';
+	}
+	inactiveSlider.addEventListener("change", function() {
+		syncInactiveBrightness();
+		localStorage.setItem(keyInactive, inactiveSlider.value);
+	});
+	if (localStorage.getItem(keyInactive)) {
+		inactiveSlider.value = 0|localStorage.getItem(keyInactive);
+		syncInactiveBrightness();
+	}
+	//
+	function onModEnter(e) {
+		var hex = e.target;
+		var name = hex.getAttribute("data-hex-name");
+		if (!name) return;
+		var css = [];
+		if (!hex.parentElement.classList.contains("single")) {
+			css.push(".hex:not(." + name + ")" + cssInactive);
+			css.push(".hex." + name + cssActive);
+		}
+		var tags = hex.getAttribute("data-hex-tags");
+		if (tags != null) {
+			tags = tags.split(";");
+			for (var i = 0; i < tags.length; i++) {
+				var tag = tags[i];
+				if (!tag) continue;
+				css.push('.hextag[data-hex-tag="' + tag + '"] { color: black; background: white; }');
+			}
+		}
+		style.innerHTML = css.join("\n");
+	}
+	//
+	var modShorten = Object.create(null);
+	var modLongen = Object.create(null);
+	var modSlPairs = "ALY=Ally;NTR=Nanotech;EVA=Evasion;EVO=Evolution;GUR=Guardian;ES=EchoStrike;DS=DecoySignal;MC=MediCharge;ITW=IntegratedWeaponry;OMN=Outmaneuver;WNM=Wingman;OV=Overpower;TUR=Turret;PD=PointDefense;WM=WarMachine;CA=CounterArtillery;EC=ElegantConstruction;SD=SelfDestruction;SDR=ShieldedDrones;OVS=Overseer;PZ=PriorityZero;OVC=Overclock;TL=TacticalLink;SS=SupportSpecialist;MIN=Mines;AM=AutoMines;LM=LoadedMines;RTB=Retribution;D=Drones;RKD=RocketDrones;RFD=ReinforcedDrones;AE=AdvancedEngineering;AD=AssaultDrones;PRD=PredatorDrones;BD=BattalionDrones;FLT=Fleet;DD=DefenseDrone;FR=FormationRampart;CP=Counterpulse;FLO=Flotilla;IT=ImprovedThrusters;DW=DeadlyWake;SL=Streamline;BK=Blink;KB=KineticBoost;AEG=Aegis;LN=Lance;ESY=EmergencySystems;STB=Stabilization;AGI=Agility;PR=PowerReserves;STF=Strafe;SKM=Skirmish;BLZ=Blitz;TMN=Terminate;ESP=EssenceSap;VEL=Velocity;SNP=Snipe;CAL=Calibrate;BRC=Breach;RF=RapidFire;BF=BurstFire;WP=Warpath;SW=SiegeWeaponry;AP=AddedProjectiles;FF=FocusFire;FA=FiringArray;FSL=Fusillade;MGT=Magnitude;P=Payload;SSH=SplinterShot;CS=ChargedShot;BR=BlastRadius;HE=HighExplosive;CB=ConcentratedBlast;RUP=Rupture;TS=TargettingSystems;HS=HeatSeeking;HST=HomingStrike;CVG=Convergence;CDS=Candescence;COR=Corrosion;PUG=Purge;PUR=Purification;EF=Efficiency;GP=Gemini;CN=Conversion;RG=Regression;AA=AdaptiveArmor;CH=Channeling;RB=Rebuke;CSH=CoreShielding;HUS=HullStrength;ABS=Absorption;JGR=Juggernaut;FAR=ForceArmor;HR=HullRegeneration;RS=RegenerativeShields;RR=RapidReconstruction;AMD=AdrenalModule;SHD=ShieldDurability;RTS=RetaliationShields;BAR=Barrier;OS=OmniShield;SC=ShieldCooldown;VS=VolatileShields;FS=FlashShielding;DSC=Discharge;SR=ShieldRadius;RAS=RadiantShields;FOS=FocusedShields;WS=WeaponizedShields;MST=Mastery;MRT=Mortar;CM=ChargedMines;LS=LastStand;HP=HiddenPower;CLS=CelestialSurge;SF=SaturationFire;CMX=Max;AMC=ApexMachinery;TB=TempestBreak;SAN=Sanctuary;VTB=VitalBond;LTW=LeafOnTheWind;APO=Apotheosis;RAN=Rancor;DST=DyingStar;WST=WarpStrike;ANH=Annihilation;ATX=Ataraxia;DSP=Displacement;BUR=BurnoutReactors;SSN=SingularStrikeNew;BRG=Barrage;DFL=Deflagration;SLS=Slipstream;GO=GalvanicOutburst;RM=Rampage;H=Hypermetabolism;DT=DoubleTap;HC=HeavyCaliber;ENS=EnergizedShields;SH=SolarHeart;PI=PolarInversion;PM=PropulsiveMunitions;SCW=ScorchingWake;SPM=SpecialistMine;SPD=SpecialistDrone;ST=SpecialistTurret;SA=SpecialistAlly;MAS=Masochism;CHA=ChaoticAmbition;DEF=Defiance;S2=TwinStrike;OM=OutrageModule;PS=PhantomStrike;DIS=Discord;TRX=Transmogrification;DHB=DeathBlossom;RVL=Revelation;WIN=Winnow;OBS=Obsession;BVD=Bravado;EXG=ExplosiveGrowth;MAE=Maelstrom;EVN=EvolutionaryNiche;SPG=SpontaneousGeneration;FRS=Farsight;GDR=Grandeur;PWS=PowerSpike;WP0=DefaultWeapon;SPL=Split;RLG=Railgun;GRD=Grenade;TRN=Torrent;PUL=Pulse;FLK=Flak;THL=ThermalLance;SLV=Salvo;VTX=Vortex;BLD=BladeDrone;DRT=Dart;BD0=DefaultBody;AST=Assault;STH=Stealth;SNT=Sentinel;ENG=Engineer;FFL=Firefly;CRR=Carrier;HLB=Hullbreaker;BTR=Battery;ARC=Architect;RSC=Research;VPR=Viper;CUR=Courser;LV=Leviathan;SH0=DefaultShield;HAL=Halo;TMP=Temporal;RFL=Reflect;WRP=Warp;SWV=Shockwave;AMP=Amp;BST=Bastion;HLX=Helix;SPH=Siphon".split(";");
+	for (var i = 0; i < modSlPairs.length; i++) {
+		var pair = modSlPairs[i];
+		var sep = pair.indexOf("=");
+		var sh = pair.substring(0, sep);
+		var lg = pair.substring(sep + 1);
+		modShorten[lg] = sh;
+		modLongen[sh] = lg;
+	}
+	//
+	var hexFilter = document.getElementById("hex-filter");
+	var hexCheckCount = 0;
+	var hexCheckCountSpan = document.getElementById("hex-select-count");
+	var hexFilterUpdate;
+	function clearMatch(e) {
+		if (document.activeElement == hexFilter) {
+			hexFilterUpdate(true);
+		} else if (hexCheckCount > 0) {
+			style.innerHTML = [
+				'.hex:not([checked]) ' + cssInactive,
+				'.hex[checked] ' + cssActive,
+			].join("\n");
+		} else style.innerHTML = "";
+	}
+	document.getElementById("reset-selection").addEventListener("click", function(_) {
+		var els = document.querySelectorAll(".hex[checked]");
+		for (var i = 0; i < els.length; i++) els[i].removeAttribute("checked");
+		hexCheckCount = 0;
+		hexCheckCountSpan.innerHTML = "0";
+		clearMatch();
+	});
+	document.getElementById("copy-link").addEventListener("click", function(_) {
+		var els = document.querySelectorAll(".hex[checked]");
+		var arr = [], found = Object.create(null);
+		for (var i = 0; i < els.length; i++) {
+			var mod = els[i].getAttribute("data-hex-name");
+			if (found[mod]) continue; else found[mod] = true;
+			arr.push(modShorten[mod] || mod);
+		}
+		var href = location.href;
+		var sep = href.indexOf("?");
+		var sep2 = href.indexOf("#");
+		if (sep < 0 || sep2 >= 0 && sep2 < sep) sep = sep2;
+		if (sep >= 0) href = href.substring(0, sep);
+		if (arr.length > 0) href += "?mods=" + arr.join("+");
+		prompt("Copy your link:", href);
+	});
+	function onHexToggle(e) {
+		var hex = e.target;
+		var els = document.querySelectorAll(".hex." + hex.getAttribute("data-hex-name"));
+		if (hex.hasAttribute("checked")) {
+			for (var i = 0; i < els.length; i++) els[i].removeAttribute("checked");
+			if (--hexCheckCount == 0) clearMatch();
+		} else {
+			for (var i = 0; i < els.length; i++) els[i].setAttribute("checked", "");
+			if (++hexCheckCount == 1) clearMatch();
+		}
+		hexCheckCountSpan.innerHTML = "" + hexCheckCount;
+	}
+	var hexagons = document.getElementsByClassName("hex");
+	for (var i = 0; i < hexagons.length; i++) {
+		var hex = hexagons[i];
+		for (var k = 0; k < hex.classList.length; k++) {
+			if (hex.classList[k] == "hex") continue;
+			hex.setAttribute("data-hex-name", hex.classList[k]);
+			break;
+		}
+		hex.addEventListener("mouseenter", onModEnter);
+		hex.addEventListener("mouseleave", clearMatch);
+		hex.addEventListener("click", onHexToggle);
+	}
+	//
+	if (location.search.charAt(0) == "?") {
+		var args = location.search.substring(1).split("&");
+		for (var i = 0; i < args.length; i++) {
+			var pair = args[i], key, val;
+			var sep = pair.indexOf("=");
+			if (sep >= 0) {
+				key = pair.substr(0, sep);
+				val = pair.substr(sep + 1);
+			} else { key = pair; val = ""; }
+			if (key == "mods") {
+				var modArr = val.split("+");
+				for (var i = 0; i < modArr.length; i++) try{
+					var mod = modArr[i];
+					var els = document.querySelectorAll(".hex." + (modLongen[mod] || mod));
+					if (els.length == 0) continue;
+					for (var k = 0; k < els.length; k++) els[k].setAttribute("checked", "");
+					hexCheckCount++;
+				} catch (e) { console.log(e); }
+				hexCheckCountSpan.innerHTML = "" + hexCheckCount;
+				clearMatch();
+				break;
+			}
+		}
+	}
+	//
+	function onTagEnter(e) {
+		var tag = e.target;
+		var name = tag.innerText || tag.textContent;
+		style.innerHTML = [
+			'.hex:not([data-hex-tags*="' + name + ';"]) ' + cssInactive,
+			'.hex[data-hex-tags*="' + name + ';"] ' + cssActive,
+		].join("\n");
+	}
+	var hextags = document.getElementsByClassName("hextag");
+	for (var i = 0; i < hextags.length; i++) {
+		var tag = hextags[i];
+		tag.addEventListener("mouseenter", onTagEnter);
+		tag.addEventListener("mouseleave", clearMatch);
+	}
+	//
+	var hexFilterValue = null;
+	hexFilterUpdate = function(force) {
+		var val = hexFilter.value;
+		if (!force && val == hexFilterValue) return;
+		hexFilterValue = val;
+		//
+		var words = val.split(" ");
+		var wordsOr = [];
+		var wordsAnd = [];
+		var wordsNot = [];
+		for (var i = 0; i < words.length; i++) {
+			var word = words[i];
+			if (!word) continue;
+			word = word.toLowerCase();
+			if (word.charAt(0) == "-") {
+				wordsNot.push(word.substr(1));
+			} else if (word.charAt(0) == "+") {
+				wordsAnd.push(word.substr(1));
+			} else {
+				var wordParts = word.split("+");
+				wordsOr.push(wordParts[0]);
+				for (var k = 1; k < wordParts.length; k++) {
+					wordsAnd.push(wordParts[k]);
+				}
+			}
+		}
+		var cssLines = ['.hex ' + cssInactive];
+		for (var i = 0; i < wordsOr.length; i++) {
+			var cssLine = '.hex[data-hex-text*="' + wordsOr[i] + '"]';
+			for (var k = 0; k < wordsAnd.length; k++) {
+				cssLine += '[data-hex-text*="' + wordsAnd[k] + '"]';
+			}
+			for (var k = 0; k < wordsNot.length; k++) {
+				cssLine += ':not([data-hex-text*="' + wordsNot[k] + '"])';
+			}
+			cssLine += cssActive;
+			cssLines.push(cssLine);
+		}
+		style.innerHTML = cssLines.join("\n");
+	}
+	hexFilter.addEventListener("focus", hexFilterUpdate);
+	hexFilter.addEventListener("keydown", hexFilterUpdate);
+	hexFilter.addEventListener("keyup", hexFilterUpdate);
+	hexFilter.addEventListener("blur", function() {
+		style.innerHTML = "";
+		hexFilterValue = null;
+	});
+
+	})();
+	var _gaq = _gaq||[];_gaq.push(['_setAccount','UA-36439133-1']);_gaq.push(['_trackPageview']);
+	</script>
+	<script type="text/javascript" async="true" src="https://www.google-analytics.com/ga.js"></script>
+</body>
+</html>
