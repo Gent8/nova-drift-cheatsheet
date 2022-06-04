@@ -2,9 +2,12 @@
 !/base-full/blank
 /base-mini/*
 !/base-mini/blank
-/bin/*.n
+/docs/*.n
 *.min.css
-/bin/localization.csv
-/bin/index.html
-/bin/hex.png
-/bin/script.js
+/docs/localization.csv
+/docs/index.html
+/docs/hex.png
+/docs/script.js
+*.code-workspace
+/.vscode
+*.n

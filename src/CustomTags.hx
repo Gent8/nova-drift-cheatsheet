@@ -8,12 +8,12 @@ import haxe.DynamicAccess;
 class CustomTags {
 	public static function getModsByTag():DynamicAccess<Array<String>> {
 		return {
-			"global damage": [
+			"全般ダメージ": [
 				Mod.KineticBoost, Mod.AdrenalModule,
 				Mod.Slipstream, Mod.Rampage, Mod.Masochism,
 				Mod.HiddenPower, Mod.LeafOnTheWind, Mod.Ataraxia,
 			],
-			"ignite": [
+			"発火": [
 				Mod.ThermalLance, Mod.Vortex, Mod.Dart,
 				Mod.Firefly, Mod.Viper,
 				Mod.Halo, Mod.Helix,
@@ -22,7 +22,7 @@ class CustomTags {
 				Mod.ScorchingWake,
 				Mod.DyingStar, Mod.BurnoutReactors,
 			],
-			"burn": [
+			"燃焼ダメージ": [
 				Mod.ThermalLance, Mod.Vortex, Mod.Dart,
 				Mod.Firefly, Mod.Viper,
 				Mod.Halo, Mod.Helix,
@@ -31,7 +31,7 @@ class CustomTags {
 				Mod.DyingStar, Mod.BurnoutReactors, Mod.CelestialSurge,
 			],
 			// corrections:
-			"rate of fire": [Mod.Warpath, Mod.SiegeWeaponry],
+			"総発射速度": [Mod.Warpath, Mod.SiegeWeaponry],
 		}
 	}
 	public static function getTagsByMod():DynamicAccess<Array<String>> {
@@ -43,9 +43,9 @@ class CustomTags {
 	}
 }
 enum abstract Tag(String) from String to String {
-	var Shield = "shield";
-	var RateOfFire = "rate of fire";
-	var Hull = "hull";
-	var GlobalDamage = "global damage";
-	var CrashDamage = "crash damage";
+	var Shield = "シールド";
+	var RateOfFire = "発射速度";
+	var Hull = "ボディ固有能力";
+	var GlobalDamage = "全般ダメージ";
+	var CrashDamage = "衝突ダメージ";
 }

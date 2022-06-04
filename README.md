@@ -1,5 +1,5 @@
 ## What this is
-It's an interactive cheat sheet for Nova Drift.
+It's an [interactive cheat sheet for Nova Drift](https://alicemetic.github.io/nova-drift-cheatsheet/).
 
 
 ## Initial setup for build
@@ -8,19 +8,18 @@ haxelib install csv
 ```
 
 ## Building
-Copy `localization.csv` from Nova Drift directory to `bin/`
+Copy `japanese.csv` from Nova Drift directory to `docs/` and rename it to `localization.csv`.
 
 Do
 ```
-haxe -lib csv -cp src -neko bin/gen.n -main Main
-cd bin
-neko gen.n
+haxe -lib csv -cp src -neko docs/gen.n -main Main
+neko docs/gen.n
 ```
 which generates `index.html`.
 
 And
 ```
-haxe -cp src -js bin/script.js -main WebMain
+haxe -cp src -js docs/script.js -main WebMain
 ```
 which generates `script.js`
 
@@ -29,16 +28,14 @@ which generates `script.js`
 
 2. Copy all textures starting with sHex to `base-full/`.
 
-3. Run `preproc.bat` to remove extra textures.
-
-4. Generate lower-resolution textures using ImageMagick:
+3. Generate lower-resolution textures using ImageMagick:
 ```
-for %v in (base-full\*.png) do @magick %v -resize 64x64^ base-mini\%~nxv
+for %v in (base-full\*.png) do @magick %v -resize 48x48^ base-mini\%~nxv
 ```
 
-5. Generate texture atlas and texture CSS using [free web variant of TexturePacker](https://www.codeandweb.com/free-sprite-sheet-packer) (set "Data format" to "CSS", set "Sprite prefix" to "hex").
+4. Generate texture atlas and texture CSS using [free web variant of TexturePacker](https://www.codeandweb.com/free-sprite-sheet-packer) (set "Data format" to "CSS", set "Sprite prefix" to "hex").
 
-6. Find-replace with regex in generated CSS file:
+5. Find-replace with regex in generated CSS file:
 ```
 -sHex(\w+?)(?:_0)?\b
 ```
@@ -47,13 +44,10 @@ to
 .$1
 ```
 
-7. Replace `url(spritesheet.png)` with `url(hex.jpg)` in generated CSS file.
-
-8. Convert the PNG spritesheet to JPEG. Background color doesn't matter since we're using clipping anyway.
+6. Replace `url(spritesheet.png)` with `url(hex.png)` in generated CSS file.
 
 ## [Re-]building module hint file
 ```
-haxe -lib csv -cp src -neko bin/modgen.n -main ModGen
-cd bin
-neko modgen.n
+haxe -lib csv -cp src -neko docs/modgen.n -main ModGen
+neko docs/modgen.n
 ```

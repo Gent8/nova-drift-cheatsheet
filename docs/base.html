@@ -1,38 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-	
+
 	<meta property="og:type" content="article" />
-	<meta property="og:locale" content="en_us" />
-	<meta property="og:site_name" content="YellowAfterlife" />
+	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:site_name" content="Nova Drift cheatsheet" />
 	<meta property="og:title" content="Nova Drift cheatsheet" />
-	<meta property="og:url" content="https://yal.cc/game-tools/nova-drift/" />
-	<meta property="twitter:url" content="https://yal.cc/game-tools/nova-drift/" />
-	<meta property="og:description" content="A quick reference on the game's gear and mods" />
-	<meta property="twitter:description" content="A quick reference on the game's gear and mods" />
+	<meta property="og:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+	<meta property="twitter:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+	<meta property="og:description" content="Nova Drift ビルド共有ツール" />
+	<meta property="twitter:description" content="Nova Drift ビルド共有ツール" />
 	<meta property="twitter:card" content="summary_large_image" />
-		<meta property="og:image" content="https://yal.cc/game-tools/nova-drift/og.jpg" />
+	<meta property="og:image" content="og.png" />
 	<meta property="og:image:width" content="1024" />
 	<meta property="og:image:height" content="600" />
-	<meta property="twitter:image" content="https://yal.cc/game-tools/nova-drift/og.jpg" />
+	<meta property="twitter:image" content="og.png" />
 	<meta property="twitter:image:width" content="1024" />
 	<meta property="twitter:image:height" content="600" />
-	
+
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
+
 	<meta charset="utf-8"/>
-	<link rel="stylesheet" href="hex.css?v=2020-09-29"/>
-	<link rel="stylesheet" href="style.css?v=2020-09-08-2"/>
+	<link rel="stylesheet" href="hex.css?v=2022-06-02"/>
+	<link rel="stylesheet" href="style.css?v=2022-06-02"/>
 	<title>Nova Drift Cheatsheet</title>
 </head>
 <body>
 	<style id="match-style"></style>
 	<article id="intro">
-		Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!<br/>
-		Special thanks to Silical#8156 and Jim-bot#0237 for helping with tags.<br/>
-		Last updated on 2020-09-08.<br/>
-		<a href="https://github.com/YAL-Game-Tools/nova-drift-cheatsheet">Written</a> in
-		<a href="http://haxe.org/">Haxe</a>,
-		uses <a href="https://atomiks.github.io/tippyjs/">Tippy</a>.<br/>
-		Also check out my <a href="https://yellowafterlife.itch.io/nova-drift-tweaks">Visual Clarity</a> mod.<br/>
+		<a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートの日本語版です。<br/>
+		最終更新日： <!--lastupdate--><br/>
 		<br/>
 		<noscript><style>
 		#js-controls {
@@ -40,32 +37,28 @@
 		}
 		</style>Some additional options are only available with JavaScript enabled.</noscript>
 		<section id="js-controls">
-			Active brightness: <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-			Inactive brightness: <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
-			<input type="button" value="Reset selection" id="reset-selection" />
-			<input type="button" value="Copy link" id="copy-link" title="So that you can showcase a build or save it for later" />
-			Selected: <span id="hex-select-count">0</span>
+			選択中項目の明るさ <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
+			非選択項目の明るさ <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
+			<input type="button" value="リセット" id="reset-selection" />
+			<input type="button" value="リンクのコピー" id="copy-link" title="ビルドの保存や共有に使用できます" />
+			選択中： <span id="hex-select-count">0</span>
 		</section>
-		<br/>
 	</article>
 	<section id="mods">
-		<header>Weapons:</header>
+		<header>武器</header>
 		<section><!--weapons--></section>
-		<header>Bodies:</header>
+		<header>ボディ</header>
 		<section><!--bodies--></section>
-		<header>Shields:</header>
+		<header>シールド</header>
 		<section><!--shields--></section>
-		<header>Mod Trees:</header>
+		<header>MOD</header>
 		<section><!--branches--></section>
-		<header>Tags<noscript> (JavaScript required)</noscript>:</header>
-		<section class="pad"><!--tags--></section>
-		<section class="pad"><input type="text" id="hex-filter" placeholder="Filter by description" title="`one+two` to require both, `one -two` to exclude results containing `two`" /></section>
-		<header>Super Mods:</header>
+		<header>スーパーMOD</header>
 		<section><!--supers--></section>
-		<header>Common Wild Mods:</header>
+		<header>不可測MOD</header>
 		<section><!--wildCommon--></section>
-		<header>Rare Wild Mods:</header>
 		<section><!--wildRare--></section>
+		<section><!--wildUltraRare--></section>
 	</section>
 	<script src="https://unpkg.com/@popperjs/core@2"></script>
 	<script src="https://unpkg.com/tippy.js@6"></script>
@@ -285,7 +278,7 @@
 		style.innerHTML = "";
 		hexFilterValue = null;
 	});
-	
+
 	})();
 	var _gaq = _gaq||[];_gaq.push(['_setAccount','UA-36439133-1']);_gaq.push(['_trackPageview']);
 	</script>

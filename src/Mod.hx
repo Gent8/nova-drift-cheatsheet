@@ -25,6 +25,7 @@ enum abstract Mod(String) to String {
 	var BlastRadius;
 	var Blink;
 	var Blitz;
+	var Border;
 	var Bravado;
 	var Breach;
 	var BurnoutReactors;
@@ -54,6 +55,7 @@ enum abstract Mod(String) to String {
 	var DefaultWeapon;
 	var DefenseDrone;
 	var Defiance;
+	var Deflagration;
 	var Discharge;
 	var Discord;
 	var Displacement;
@@ -72,6 +74,8 @@ enum abstract Mod(String) to String {
 	var Evasion;
 	var Evolution;
 	var EvolutionaryNiche;
+	var ExplosiveGrowth;
+	var Farsight;
 	var Firefly;
 	var FiringArray;
 	var Flak;
@@ -101,7 +105,6 @@ enum abstract Mod(String) to String {
 	var Hypermetabolism;
 	var ImprovedThrusters;
 	var IntegratedWeaponry;
-	var Interceptor;
 	var Juggernaut;
 	var KineticBoost;
 	var Lance;
@@ -109,9 +112,12 @@ enum abstract Mod(String) to String {
 	var LeafOnTheWind;
 	var Leviathan;
 	var LoadedMines;
+	var LockedGrey;
+	var Locked;
 	var Maelstrom;
 	var Magnetism;
 	var Magnitude;
+	var Mask;
 	var Masochism;
 	var Mastery;
 	var Max;
@@ -173,7 +179,6 @@ enum abstract Mod(String) to String {
 	var Shockwave;
 	var SiegeWeaponry;
 	var SingularStrikeNew;
-	var SingularStrike;
 	var Siphon;
 	var Skirmish;
 	var Slipstream;

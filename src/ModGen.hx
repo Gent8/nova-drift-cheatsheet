@@ -7,7 +7,7 @@ import sys.io.File;
  */
 class ModGen {
 	public static function main() {
-		var css = File.getContent("hex.css");
+		var css = File.getContent("docs/hex.css");
 		var b = new StringBuf();
 		b.add("enum abstract Mod(String) to String {");
 		~/\.hex\.(\w+) {/g.map(css, function(rx:EReg) {
@@ -17,6 +17,6 @@ class ModGen {
 			return rx.matched(0);
 		});
 		b.add("\r\n}\r\n");
-		File.saveContent("../src/Mod.hx", b.toString());
+		File.saveContent("src/Mod.hx", b.toString());
 	}
 }
