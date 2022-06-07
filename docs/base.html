@@ -45,13 +45,26 @@
 		}
 		</style>Some additional options are only available with JavaScript enabled.</noscript>
 		<section id="js-controls">
-			<span class="content-en">Active brightness:</span>
-			<span class="content-ja">選択中項目の明るさ</span>
-			<input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-
-			<span class="content-en">Inactive brightness:</span>
-			<span class="content-ja">非選択項目の明るさ</span>
-			<input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
+			<table>
+				<tr style="text-align:end;">
+					<td>
+						<span style="text-align:end;" class="content-en">Active brightness:</span>
+						<span style="text-align:end;" class="content-ja">選択中項目の明るさ:</span>
+					</td>
+					<td>
+						<input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="content-en">Inactive brightness:</span>
+						<span class="content-ja">非選択項目の明るさ:</span>
+					</td>
+					<td>
+						<input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
+					</td>
+				</tr>
+			</table>
 
 			<input type="button" value="Reset" id="reset-selection" />
 			<input type="button" value="Copy Link" id="copy-link" title="Share or Save your build with URL!" />
