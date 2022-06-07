@@ -355,12 +355,17 @@ class Main {
 	static function main()
 	{
 		var html = File.getContent("docs/base.html");
+		var hexStat:sys.FileStat = sys.FileSystem.stat("docs/hex.css");
+		var styleStat:sys.FileStat = sys.FileSystem.stat("docs/style.css");
+
+		html = StringTools.replace(html, "<!--lastupdate-->", DateTools.format(Date.now(), "%Y-%m-%d").toString());
+		html = StringTools.replace(html, "<!--lastupdateHex-->", DateTools.format(hexStat.mtime, "%Y%m%d_%H%M%S").toString());
+		html = StringTools.replace(html, "<!--lastupdateStyle-->", DateTools.format(styleStat.mtime, "%Y%m%d_%H%M%S").toString());
 
 		// English
 		var csv = Reader.parseCsv(File.getContent("docs/localization.csv"));
 		loc = new Map();
 		for (row in csv) loc[row[0]] = row[1];
-		html = StringTools.replace(html, "<!--lastupdate-->", DateTools.format(Date.now(), "%Y-%m-%d").toString());
 		html = StringTools.replace(html, "<!--branches-->", genBranches());
 		Sys.println("[EN] Branch");
 		html = StringTools.replace(html, "<!--supers-->", genSupers());
