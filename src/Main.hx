@@ -209,11 +209,11 @@ class Main {
 		}
 		function addText(sup:Mod, textEN:String, textJA:String) {
 			b.add('<section class="super-text">');
-			b.add('<div class="text"><span class="content-en">$textEN</span><span class="content-ja">$textJA</span></div>');
+			b.add('<div class="text content-en">$textEN</div><div class="text content-ja">$textJA</div>');
 			addTile(b, sup);
 			b.add("</section>\n");
 		}
-		addText(Mod.HiddenPower,"4x Secondary Damage", "4x 副次ダメージ源");
+		addText(Mod.HiddenPower,'4x<br/>Secondary Damage', '4x<br/>副次ダメージ源');
 		addPair(Mod.VitalBond, Mod.Max, Mod.RapidReconstruction);
 		addPair(Mod.TempestBreak, Mod.DeadlyWake, Mod.FlashShielding);
 		addPair(Mod.SaturationFire, Mod.Calibrate, Mod.SiegeWeaponry);
@@ -227,15 +227,15 @@ class Main {
 		addPair(Mod.DyingStar, Mod.Candescence, Mod.CoreShielding);
 		addPair(Mod.WarpStrike, Mod.Snipe, Mod.Blink);
 		addPair(Mod.BurnoutReactors, Mod.SelfDestruction, Mod.Candescence);
-		addText(Mod.LastStand, "10x Shield/Body Mods", "10x 防御MOD");
+		addText(Mod.LastStand, '10x<br/>Shield/Body Mods', '10x<br/>防御MOD');
 		addPair(Mod.Barrage, Mod.FocusFire, Mod.BurstFire);
 		addPair(Mod.Displacement, Mod.Blink, Mod.Strafe);
 		addPair(Mod.LeafOnTheWind, Mod.Streamline, Mod.Warpath);
 		addPair(Mod.SingularStrikeNew, Mod.Payload, Mod.Juggernaut);
 		addPair(Mod.Deflagration, Mod.Rupture, Mod.Purge);
-		addText(Mod.Mastery, "10x Weapon Mods", "10x 武器MOD");
+		addText(Mod.Mastery, '10x<br/>Weapon Mods', '10x<br/>武器MOD');
 		addPair(Mod.Apotheosis, Mod.KineticBoost, Mod.Strafe);
-		addText(Mod.Ataraxia, "4x Unspent Upgrades", "4x 未使用アップグレード");
+		addText(Mod.Ataraxia, '4x<br/>Unspent Upgrades', '4x<br/>未使用アップグレード');
 		return b.toString();
 	}
 
