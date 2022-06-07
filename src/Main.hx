@@ -88,6 +88,9 @@ class Main {
 		} else {
 			if (mod == Mod.ShieldRadius) {
 				title = loc["ModTitleShieldEffectRadius"];
+				if (title.endsWith(":")) {
+					title = title.substr(0, title.length - 1);
+				}
 			} else {
 				if (name == mod)
 					trace("404 " + name);
@@ -204,13 +207,13 @@ class Main {
 			addTile(b, sup);
 			b.add("</section>\n");
 		}
-		function addText(sup:Mod, text:String) {
+		function addText(sup:Mod, textEN:String, textJA:String) {
 			b.add('<section class="super-text">');
-			b.add('<div class="text"><span>$text</span></div>');
+			b.add('<div class="text"><span class="content-en">$textEN</span><span class="content-ja">$textJA</span></div>');
 			addTile(b, sup);
 			b.add("</section>\n");
 		}
-		addText(Mod.HiddenPower, "副次ダメージ源 *4");
+		addText(Mod.HiddenPower,"4x Secondary Damage", "4x 副次ダメージ源");
 		addPair(Mod.VitalBond, Mod.Max, Mod.RapidReconstruction);
 		addPair(Mod.TempestBreak, Mod.DeadlyWake, Mod.FlashShielding);
 		addPair(Mod.SaturationFire, Mod.Calibrate, Mod.SiegeWeaponry);
@@ -224,15 +227,15 @@ class Main {
 		addPair(Mod.DyingStar, Mod.Candescence, Mod.CoreShielding);
 		addPair(Mod.WarpStrike, Mod.Snipe, Mod.Blink);
 		addPair(Mod.BurnoutReactors, Mod.SelfDestruction, Mod.Candescence);
-		addText(Mod.LastStand, "防御MOD *10");
+		addText(Mod.LastStand, "10x Shield/Body Mods", "10x 防御MOD");
 		addPair(Mod.Barrage, Mod.FocusFire, Mod.BurstFire);
 		addPair(Mod.Displacement, Mod.Blink, Mod.Strafe);
 		addPair(Mod.LeafOnTheWind, Mod.Streamline, Mod.Warpath);
 		addPair(Mod.SingularStrikeNew, Mod.Payload, Mod.Juggernaut);
 		addPair(Mod.Deflagration, Mod.Rupture, Mod.Purge);
-		addText(Mod.Mastery, "武器MOD *10");
+		addText(Mod.Mastery, "10x Weapon Mods", "10x 武器MOD");
 		addPair(Mod.Apotheosis, Mod.KineticBoost, Mod.Strafe);
-		addText(Mod.Ataraxia, "未使用アップグレード *4");
+		addText(Mod.Ataraxia, "4x Unspent Upgrades", "4x 未使用アップグレード");
 		return b.toString();
 	}
 
@@ -349,94 +352,56 @@ class Main {
 		return b.toString();
 	}
 
-	static function loadTags() {
-		//
-		var autoJson:DynamicAccess<Array<String>> = Json.parse(File.getContent("docs/tags.json"));
-		for (key in [
-			"mods",
-			"super mods",
-			"wild mods",
-			"weapons",
-			"ships",
-			"shields",
-			"construct",
-			"charge",
-		])
-			autoJson.remove(key);
-		//
-		for (json in [autoJson, CustomTags.getModsByTag()]) {
-			for (tag => mods in json) {
-				for (mod in mods) {
-					mod = mod.toLowerCase();
-					var arr = tagsPerModInit[mod];
-					if (arr == null)
-						tagsPerModInit[mod] = arr = [];
-					arr.push(tag);
-				}
-			}
-		}
-		for (json in [CustomTags.getTagsByMod()]) {
-			for (mod => tags in json) {
-				mod = mod.toLowerCase();
-				for (tag in tags) {
-					var arr = tagsPerModInit[mod];
-					if (arr == null)
-						tagsPerModInit[mod] = arr = [];
-					arr.push(tag);
-				}
-			}
-		}
-		//
-		// dumpTags(tagsPerModInit, "tags-init.json");
-	}
+	static function main()
+	{
+		var html = File.getContent("docs/base.html");
 
-	static function dumpTags<T:String>(tags:Map<T, Array<String>>, path:String) {
-		var dump = new StringBuf();
-		dump.add("{");
-		var modNames:Array<T> = [for (key in tags.keys()) key];
-		modNames.sort((a, b) -> a > b ? 1 : -1);
-		var sep = false;
-		for (key in modNames) {
-			if (sep)
-				dump.add(",");
-			else
-				sep = true;
-			dump.add("\r\n\t" + Json.stringify(key) + ": " + Json.stringify(tags[key]));
-		}
-		dump.add("\r\n}\r\n");
-		File.saveContent(path, dump.toString());
-	}
-
-	static function genTags() {
-		var b = new StringBuf();
-		tagList.sort((a, b) -> a > b ? 1 : -1);
-		for (tag in tagList)
-			b.add('<span class="hextag" data-hex-tag="$tag">$tag</span>');
-		return b.toString();
-	}
-
-	static function main() {
-		// ModGen.main();
+		// English
 		var csv = Reader.parseCsv(File.getContent("docs/localization.csv"));
 		loc = new Map();
-		for (row in csv)
-			loc[row[0]] = row[1];
-		//
-		// loadTags();
-		var html = File.getContent("docs/base.html");
+		for (row in csv) loc[row[0]] = row[1];
 		html = StringTools.replace(html, "<!--lastupdate-->", DateTools.format(Date.now(), "%Y-%m-%d").toString());
 		html = StringTools.replace(html, "<!--branches-->", genBranches());
+		Sys.println("[EN] Branch");
 		html = StringTools.replace(html, "<!--supers-->", genSupers());
+		Sys.println("[EN] Super");
 		html = StringTools.replace(html, "<!--wildCommon-->", wildCommon());
+		Sys.println("[EN] Wild Normal");
 		html = StringTools.replace(html, "<!--wildRare-->", wildRare());
+		Sys.println("[EN] Wild Rare");
 		html = StringTools.replace(html, "<!--wildUltraRare-->", wildUltraRare());
+		Sys.println("[EN] Wild Ultra");
 		html = StringTools.replace(html, "<!--weapons-->", weapons());
+		Sys.println("[EN] Weapon");
 		html = StringTools.replace(html, "<!--bodies-->", bodies());
+		Sys.println("[EN] Body");
 		html = StringTools.replace(html, "<!--shields-->", genShields());
-		// html = StringTools.replace(html, "<!--tags-->", genTags());
+		Sys.println("[EN] Shield");
+
+		// Japanese
+		csv = Reader.parseCsv(File.getContent("docs/Japanese.csv"));
+		loc = new Map();
+		for (row in csv) loc[row[0]] = row[1];
+		html = StringTools.replace(html, "<!--branchesJP-->", genBranches());
+		Sys.println("[JP] Branch");
+		html = StringTools.replace(html, "<!--supersJP-->", genSupers());
+		Sys.println("[JP] Super");
+		html = StringTools.replace(html, "<!--wildCommonJP-->", wildCommon());
+		Sys.println("[JP] Wild Normal");
+		html = StringTools.replace(html, "<!--wildRareJP-->", wildRare());
+		Sys.println("[JP] Wild Rare");
+		html = StringTools.replace(html, "<!--wildUltraRareJP-->", wildUltraRare());
+		Sys.println("[JP] Wild Ultra");
+		html = StringTools.replace(html, "<!--weaponsJP-->", weapons());
+		Sys.println("[JP] Weapon");
+		html = StringTools.replace(html, "<!--bodiesJP-->", bodies());
+		Sys.println("[JP] Body");
+		html = StringTools.replace(html, "<!--shieldsJP-->", genShields());
+		Sys.println("[JP] Shield");
+
 		html = StringTools.replace(html, "[[shorten_data]]", ModShortNames.print());
-		// dumpTags(tagsPerMod, "tags-final.json");
+
 		File.saveContent("docs/index.html", html);
-		Sys.println("All good!");
+		Sys.println("All Done!");
 	}
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
 
 	<meta property="og:type" content="article" />
@@ -28,44 +28,72 @@
 <body>
 	<style id="match-style"></style>
 	<article id="intro">
-		<a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートの日本語版です。<br/>
-		最終更新日： <!--lastupdate--><br/>
-		<br/>
+		<div>
+			<span class="langswitch">
+				<input type="button" value="English" id="langswitch-en" />
+				<input type="button" value="Japanese" id="langswitch-ja"/>
+			</span>
+			<span class="content-en">Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!</span>
+			<span class="content-ja"><a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートです。</span>
+		</div>
+		<div class="content-en">Last Update: <!--lastupdate--></div>
+		<div class="content-ja">最終更新: <!--lastupdate--></div>
+		<br>
 		<noscript><style>
 		#js-controls {
 			display: none;
 		}
 		</style>Some additional options are only available with JavaScript enabled.</noscript>
 		<section id="js-controls">
-			選択中項目の明るさ <input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-			非選択項目の明るさ <input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
-			<input type="button" value="リセット" id="reset-selection" />
-			<input type="button" value="リンクのコピー" id="copy-link" title="ビルドの保存や共有に使用できます" />
-			選択中： <span id="hex-select-count">0</span>
+			<span class="content-en">Active brightness:</span>
+			<span class="content-ja">選択中項目の明るさ</span>
+			<input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
+
+			<span class="content-en">Inactive brightness:</span>
+			<span class="content-ja">非選択項目の明るさ</span>
+			<input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
+
+			<input type="button" value="Reset" id="reset-selection" />
+			<input type="button" value="Copy Link" id="copy-link" title="Share or Save your build with URL!" />
+			Count: <span id="hex-select-count">0</span>
 		</section>
 	</article>
 	<section id="mods">
-		<header>武器</header>
-		<section><!--weapons--></section>
-		<header>ボディ</header>
-		<section><!--bodies--></section>
-		<header>シールド</header>
-		<section><!--shields--></section>
-		<header>MOD</header>
-		<section><!--branches--></section>
-		<header>スーパーMOD</header>
-		<section><!--supers--></section>
-		<header>不可測MOD</header>
-		<section><!--wildCommon--></section>
-		<section><!--wildRare--></section>
-		<section><!--wildUltraRare--></section>
+		<header class="content-en">Weapons</header>
+		<header class="content-ja">武器</header>
+		<section class="content-en"><!--weapons--></section>
+		<section class="content-ja"><!--weaponsJP--></section>
+		<header class="content-en">Bodies</header>
+		<header class="content-ja">ボディ</header>
+		<section class="content-en"><!--bodies--></section>
+		<section class="content-ja"><!--bodiesJP--></section>
+		<header class="content-en">Shields</header>
+		<header class="content-ja">シールド</header>
+		<section class="content-en"><!--shields--></section>
+		<section class="content-ja"><!--shieldsJP--></section>
+		<header class="content-en">Mod Trees</header>
+		<header class="content-ja">通常MOD</header>
+		<section class="content-en"><!--branches--></section>
+		<section class="content-ja"><!--branchesJP--></section>
+		<header class="content-en">Super Mods</header>
+		<header class="content-ja">スーパーMOD</header>
+		<section class="content-en"><!--supers--></section>
+		<section class="content-ja"><!--supersJP--></section>
+		<header class="content-en">Wild Mods</header>
+		<header class="content-ja">不可測MOD</header>
+		<section class="content-en"><!--wildCommon--></section>
+		<section class="content-en"><!--wildRare--></section>
+		<section class="content-en"><!--wildUltraRare--></section>
+		<section class="content-ja"><!--wildCommonJP--></section>
+		<section class="content-ja"><!--wildRareJP--></section>
+		<section class="content-ja"><!--wildUltraRareJP--></section>
 	</section>
 	<script src="https://unpkg.com/@popperjs/core@2"></script>
 	<script src="https://unpkg.com/tippy.js@6"></script>
 	<script src="script.js"></script>
 	<script>(function() {
 	var style = document.getElementById("match-style");
-	//
+
 	var cssActive = " { filter: brightness(125%) }";
 	var activeSlider = document.getElementById("active-brightness");
 	var keyActive = "nova-drift-sheet:active-brightness";
@@ -80,7 +108,7 @@
 		activeSlider.value = 0|localStorage.getItem(keyActive);
 		syncActiveBrightness();
 	}
-	//
+
 	var cssInactive = " { filter: brightness(50%) }";
 	var inactiveSlider = document.getElementById("inactive-brightness");
 	var keyInactive = "nova-drift-sheet:inactive-brightness";
@@ -95,28 +123,53 @@
 		inactiveSlider.value = 0|localStorage.getItem(keyInactive);
 		syncInactiveBrightness();
 	}
-	//
+
 	function onModEnter(e) {
 		var hex = e.target;
 		var name = hex.getAttribute("data-hex-name");
 		if (!name) return;
 		var css = [];
-		if (!hex.parentElement.classList.contains("single")) {
-			css.push(".hex:not(." + name + ")" + cssInactive);
-			css.push(".hex." + name + cssActive);
-		}
-		var tags = hex.getAttribute("data-hex-tags");
-		if (tags != null) {
-			tags = tags.split(";");
-			for (var i = 0; i < tags.length; i++) {
-				var tag = tags[i];
-				if (!tag) continue;
-				css.push('.hextag[data-hex-tag="' + tag + '"] { color: black; background: white; }');
-			}
-		}
+		// if (!hex.parentElement.classList.contains("single")) {
+		css.push(".hex:not(." + name + ")" + cssInactive);
+		css.push(".hex." + name + cssActive);
+		// }
 		style.innerHTML = css.join("\n");
 	}
-	//
+
+	function onMaxEnter(e) {
+		var hex = e.target;
+		var name = hex.getAttribute("data-hex-name");
+		var constructMax = 	[ "Retribution",
+							  "Fleet",
+							  "Flotilla",
+							  "CounterArtillery",
+							  "MediCharge",
+							  "Overpower",
+							  "Overseer",
+							  "SupportSpecialist",
+							  "Max"
+							];
+		if (!name) return;
+
+		var css = [];
+		var inactiveList = ".hex";
+		var activeList = "";
+
+		for( var i = 0; i < constructMax.length; i++ )
+		{
+			inactiveList = inactiveList + ":not(." + constructMax[i] + ")";
+			if(i == 0)
+				activeList = activeList + ".hex." + constructMax[i];
+			else
+				activeList = activeList + ",.hex." + constructMax[i];
+		}
+
+		css.push(inactiveList + cssInactive);
+		css.push(activeList + cssActive);
+
+		style.innerHTML = css.join("\n");
+	}
+
 	var modShorten = Object.create(null);
 	var modLongen = Object.create(null);
 	var modSlPairs = "[[shorten_data]]".split(";");
@@ -128,7 +181,7 @@
 		modShorten[lg] = sh;
 		modLongen[sh] = lg;
 	}
-	//
+
 	var hexFilter = document.getElementById("hex-filter");
 	var hexCheckCount = 0;
 	var hexCheckCountSpan = document.getElementById("hex-select-count");
@@ -166,6 +219,16 @@
 		if (arr.length > 0) href += "?mods=" + arr.join("+");
 		prompt("Copy your link:", href);
 	});
+
+	document.getElementById("langswitch-ja").addEventListener("click", function(_)
+	{
+		document.getElementsByTagName('html')[0].className = "ja";
+	});
+
+	document.getElementById("langswitch-en").addEventListener("click", function(_)
+	{
+		document.getElementsByTagName('html')[0].className = "en";
+	});
 	function onHexToggle(e) {
 		var hex = e.target;
 		var els = document.querySelectorAll(".hex." + hex.getAttribute("data-hex-name"));
@@ -186,11 +249,15 @@
 			hex.setAttribute("data-hex-name", hex.classList[k]);
 			break;
 		}
-		hex.addEventListener("mouseenter", onModEnter);
+		if( hex.classList[k] == "Max" )
+			hex.addEventListener("mouseenter", onMaxEnter);
+		else
+			hex.addEventListener("mouseenter", onModEnter);
+
 		hex.addEventListener("mouseleave", clearMatch);
 		hex.addEventListener("click", onHexToggle);
 	}
-	//
+
 	if (location.search.charAt(0) == "?") {
 		var args = location.search.substring(1).split("&");
 		for (var i = 0; i < args.length; i++) {
@@ -215,7 +282,7 @@
 			}
 		}
 	}
-	//
+
 	function onTagEnter(e) {
 		var tag = e.target;
 		var name = tag.innerText || tag.textContent;
@@ -230,13 +297,13 @@
 		tag.addEventListener("mouseenter", onTagEnter);
 		tag.addEventListener("mouseleave", clearMatch);
 	}
-	//
+
 	var hexFilterValue = null;
 	hexFilterUpdate = function(force) {
 		var val = hexFilter.value;
 		if (!force && val == hexFilterValue) return;
 		hexFilterValue = val;
-		//
+
 		var words = val.split(" ");
 		var wordsOr = [];
 		var wordsAnd = [];
@@ -281,6 +348,32 @@
 
 	})();
 	var _gaq = _gaq||[];_gaq.push(['_setAccount','UA-36439133-1']);_gaq.push(['_trackPageview']);
+	</script>
+	<script>
+		function NavigatorGetLanguage()
+		{
+			var navigator_obj = window.navigator;
+			if(navigator_obj.language !== undefined)
+				return navigator_obj.language;
+			if(navigator_obj.browserLanguage !== undefined)
+				return navigator_obj.browserLanguage;
+			if(navigator_obj.userLanguage !== undefined)
+				return navigator_obj.userLanguage;
+			return "en";
+		}
+
+		var language = NavigatorGetLanguage();
+
+		// Currently supported: en, ja
+		if( (language == "en") ||
+		    (language == "ja") )
+		{
+			document.getElementsByTagName('html')[0].className = language;
+		}
+		else
+		{
+			document.getElementsByTagName('html')[0].className = "en";
+		}
 	</script>
 	<script type="text/javascript" async="true" src="https://www.google-analytics.com/ga.js"></script>
 </body>

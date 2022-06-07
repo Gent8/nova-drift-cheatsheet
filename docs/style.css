@@ -1,5 +1,5 @@
 body {
-    background: #212b49;
+    background: #0c111f;
 	color: white;
 	font: 12px sans-serif;
 }
@@ -73,6 +73,7 @@ section.super .hex:nth-child(3), section.super-text .hex {
 }
 section.super-text .text {
 	display: flex;
+	font-size: 80%;
 	width: 84px;
 	height: 36px;
 	text-align: center;
@@ -98,7 +99,7 @@ section.super-text .text {
 	display: inline-block;
 	margin-right: 0.3em;
 	padding: 0.4em 0.4em;
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(255, 255, 255, 0.3);
 	color: white;
 	border: 0;
 	opacity: 1;
@@ -134,4 +135,31 @@ input[type="text"] {
 input[type="range"] {
 	vertical-align: top;
 	width: 250px;
+}
+span.langswitch {
+	align-content: right;
+	float: right;
+}
+
+/* Multi-Lang switcher */
+.content-ja {
+	display: none;
+}
+.ja div.content-ja {
+	display: block;
+}
+.ja span.content-ja {
+	display: inline;
+}
+.ja .content-en {
+	display: none;
+}
+#mods .content-ja {
+	display: none;
+}
+.ja #mods .content-ja {
+	display: flex;
+}
+.ja #mods .content-en {
+	display: none;
 }
