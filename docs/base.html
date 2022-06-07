@@ -372,11 +372,12 @@
 		if( (language == "en") ||
 		    (language == "ja") )
 		{
-			document.getElementById("langswitch-" + language).className += "clicked"
+			document.getElementById("langswitch-" + language).className = "clicked"
 			document.getElementsByTagName('html')[0].className = language;
 		}
 		else
 		{
+			document.getElementById("langswitch-en").className = "clicked"
 			document.getElementsByTagName('html')[0].className = "en";
 		}
 	</script>

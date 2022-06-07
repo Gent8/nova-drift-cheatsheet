@@ -22,7 +22,7 @@
 
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="hex.css?v=20220606_205936"/>
-	<link rel="stylesheet" href="style.css?v=20220607_113847"/>
+	<link rel="stylesheet" href="style.css?v=20220607_114803"/>
 	<title>Nova Drift Cheatsheet</title>
 </head>
 <body>
@@ -1340,11 +1340,12 @@
 		if( (language == "en") ||
 		    (language == "ja") )
 		{
-			document.getElementById("langswitch-" + language).className += "clicked"
+			document.getElementById("langswitch-" + language).className = "clicked"
 			document.getElementsByTagName('html')[0].className = language;
 		}
 		else
 		{
+			document.getElementById("langswitch-en").className = "clicked"
 			document.getElementsByTagName('html')[0].className = "en";
 		}
 	</script>
