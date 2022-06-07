@@ -113,6 +113,10 @@ section.super-text .text {
 input[type="button"] {
 	cursor: pointer;
 }
+input[type="button"].clicked{
+	background: white;
+	color: black;
+}
 .hex {
 	display: flex;
 	flex-direction: column;

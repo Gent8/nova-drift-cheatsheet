@@ -22,7 +22,7 @@
 
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="hex.css?v=20220606_205936"/>
-	<link rel="stylesheet" href="style.css?v=20220607_105639"/>
+	<link rel="stylesheet" href="style.css?v=20220607_113847"/>
 	<title>Nova Drift Cheatsheet</title>
 </head>
 <body>
@@ -1190,11 +1190,15 @@
 
 	document.getElementById("langswitch-ja").addEventListener("click", function(_)
 	{
+		document.getElementById("langswitch-ja").className = "clicked"
+		document.getElementById("langswitch-en").className = ""
 		document.getElementsByTagName('html')[0].className = "ja";
 	});
 
 	document.getElementById("langswitch-en").addEventListener("click", function(_)
 	{
+		document.getElementById("langswitch-en").className = "clicked"
+		document.getElementById("langswitch-ja").className = ""
 		document.getElementsByTagName('html')[0].className = "en";
 	});
 	function onHexToggle(e) {
@@ -1336,6 +1340,7 @@
 		if( (language == "en") ||
 		    (language == "ja") )
 		{
+			document.getElementById("langswitch-" + language).className += "clicked"
 			document.getElementsByTagName('html')[0].className = language;
 		}
 		else
