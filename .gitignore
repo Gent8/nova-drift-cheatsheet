@@ -1,5 +1,6 @@
 *.code-workspace
 /.vscode
+.prettierrc
 
 /base-full/*
 !/base-full/blank

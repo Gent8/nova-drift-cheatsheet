@@ -1,108 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Nova Drift Cheatsheet</title>
-	<meta charset="utf-8"/>
-	<meta property="og:type" content="article" />
-	<meta property="og:locale" content="ja_JP" />
-	<meta property="og:site_name" content="Alicemetic's Lab" />
-	<meta property="og:title" content="Nova Drift Cheatsheet" />
-	<meta property="og:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
-	<meta property="twitter:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
-	<meta property="og:description" content="Save and share your build!" />
-	<meta property="twitter:description" content="Save and share your build!" />
-	<meta property="og:image" content="" />
-	<meta property="og:image:width" content="1024" />
-	<meta property="og:image:height" content="600" />
+    <head>
+        <title>Nova Drift Cheatsheet</title>
+        <meta charset="utf-8" />
+        <meta property="og:type" content="article" />
+        <meta property="og:locale" content="ja_JP" />
+        <meta property="og:site_name" content="Alicemetic's Lab" />
+        <meta property="og:title" content="Nova Drift Cheatsheet" />
+        <meta property="og:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+        <meta property="twitter:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+        <meta property="og:description" content="Save and share your build!" />
+        <meta property="twitter:description" content="Save and share your build!" />
+        <meta property="og:image" content="" />
+        <meta property="og:image:width" content="1024" />
+        <meta property="og:image:height" content="600" />
 
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@900&display=swap');
-	</style>
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@900&display=swap');
+        </style>
 
-	<link rel="stylesheet" href="hex.css?v=<!--lastupdateHex-->"/>
-	<link rel="stylesheet" href="style.css?v=<!--lastupdateStyle-->"/>
-</head>
+        <link rel="stylesheet" href="hex.css?v=<!--lastupdateHex-->" />
+        <link rel="stylesheet" href="style.css?v=<!--lastupdateStyle-->" />
+    </head>
 
-<body>
-	<style id="match-style"></style>
-	<article id="intro">
-		<div>
-			<span class="langswitch">
-				<input type="button" value="English" id="langswitch-en" />
-				<input type="button" value="Japanese" id="langswitch-ja"/>
-			</span>
-			<span class="content-en">Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!</span>
-			<span class="content-ja"><a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートです。</span>
-		</div>
-		<div class="content-en">Last Update: <!--lastupdate--></div>
-		<div class="content-ja">最終更新: <!--lastupdate--></div>
-		<br>
-		<noscript><style>
-		#js-controls {
-			display: none;
-		}
-		</style>Some additional options are only available with JavaScript enabled.</noscript>
-		<section id="js-controls">
-			<table>
-				<tr style="text-align:end;">
-					<td>
-						<span style="text-align:end;" class="content-en">Active brightness:</span>
-						<span style="text-align:end;" class="content-ja">選択中項目の明るさ:</span>
-					</td>
-					<td>
-						<input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="content-en">Inactive brightness:</span>
-						<span class="content-ja">非選択項目の明るさ:</span>
-					</td>
-					<td>
-						<input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
-					</td>
-				</tr>
-			</table>
+    <body>
+        <style id="match-style"></style>
+        <article id="intro">
+            <div>
+                <span class="langswitch">
+                    <input type="button" value="English" id="langswitch-en" />
+                    <input type="button" value="Japanese" id="langswitch-ja" />
+                </span>
+                <span class="content-en">Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!</span>
+                <span class="content-ja"><a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートです。</span>
+            </div>
+            <div class="content-en">
+                Last Update:
+                <!--lastupdate-->
+            </div>
+            <div class="content-ja">
+                最終更新:
+                <!--lastupdate-->
+            </div>
+            <br />
+            <section>
+                <table>
+                    <tr style="text-align: end">
+                        <td>
+                            <span style="text-align: end" class="content-en">Active brightness:</span>
+                            <span style="text-align: end" class="content-ja">選択中項目の明るさ:</span>
+                        </td>
+                        <td><input type="range" min="0" max="200" value="125" id="active-brightness" /><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="content-en">Inactive brightness:</span>
+                            <span class="content-ja">非選択項目の明るさ:</span>
+                        </td>
+                        <td><input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br /></td>
+                    </tr>
+                </table>
 
-			<input type="button" value="Reset" id="reset-selection" />
-			<input type="button" value="Copy Link" id="copy-link" title="Share or Save your build with URL!" />
-			Count: <span id="hex-select-count">0</span>
-		</section>
-	</article>
-	<section id="mods">
-		<header class="content-en">Weapons</header>
-		<header class="content-ja">武器</header>
-		<section class="content-en"><!--weapons--></section>
-		<section class="content-ja"><!--weaponsJP--></section>
-		<header class="content-en">Bodies</header>
-		<header class="content-ja">ボディ</header>
-		<section class="content-en"><!--bodies--></section>
-		<section class="content-ja"><!--bodiesJP--></section>
-		<header class="content-en">Shields</header>
-		<header class="content-ja">シールド</header>
-		<section class="content-en"><!--shields--></section>
-		<section class="content-ja"><!--shieldsJP--></section>
-		<header class="content-en">Mod Trees</header>
-		<header class="content-ja">通常MOD</header>
-		<section class="content-en"><!--branches--></section>
-		<section class="content-ja"><!--branchesJP--></section>
-		<header class="content-en">Super Mods</header>
-		<header class="content-ja">スーパーMOD</header>
-		<section class="content-en"><!--supers--></section>
-		<section class="content-ja"><!--supersJP--></section>
-		<header class="content-en">Wild Mods</header>
-		<header class="content-ja">不可測MOD</header>
-		<section class="content-en"><!--wildCommon--></section>
-		<section class="content-en"><!--wildRare--></section>
-		<section class="content-en"><!--wildUltraRare--></section>
-		<section class="content-ja"><!--wildCommonJP--></section>
-		<section class="content-ja"><!--wildRareJP--></section>
-		<section class="content-ja"><!--wildUltraRareJP--></section>
-	</section>
-	<script src="https://unpkg.com/@popperjs/core@2"></script>
-	<script src="https://unpkg.com/tippy.js@6"></script>
-	<script src="script.js?v=<!--lastupdateScript-->"></script>
-	<script src="main.js?v=<!--lastupdateMain-->"></script>
-</body>
+                <input type="button" value="Reset" id="reset-selection" />
+                <input type="button" value="Copy Link" id="copy-link" title="Share or Save your build with URL!" />
+                Count: <span id="hex-select-count">0</span>
+            </section>
+        </article>
+        <section id="mods">
+            <header class="content-en">Weapons</header>
+            <header class="content-ja">武器</header>
+            <section class="content-en"><!--weapons--></section>
+            <section class="content-ja"><!--weaponsJP--></section>
+            <header class="content-en">Bodies</header>
+            <header class="content-ja">ボディ</header>
+            <section class="content-en"><!--bodies--></section>
+            <section class="content-ja"><!--bodiesJP--></section>
+            <header class="content-en">Shields</header>
+            <header class="content-ja">シールド</header>
+            <section class="content-en"><!--shields--></section>
+            <section class="content-ja"><!--shieldsJP--></section>
+            <header class="content-en">Mod Trees</header>
+            <header class="content-ja">通常MOD</header>
+            <section class="content-en"><!--branches--></section>
+            <section class="content-ja"><!--branchesJP--></section>
+            <header class="content-en">Super Mods</header>
+            <header class="content-ja">スーパーMOD</header>
+            <section class="content-en"><!--supers--></section>
+            <section class="content-ja"><!--supersJP--></section>
+            <header class="content-en">Wild Mods</header>
+            <header class="content-ja">不可測MOD</header>
+            <section class="content-en"><!--wildCommon--></section>
+            <section class="content-en"><!--wildRare--></section>
+            <section class="content-en"><!--wildUltraRare--></section>
+            <section class="content-ja"><!--wildCommonJP--></section>
+            <section class="content-ja"><!--wildRareJP--></section>
+            <section class="content-ja"><!--wildUltraRareJP--></section>
+        </section>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/tippy.js@6"></script>
+        <script src="script.js?v=<!--lastupdateScript-->"></script>
+        <script src="main.js?v=<!--lastupdateMain-->"></script>
+    </body>
 </html>

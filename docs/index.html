@@ -1,79 +1,76 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Nova Drift Cheatsheet</title>
-	<meta charset="utf-8"/>
-	<meta property="og:type" content="article" />
-	<meta property="og:locale" content="ja_JP" />
-	<meta property="og:site_name" content="Alicemetic's Lab" />
-	<meta property="og:title" content="Nova Drift Cheatsheet" />
-	<meta property="og:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
-	<meta property="twitter:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
-	<meta property="og:description" content="Save and share your build!" />
-	<meta property="twitter:description" content="Save and share your build!" />
-	<meta property="og:image" content="" />
-	<meta property="og:image:width" content="1024" />
-	<meta property="og:image:height" content="600" />
+    <head>
+        <title>Nova Drift Cheatsheet</title>
+        <meta charset="utf-8" />
+        <meta property="og:type" content="article" />
+        <meta property="og:locale" content="ja_JP" />
+        <meta property="og:site_name" content="Alicemetic's Lab" />
+        <meta property="og:title" content="Nova Drift Cheatsheet" />
+        <meta property="og:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+        <meta property="twitter:url" content="https://alicemetic.github.io/nova-drift-cheatsheet/" />
+        <meta property="og:description" content="Save and share your build!" />
+        <meta property="twitter:description" content="Save and share your build!" />
+        <meta property="og:image" content="" />
+        <meta property="og:image:width" content="1024" />
+        <meta property="og:image:height" content="600" />
 
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico?">
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@900&display=swap');
-	</style>
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@900&display=swap');
+        </style>
 
-	<link rel="stylesheet" href="hex.css?v=20220606_205936"/>
-	<link rel="stylesheet" href="style.css?v=20220611_104345"/>
-</head>
+        <link rel="stylesheet" href="hex.css?v=20220606_205936" />
+        <link rel="stylesheet" href="style.css?v=20220611_192657" />
+    </head>
 
-<body>
-	<style id="match-style"></style>
-	<article id="intro">
-		<div>
-			<span class="langswitch">
-				<input type="button" value="English" id="langswitch-en" />
-				<input type="button" value="Japanese" id="langswitch-ja"/>
-			</span>
-			<span class="content-en">Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!</span>
-			<span class="content-ja"><a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートです。</span>
-		</div>
-		<div class="content-en">Last Update: 2022-06-11</div>
-		<div class="content-ja">最終更新: 2022-06-11</div>
-		<br>
-		<noscript><style>
-		#js-controls {
-			display: none;
-		}
-		</style>Some additional options are only available with JavaScript enabled.</noscript>
-		<section id="js-controls">
-			<table>
-				<tr style="text-align:end;">
-					<td>
-						<span style="text-align:end;" class="content-en">Active brightness:</span>
-						<span style="text-align:end;" class="content-ja">選択中項目の明るさ:</span>
-					</td>
-					<td>
-						<input type="range" min="0" max="200" value="125" id="active-brightness" /><br/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="content-en">Inactive brightness:</span>
-						<span class="content-ja">非選択項目の明るさ:</span>
-					</td>
-					<td>
-						<input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br/>
-					</td>
-				</tr>
-			</table>
+    <body>
+        <style id="match-style"></style>
+        <article id="intro">
+            <div>
+                <span class="langswitch">
+                    <input type="button" value="English" id="langswitch-en" />
+                    <input type="button" value="Japanese" id="langswitch-ja" />
+                </span>
+                <span class="content-en">Cheatsheet made by <a href="https://yal.cc">YellowAfterlife</a>!</span>
+                <span class="content-ja"><a href="https://yal.cc">YellowAfterlife</a> 氏による Nova Drift 向けチートシートです。</span>
+            </div>
+            <div class="content-en">
+                Last Update:
+                2022-06-11
+            </div>
+            <div class="content-ja">
+                最終更新:
+                2022-06-11
+            </div>
+            <br />
+            <section>
+                <table>
+                    <tr style="text-align: end">
+                        <td>
+                            <span style="text-align: end" class="content-en">Active brightness:</span>
+                            <span style="text-align: end" class="content-ja">選択中項目の明るさ:</span>
+                        </td>
+                        <td><input type="range" min="0" max="200" value="125" id="active-brightness" /><br /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="content-en">Inactive brightness:</span>
+                            <span class="content-ja">非選択項目の明るさ:</span>
+                        </td>
+                        <td><input type="range" min="0" max="200" value="50" id="inactive-brightness" /><br /></td>
+                    </tr>
+                </table>
 
-			<input type="button" value="Reset" id="reset-selection" />
-			<input type="button" value="Copy Link" id="copy-link" title="Share or Save your build with URL!" />
-			Count: <span id="hex-select-count">0</span>
-		</section>
-	</article>
-	<section id="mods">
-		<header class="content-en">Weapons</header>
-		<header class="content-ja">武器</header>
-		<section class="content-en"><section class="single">
+                <input type="button" value="Reset" id="reset-selection" />
+                <input type="button" value="Copy Link" id="copy-link" title="Share or Save your build with URL!" />
+                Count: <span id="hex-select-count">0</span>
+            </section>
+        </article>
+        <section id="mods">
+            <header class="content-en">Weapons</header>
+            <header class="content-ja">武器</header>
+            <section class="content-en"><section class="single">
 <div class="hex DefaultWeapon" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="WEAPON: BLASTER&#10;&#10;​◈ Twin bullets&#10;◈ Projectile size deteriorates over time​&#10;&#10;◈ Damage: 20&#10;Projectiles: 1 x 2&#10;Rate of fire: 6 /s"></div>
 </section>
 <section class="single">
@@ -110,7 +107,7 @@
 <div class="hex Dart" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="WEAPON: DART&#10;&#10;​◈ Deploy a barbed projectile that lodges into targets and delivers a caustic payload&#10;◈ Darts deal 50% of their damage as blast damage to nearby targets when they hit a target&#10;◈ Darts deal their damage, scaling with their size, as burn damage over their duration&#10;◈ Each dart deals +1% burn damage per total darts lodged in its target&#10;◈ Darts have a base duration of 2 seconds, modified by size and ignite duration&#10;◈ Darts penetrate targets that are destroyed on hit​&#10;&#10;◈ Damage: 45&#10;Projectiles: 1&#10;Rate of fire: 2.5 /s"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="single">
+            <section class="content-ja"><section class="single">
 <div class="hex DefaultWeapon" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: ブラスター&#10;&#10;​◈ 同時2発の弾&#10;◈ 弾体サイズが時間経過で減衰する​&#10;&#10;◈ ダメージ: 20&#10;弾体数: 1 x 2&#10;発射速度: 6/秒"></div>
 </section>
 <section class="single">
@@ -147,9 +144,9 @@
 <div class="hex Dart" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="武器: ダート&#10;&#10;​◈ 逆棘状の弾体を射出。弾体は対象物に食い込み、充填された苛性物質を付与する&#10;◈ 対象物にヒットした時、ダメージの50%を爆発ダメージとして付近の対象物に与える&#10;◈ 与ダメージはダートのサイズに応じて増加し、ダートの持続時間分の燃焼ダメージとして扱う&#10;◈ 各ダートは同じ対象物に食い込んだ全ダート1本毎に+1%の燃焼ダメージを与える&#10;◈ ダートの基本持続時間は2秒で、サイズ・発火持続時間によって修正を受ける&#10;◈ ダートはヒット時に破壊した対象物を貫通する​&#10;&#10;◈ ダメージ: 45&#10;弾体数: 1&#10;発射速度: 2.5/秒"></div>
 </section>
 </section>
-		<header class="content-en">Bodies</header>
-		<header class="content-ja">ボディ</header>
-		<section class="content-en"><section class="single">
+            <header class="content-en">Bodies</header>
+            <header class="content-ja">ボディ</header>
+            <section class="content-en"><section class="single">
 <div class="hex DefaultBody" data-hex-tags="" data-hex-meta="" title="BODY: STANDARD&#10;&#10;◈ Hull: 100&#10;Thrust: 100"></div>
 </section>
 <section class="single">
@@ -192,7 +189,7 @@
 <div class="hex Leviathan" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="BODY: LEVIATHAN&#10;&#10;◈ You have 10 base body segments&#10;◈ You have +1 segment for each of your levels&#10;&#10;​◈ Segments take -75% damage from targets and enemies&#10;◈ Segments additionally take -75% burn damage and crash damage from enemies&#10;◈ +0.5% global damage per segment&#10;◈ +0.5% knockback resistance per segment&#10;◈ The faster a segment is rotating, the more crash damage is dealt, up to +400%​&#10;&#10;◈ Hull: 60 + 2 per body segment&#10;Thrust: 100"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="single">
+            <section class="content-ja"><section class="single">
 <div class="hex DefaultBody" data-hex-tags="" data-hex-meta="" title="ボディ: スタンダード&#10;&#10;◈ 船体値: 100&#10;推力: 100"></div>
 </section>
 <section class="single">
@@ -235,9 +232,9 @@
 <div class="hex Leviathan" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ボディ: リヴァイアサン&#10;&#10;◈ 基本のボディ分割体10を持つ&#10;◈ 自機レベル1毎に分割体+1&#10;&#10;​◈ 分割体が対象物・敵から受ける船体ダメージ-75%&#10;◈ 分割体が敵から受ける燃焼ダメージ・衝突ダメージはさらに-75%&#10;◈ 分割体1つ毎に全般ダメージ+0.5%&#10;◈ 分割体1つ毎にノックバック耐性+0.5%&#10;◈ 分割体が速く回転するほど与える衝突ダメージが上昇（最大+400%まで）​&#10;&#10;◈ 船体値: 60 + ボディ分割体1つ毎に2&#10;推力: 100"></div>
 </section>
 </section>
-		<header class="content-en">Shields</header>
-		<header class="content-ja">シールド</header>
-		<section class="content-en"><section class="single">
+            <header class="content-en">Shields</header>
+            <header class="content-ja">シールド</header>
+            <section class="content-en"><section class="single">
 <div class="hex DefaultShield" data-hex-tags="" data-hex-meta="" title="SHIELD: STANDARD&#10;&#10;◈ Shields: 100&#10;Cooldown: 6.5 seconds"></div>
 </section>
 <section class="single">
@@ -268,7 +265,7 @@
 <div class="hex Siphon" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="SHIELD: SIPHON&#10;&#10;​◈ Siphon deals 120 base damage /s divided between enemies within its radius, recovering 1.5% of this damage as shields&#10;◈ While Siphon deals damage, your shield effect power and shield effect radius are increased over time, up to a maximum of +40%&#10;◈ Siphon deals +400% damage to enemy shields​&#10;&#10;◈ While Siphon is dealing no damage, this effect falls off over time&#10;&#10;◈ Shields: 100&#10;Cooldown: 7 seconds"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="single">
+            <section class="content-ja"><section class="single">
 <div class="hex DefaultShield" data-hex-tags="" data-hex-meta="" title="シールド: 標準&#10;&#10;◈ シールド値: 100&#10;クールダウン: 6.5秒"></div>
 </section>
 <section class="single">
@@ -299,9 +296,9 @@
 <div class="hex Siphon" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="シールド: 吸収&#10;&#10;​◈ 120基本ダメージ/秒を半径内の敵に分配して与え、そのダメージの1.5%のシールド値を回復&#10;◈ 吸収シールドがダメージを与えている間、シールド効果力・シールド効果半径が時間経過で増加する（最大40%まで）&#10;◈ 吸収シールドは敵のシールドには+400%のダメージを与える​&#10;&#10;◈ 吸収シールドがダメージを与えていない間、この効果は時間経過で低下する&#10;&#10;◈ シールド値: 100&#10;クールダウン: 7秒"></div>
 </section>
 </section>
-		<header class="content-en">Mod Trees</header>
-		<header class="content-ja">通常MOD</header>
-		<section class="content-en"><section class="branch">
+            <header class="content-en">Mod Trees</header>
+            <header class="content-ja">通常MOD</header>
+            <section class="content-en"><section class="branch">
 <div class="hex Magnitude" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="MAGNITUDE&#10;&#10;​◈ +20% projectile size&#10;&#10;◈ +15% weapon damage&#10;&#10;◈ +5% blast radius"></div>
 <div class="hex Payload" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="PAYLOAD&#10;&#10;​◈ +30% weapon damage&#10;&#10;◈ +12% projectile size&#10;&#10;◈ +5% blast radius​&#10;&#10;◈ -12% rate of fire"></div>
 <div class="hex SplinterShot" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="SPLINTER&#10;&#10;​◈ Your primary projectiles splinter into weaker mini-projectiles when destroyed on impact&#10;&#10;◈ Projectile size and count affect the number of splinters per projectile​&#10;&#10;◈ -15% rate of fire"></div>
@@ -470,7 +467,7 @@
 <div class="hex EssenceSap" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="ESSENCE SAP&#10;&#10;​◈ When you damage an enemy, store 1% of your damage as Essence. Essence causes your hull to recover over time​&#10;&#10;◈ You recover hull from Essence at a rate of 10% of your maximum hull /s&#10;&#10;◈ The amount of stored Essence cannot exceed 5% of your maximum hull&#10;&#10;​◈ Your hull cannot regenerate"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="branch">
+            <section class="content-ja"><section class="branch">
 <div class="hex Magnitude" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="マグニチュード&#10;&#10;​◈ 弾体サイズ+20%&#10;&#10;◈ 武器ダメージ+15%&#10;&#10;◈ 爆発半径+5%"></div>
 <div class="hex Payload" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ペイロード&#10;&#10;​◈ 武器ダメージ+30%&#10;&#10;◈ 弾体サイズ+12%&#10;&#10;◈ 爆発半径+5%​&#10;&#10;◈ 発射速度-12%"></div>
 <div class="hex SplinterShot" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="分裂&#10;&#10;​◈ 主要な弾体が接触で破壊された時、より弱い小弾体に分裂&#10;&#10;◈ 弾体サイズ・弾体数が弾体毎の破片数に影響する​&#10;&#10;◈ 発射速度-15%"></div>
@@ -639,9 +636,9 @@
 <div class="hex EssenceSap" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="エッセンス収奪&#10;&#10;​◈ 敵にダメージを与えた時、そのダメージの1%をエッセンスとして蓄積。エッセンスは船体を時間経過で回復する​&#10;&#10;◈ エッセンスによって最大船体値の10%/秒の速度で船体を回復&#10;&#10;◈ エッセンスの蓄積量は最大船体値の5%を超えない&#10;&#10;​◈ 自機の船体が再生しなくなる"></div>
 </section>
 </section>
-		<header class="content-en">Super Mods</header>
-		<header class="content-ja">スーパーMOD</header>
-		<section class="content-en"><section class="super-text"><div class="text content-en">4x<br/>Secondary Damage</div><div class="text content-ja">4x<br/>副次ダメージ源</div><div class="hex HiddenPower" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="SUPER MOD: HIDDEN POWER&#10;&#10;​◈ +40% global damage&#10;&#10;◈ +5% maximum hull, maximum shields, shield effect radius, shield effect power, and thrust&#10;&#10;◈ 10% faster shield cooldown and regeneration rate​&#10;&#10;◈ Removes all weapon and construct mods from the upgrade pool and returns an upgrade point if you've purchased weapon gear&#10;&#10;​◈ Your weapon has no effect, and you cannot create non-shield constructs"></div>
+            <header class="content-en">Super Mods</header>
+            <header class="content-ja">スーパーMOD</header>
+            <section class="content-en"><section class="super-text"><div class="text content-en">4x<br/>Secondary Damage</div><div class="text content-ja">4x<br/>副次ダメージ源</div><div class="hex HiddenPower" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="SUPER MOD: HIDDEN POWER&#10;&#10;​◈ +40% global damage&#10;&#10;◈ +5% maximum hull, maximum shields, shield effect radius, shield effect power, and thrust&#10;&#10;◈ 10% faster shield cooldown and regeneration rate​&#10;&#10;◈ Removes all weapon and construct mods from the upgrade pool and returns an upgrade point if you've purchased weapon gear&#10;&#10;​◈ Your weapon has no effect, and you cannot create non-shield constructs"></div>
 </section>
 <section class="super">
 <div class="hex Max" data-hex-tags="" title="Final-tier Construct"></div>
@@ -745,7 +742,7 @@
 <section class="super-text"><div class="text content-en">4x<br/>Unspent Upgrades</div><div class="text content-ja">4x<br/>未使用アップグレード</div><div class="hex Ataraxia" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="SUPER MOD: ATARAXIA&#10;&#10;​◈ +5% global damage per unspent upgrade point&#10;&#10;◈ +1% total maximum hull, maximum shields, and thrust per unspent upgrade point&#10;&#10;◈ Increases the distance of orb and power-up attraction"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="super-text"><div class="text content-en">4x<br/>Secondary Damage</div><div class="text content-ja">4x<br/>副次ダメージ源</div><div class="hex HiddenPower" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: 秘めた力&#10;&#10;​◈ 全般ダメージ+40%&#10;&#10;◈ 最大船体値・最大シールド値・シールド効果半径・シールド効果力・推力+5%&#10;&#10;◈ シールドクールダウン・再生率が10%早くなる​&#10;&#10;◈ 全ての武器・コンストラクト系MODをアップグレードプールから削除。武器ギアを取得していた場合、1アップグレードポイントを返還&#10;&#10;​◈ 自機の武器が無効化される。シールド型以外のコンストラクトを生成不可になる"></div>
+            <section class="content-ja"><section class="super-text"><div class="text content-en">4x<br/>Secondary Damage</div><div class="text content-ja">4x<br/>副次ダメージ源</div><div class="hex HiddenPower" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105)" title="スーパーMOD: 秘めた力&#10;&#10;​◈ 全般ダメージ+40%&#10;&#10;◈ 最大船体値・最大シールド値・シールド効果半径・シールド効果力・推力+5%&#10;&#10;◈ シールドクールダウン・再生率が10%早くなる​&#10;&#10;◈ 全ての武器・コンストラクト系MODをアップグレードプールから削除。武器ギアを取得していた場合、1アップグレードポイントを返還&#10;&#10;​◈ 自機の武器が無効化される。シールド型以外のコンストラクトを生成不可になる"></div>
 </section>
 <section class="super">
 <div class="hex Max" data-hex-tags="" title="Final-tier Construct"></div>
@@ -849,9 +846,9 @@
 <section class="super-text"><div class="text content-en">4x<br/>Unspent Upgrades</div><div class="text content-ja">4x<br/>未使用アップグレード</div><div class="hex Ataraxia" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="スーパーMOD: 明鏡止水&#10;&#10;​◈ 未使用アップグレードポイント1つ毎に全般ダメージ+5%&#10;&#10;◈ 未使用アップグレードポイント1つ毎に総最大船体値・総最大シールド値・総推力+1%&#10;&#10;◈ オーブやパワーアップアイテムを引き寄せる距離が増加"></div>
 </section>
 </section>
-		<header class="content-en">Wild Mods</header>
-		<header class="content-ja">不可測MOD</header>
-		<section class="content-en"><section class="single">
+            <header class="content-en">Wild Mods</header>
+            <header class="content-ja">不可測MOD</header>
+            <section class="content-en"><section class="single">
 <div class="hex Slipstream rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="WILD MOD: SLIPSTREAM&#10;&#10;​◈ +7% thrust and rotation speed​&#10;&#10;◈ -7% friction&#10;&#10;◈ Recursive: This mod may be taken multiple times"></div>
 </section>
 <section class="single">
@@ -900,7 +897,7 @@
 <div class="hex Masochism rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="WILD MOD: MASOCHISM&#10;&#10;​◈ +8% self-damage resistance&#10;&#10;◈ Targets take more global damage the more damaged you are, up to +15%&#10;&#10;◈ This bonus averages damage proportions of both your hull and shields​&#10;&#10;​◈ +3% damage taken from enemies​&#10;&#10;◈ Recursive: This mod may be taken multiple times"></div>
 </section>
 </section>
-		<section class="content-en"><section class="single">
+            <section class="content-en"><section class="single">
 <div class="hex ChaoticAmbition rc" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="RARE WILD MOD: CHAOTIC AMBITION&#10;&#10;​◈ +1 maximum Wild Mods offered per level&#10;&#10;◈ +1 reroll&#10;&#10;◈ Recursive: This mod may be taken multiple times"></div>
 </section>
 <section class="single">
@@ -940,7 +937,7 @@
 <div class="hex SpontaneousGeneration rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="RARE WILD MOD: SPONTANEOUS GENERATION&#10;&#10;​◈ When an enemy is killed, there is a chance you spawn one or more Swarm Constructs from its wreck&#10;&#10;◈ The greater the maximum hull of the enemy killed, the greater chance one or multiple Swarm Constructs are created​&#10;&#10;◈ Swarm Constructs take 0.75 hull damage /s&#10;&#10;◈ Recursive: This mod may be taken multiple times"></div>
 </section>
 </section>
-		<section class="content-en"><section class="single">
+            <section class="content-en"><section class="single">
 <div class="hex Grandeur rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ULTRA-RARE WILD MOD: GRANDEUR&#10;&#10;​◈ +2 levels​&#10;&#10;◈ +8% size, crash damage, knockback to targets, and crash knockback resistance&#10;&#10;◈ -8% thrust&#10;&#10;◈ -4% rotation speed&#10;&#10;◈ Grandeur will not appear again in the random mod pool for your next 2 upgrades&#10;&#10;◈ Recursive: This mod may be taken multiple times"></div>
 </section>
 <section class="single">
@@ -959,7 +956,7 @@
 <div class="hex Maelstrom" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ULTRA-RARE WILD MOD: MAELSTROM&#10;&#10;​◈ While your shield protects you, you are wreathed in a maelstrom that pushes targets and enemy projectiles around you&#10;&#10;◈ Damage dealt to you or your shield adds to the effect and radius of the maelstrom​&#10;&#10;◈ The effect and radius of the maelstrom falls off over time"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="single">
+            <section class="content-ja"><section class="single">
 <div class="hex Slipstream rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="不可測MOD: スリップストリーム&#10;&#10;​◈ 推力と旋回速度+7%​&#10;&#10;◈ 摩擦-7%&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
 </section>
 <section class="single">
@@ -1008,7 +1005,7 @@
 <div class="hex Masochism rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/;rgb(250,50,105);/" title="不可測MOD: マゾヒズム&#10;&#10;​◈ 自己ダメージ耐性+8%&#10;&#10;◈ 自機の受けているダメージが多いほど対象物に与える全般ダメージが増加（最大+15%まで）&#10;&#10;◈ このボーナスは船体値・シールド値両方のダメージの平均に比例​&#10;&#10;​◈ 敵から受けるダメージ+3%​&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="single">
+            <section class="content-ja"><section class="single">
 <div class="hex ChaoticAmbition rc" data-hex-tags="" data-hex-meta="rgb(84,184,255)" title="レア不可測MOD: 混沌願望&#10;&#10;​◈ レベル毎に提示される不可測MODの最大数+1&#10;&#10;◈ リロール+1&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
 </section>
 <section class="single">
@@ -1048,7 +1045,7 @@
 <div class="hex SpontaneousGeneration rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="レア不可測MOD: 自然発生&#10;&#10;​◈ 敵1体を倒した時、その残骸からある確率で1～複数体の群生型コンストラクトが発生&#10;&#10;◈ 倒した敵の最大船体値が大きいほど、1もしくは複数体の群生型コンストラクトが生成される確率が上昇​&#10;&#10;◈ 群生型コンストラクトは0.75船体ダメージ/秒を受ける&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
 </section>
 </section>
-		<section class="content-ja"><section class="single">
+            <section class="content-ja"><section class="single">
 <div class="hex Grandeur rc" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ウルトラレア不可測MOD: 荘厳&#10;&#10;​◈ レベル+2​&#10;&#10;◈ サイズ・衝突ダメージ・対象物へのノックバック・衝突ノックバック耐性+8%&#10;&#10;◈ 推力-8%&#10;&#10;◈ 旋回速度-4%&#10;&#10;◈ 以降アップグレード2回の間、荘厳はランダムMODプールに出現しない&#10;&#10;◈ 再帰: このMODは何度でも取得可能"></div>
 </section>
 <section class="single">
@@ -1067,10 +1064,10 @@
 <div class="hex Maelstrom" data-hex-tags="" data-hex-meta="rgb(84,184,255);/" title="ウルトラレア不可測MOD: メイルシュトローム&#10;&#10;​◈ シールドが自機防護中、自機が大渦巻に囲まれる。大渦巻は周囲の対象物と敵弾体を押しのける&#10;&#10;◈ 自機・自機シールドの受けたダメージに応じて、大渦巻の効果・半径が増大​&#10;&#10;◈ 大渦巻の効果・半径は時間経過で低下"></div>
 </section>
 </section>
-	</section>
-	<script src="https://unpkg.com/@popperjs/core@2"></script>
-	<script src="https://unpkg.com/tippy.js@6"></script>
-	<script src="script.js?v=20220611_182337"></script>
-	<script src="main.js?v=20220611_180654"></script>
-</body>
+        </section>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/tippy.js@6"></script>
+        <script src="script.js?v=20220611_192802"></script>
+        <script src="main.js?v=20220611_192635"></script>
+    </body>
 </html>
