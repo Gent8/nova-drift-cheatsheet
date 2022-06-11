@@ -77,8 +77,9 @@ class Main {
 		}
 	}
 
-	static function addTile(b:StringBuf, mod:Mod, kind:String = "Mod", post:String = "") {
-		b.add('<div class="hex $mod"');
+	static function addTile(b:StringBuf, mod:Mod, kind:String = "Mod", post:String = "", sub:String = "") {
+		if(sub != "") sub = ' $sub';
+		b.add('<div class="hex $mod$sub"');
 		var name = fixup(mod);
 		var title = loc[kind + "Title" + post + name];
 		if (title != null) {
@@ -143,9 +144,9 @@ class Main {
 		b.add('</div>\n');
 	}
 
-	static function addSingle(b:StringBuf, mod:Mod, ?kind:String, ?post:String) {
+	static function addSingle(b:StringBuf, mod:Mod, ?kind:String, ?post:String, ?sub:String) {
 		b.add('<section class="single">\n');
-		addTile(b, mod, kind, post);
+		addTile(b, mod, kind, post, sub);
 		b.add("</section>\n");
 	}
 
@@ -241,33 +242,33 @@ class Main {
 
 	static function wildCommon() {
 		var b = new StringBuf();
-		function add(mod:Mod)
-			addSingle(b, mod);
-		add(Mod.Slipstream);
-		add(Mod.GalvanicOutburst);
-		add(Mod.Rampage);
-		add(Mod.Hypermetabolism);
-		add(Mod.DoubleTap);
-		add(Mod.HeavyCaliber);
-		add(Mod.EnergizedShields);
-		add(Mod.SolarHeart);
+		function add(mod:Mod, sub:String = "")
+			addSingle(b, mod, "Mod", "", sub);
+		add(Mod.Slipstream, "rc");
+		add(Mod.GalvanicOutburst, "rc");
+		add(Mod.Rampage, "rc");
+		add(Mod.Hypermetabolism, "rc");
+		add(Mod.DoubleTap, "rc");
+		add(Mod.HeavyCaliber, "rc");
+		add(Mod.EnergizedShields, "rc");
+		add(Mod.SolarHeart, "rc");
 		add(Mod.PolarInversion);
 		add(Mod.PropulsiveMunitions);
-		add(Mod.ScorchingWake);
+		add(Mod.ScorchingWake, "rc");
 		add(Mod.SpecialistMine);
 		add(Mod.SpecialistDrone);
 		add(Mod.SpecialistTurret);
 		add(Mod.SpecialistAlly);
-		add(Mod.Masochism);
+		add(Mod.Masochism, "rc");
 		return b.toString();
 	}
 
 	static function wildRare() {
 		var b = new StringBuf();
-		function add(mod:Mod)
-			addSingle(b, mod);
-		add(Mod.ChaoticAmbition);
-		add(Mod.Defiance);
+		function add(mod:Mod, sub:String = "")
+			addSingle(b, mod, "Mod", "", sub);
+		add(Mod.ChaoticAmbition, "rc");
+		add(Mod.Defiance, "rc");
 		add(Mod.OutrageModule);
 		add(Mod.PhantomStrike);
 		add(Mod.Discord);
@@ -277,18 +278,18 @@ class Main {
 		add(Mod.Winnow);
 		add(Mod.Obsession);
 		add(Mod.Bravado);
-		add(Mod.EvolutionaryNiche);
-		add(Mod.SpontaneousGeneration);
+		add(Mod.EvolutionaryNiche, "rc");
+		add(Mod.SpontaneousGeneration, "rc");
 		return b.toString();
 	}
 
 	static function wildUltraRare() {
 		var b = new StringBuf();
-		function add(mod:Mod)
-			addSingle(b, mod);
-		add(Mod.Grandeur);
-		add(Mod.TwinStrike);
-		add(Mod.Farsight);
+		function add(mod:Mod, sub:String = "")
+			addSingle(b, mod, "Mod", "", sub);
+		add(Mod.Grandeur, "rc");
+		add(Mod.TwinStrike, "rc");
+		add(Mod.Farsight, "rc");
 		add(Mod.ExplosiveGrowth);
 		add(Mod.PowerSpike);
 		add(Mod.Maelstrom);

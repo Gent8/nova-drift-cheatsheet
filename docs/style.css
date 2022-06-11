@@ -24,6 +24,7 @@ a, a:visited {
 	margin: 0.5em 0;
 }
 #mods > section > section {
+	z-index: 1;
 	position: relative;
 	margin: 4px;
 }
@@ -32,6 +33,7 @@ section.branch {
 	height: 120px;
 }
 .hex {
+	z-index: -1;
 	position: absolute;
 	clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 	transition: filter ease-in-out 0.2s;
@@ -143,6 +145,18 @@ input[type="range"] {
 span.langswitch {
 	align-content: right;
 	float: right;
+}
+.rcNum {
+	pointer-events: none;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 200%;
+	position: absolute;
+	bottom: -15%;
+	left: 50%;
+	vertical-align: text-bottom;
+	text-shadow:1px 1px 0 black,-1px 1px 0 black,1px -1px 0 black,-1px -1px 0 black;
+	-webkit-transform: translate(-50%);
+	transform: translate(-50%);
 }
 
 /* Multi-Lang switcher */
