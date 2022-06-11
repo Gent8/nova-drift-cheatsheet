@@ -358,10 +358,14 @@ class Main {
 		var html = File.getContent("docs/base.html");
 		var hexStat:sys.FileStat = sys.FileSystem.stat("docs/hex.css");
 		var styleStat:sys.FileStat = sys.FileSystem.stat("docs/style.css");
+		var scriptStat:sys.FileStat = sys.FileSystem.stat("docs/script.js");
+		var mainStat:sys.FileStat = sys.FileSystem.stat("docs/main.js");
 
 		html = StringTools.replace(html, "<!--lastupdate-->", DateTools.format(Date.now(), "%Y-%m-%d").toString());
 		html = StringTools.replace(html, "<!--lastupdateHex-->", DateTools.format(hexStat.mtime, "%Y%m%d_%H%M%S").toString());
 		html = StringTools.replace(html, "<!--lastupdateStyle-->", DateTools.format(styleStat.mtime, "%Y%m%d_%H%M%S").toString());
+		html = StringTools.replace(html, "<!--lastupdateScript-->", DateTools.format(scriptStat.mtime, "%Y%m%d_%H%M%S").toString());
+		html = StringTools.replace(html, "<!--lastupdateMain-->", DateTools.format(mainStat.mtime, "%Y%m%d_%H%M%S").toString());
 
 		// English
 		var csv = Reader.parseCsv(File.getContent("docs/localization.csv"));
