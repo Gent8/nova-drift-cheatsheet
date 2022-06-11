@@ -1178,7 +1178,12 @@
 	}
 	document.getElementById("reset-selection").addEventListener("click", function(_) {
 		var els = document.querySelectorAll(".hex[checked]");
-		for (var i = 0; i < els.length; i++) els[i].removeAttribute("checked");
+		for (var i = 0; i < els.length; i++) {
+			els[i].removeAttribute("checked");
+			if( els[i].classList.contains("rc") ){
+				els[i].nextElementSibling.textContent = "";
+			}
+		}
 		hexCheckCount = 0;
 		hexCheckCountSpan.innerHTML = "0";
 		clearMatch();
