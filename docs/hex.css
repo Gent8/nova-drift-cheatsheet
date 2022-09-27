@@ -76,22 +76,28 @@
     background-position: -485px -1px;
 }
 
-.hex.Architect {
+.hex.ArcBarrier {
     width: 42px;
     height: 48px;
     background-position: -529px -1px;
 }
 
-.hex.AssaultDrones {
+.hex.Architect {
     width: 42px;
     height: 48px;
     background-position: -573px -1px;
 }
 
-.hex.Assault {
+.hex.AssaultDrones {
     width: 42px;
     height: 48px;
     background-position: -617px -1px;
+}
+
+.hex.Assault {
+    width: 42px;
+    height: 48px;
+    background-position: -661px -1px;
 }
 
 .hex.Ataraxia {
@@ -160,28 +166,34 @@
     background-position: -441px -51px;
 }
 
+.hex.BombingRun {
+    width: 42px;
+    height: 48px;
+    background-position: -485px -51px;
+}
+
 .hex.Border {
     width: 41px;
     height: 48px;
-    background-position: -485px -51px;
+    background-position: -529px -51px;
 }
 
 .hex.Bravado {
     width: 42px;
     height: 48px;
-    background-position: -528px -51px;
+    background-position: -572px -51px;
 }
 
 .hex.Breach {
     width: 42px;
     height: 48px;
-    background-position: -572px -51px;
+    background-position: -616px -51px;
 }
 
 .hex.BurnoutReactors {
     width: 42px;
     height: 48px;
-    background-position: -616px -51px;
+    background-position: -660px -51px;
 }
 
 .hex.BurstFire {
@@ -214,154 +226,166 @@
     background-position: -177px -101px;
 }
 
-.hex.Channeling {
+.hex.Challenger {
     width: 42px;
     height: 48px;
     background-position: -221px -101px;
 }
 
-.hex.ChaoticAmbition {
+.hex.Channeling {
     width: 42px;
     height: 48px;
     background-position: -265px -101px;
 }
 
-.hex.ChargedMines {
+.hex.ChaoticAmbition {
     width: 42px;
     height: 48px;
     background-position: -309px -101px;
 }
 
-.hex.ChargedShot {
+.hex.ChargedMines {
     width: 42px;
     height: 48px;
     background-position: -353px -101px;
 }
 
-.hex.ConcentratedBlast {
+.hex.ChargedShields {
     width: 42px;
     height: 48px;
     background-position: -397px -101px;
 }
 
-.hex.Convergence {
+.hex.ChargedShot {
     width: 42px;
     height: 48px;
     background-position: -441px -101px;
 }
 
-.hex.Conversion {
+.hex.ConcentratedBlast {
     width: 42px;
     height: 48px;
     background-position: -485px -101px;
 }
 
-.hex.CoreShielding {
+.hex.Convergence {
     width: 42px;
     height: 48px;
     background-position: -529px -101px;
 }
 
-.hex.Corrosion {
+.hex.Conversion {
     width: 42px;
     height: 48px;
     background-position: -573px -101px;
 }
 
-.hex.CounterArtillery {
+.hex.CoreShielding {
     width: 42px;
     height: 48px;
     background-position: -617px -101px;
 }
 
-.hex.Counterpulse {
+.hex.Corrosion {
+    width: 42px;
+    height: 48px;
+    background-position: -661px -101px;
+}
+
+.hex.CounterArtillery {
     width: 42px;
     height: 48px;
     background-position: -1px -151px;
 }
 
-.hex.Courser {
+.hex.Counterpulse {
     width: 42px;
     height: 48px;
     background-position: -45px -151px;
 }
 
-.hex.Dart {
+.hex.Courser {
     width: 42px;
     height: 48px;
     background-position: -89px -151px;
 }
 
-.hex.DeadlyWake {
+.hex.Dart {
     width: 42px;
     height: 48px;
     background-position: -133px -151px;
 }
 
-.hex.DeathBlossom {
+.hex.DeadlyWake {
     width: 42px;
     height: 48px;
     background-position: -177px -151px;
 }
 
-.hex.DecoySignal {
+.hex.DeathBlossom {
     width: 42px;
     height: 48px;
     background-position: -221px -151px;
 }
 
-.hex.DefaultBody {
+.hex.DecoySignal {
     width: 42px;
     height: 48px;
     background-position: -265px -151px;
 }
 
-.hex.DefaultShield {
+.hex.DefaultBody {
     width: 42px;
     height: 48px;
     background-position: -309px -151px;
 }
 
-.hex.DefaultWeapon {
+.hex.DefaultShield {
     width: 42px;
     height: 48px;
     background-position: -353px -151px;
 }
 
-.hex.DefenseDrone {
+.hex.DefaultWeapon {
     width: 42px;
     height: 48px;
     background-position: -397px -151px;
 }
 
-.hex.Defiance {
+.hex.DefenseDrone {
     width: 42px;
     height: 48px;
     background-position: -441px -151px;
 }
 
-.hex.Deflagration {
+.hex.Defiance {
     width: 42px;
     height: 48px;
     background-position: -485px -151px;
 }
 
-.hex.Discharge {
+.hex.Deflagration {
     width: 42px;
     height: 48px;
     background-position: -529px -151px;
 }
 
-.hex.Discord {
+.hex.Discharge {
     width: 42px;
     height: 48px;
     background-position: -573px -151px;
 }
 
-.hex.Displacement {
+.hex.Discord {
     width: 42px;
     height: 48px;
     background-position: -617px -151px;
+}
+
+.hex.Displacement {
+    width: 42px;
+    height: 48px;
+    background-position: -661px -151px;
 }
 
 .hex.DoubleTap {
@@ -457,869 +481,887 @@
 .hex.ExplosiveGrowth {
     width: 42px;
     height: 48px;
-    background-position: -1px -251px;
+    background-position: -661px -201px;
 }
 
 .hex.Farsight {
     width: 42px;
     height: 48px;
-    background-position: -45px -251px;
+    background-position: -1px -251px;
 }
 
 .hex.Firefly {
     width: 42px;
     height: 48px;
-    background-position: -89px -251px;
+    background-position: -45px -251px;
 }
 
 .hex.FiringArray {
     width: 42px;
     height: 48px;
-    background-position: -133px -251px;
+    background-position: -89px -251px;
 }
 
 .hex.Flak {
     width: 42px;
     height: 48px;
-    background-position: -177px -251px;
+    background-position: -133px -251px;
 }
 
 .hex.FlashShielding {
     width: 42px;
     height: 48px;
+    background-position: -177px -251px;
+}
+
+.hex.FleetCommander {
+    width: 42px;
+    height: 48px;
     background-position: -221px -251px;
-}
-
-.hex.Fleet {
-    width: 42px;
-    height: 48px;
-    background-position: -265px -251px;
-}
-
-.hex.Flotilla {
-    width: 42px;
-    height: 48px;
-    background-position: -309px -251px;
 }
 
 .hex.FocusFire {
     width: 42px;
     height: 48px;
-    background-position: -353px -251px;
+    background-position: -265px -251px;
 }
 
 .hex.FocusedShields {
     width: 42px;
     height: 48px;
-    background-position: -397px -251px;
+    background-position: -309px -251px;
 }
 
 .hex.ForceArmor {
     width: 42px;
     height: 48px;
-    background-position: -441px -251px;
-}
-
-.hex.FormationRampart {
-    width: 42px;
-    height: 48px;
-    background-position: -485px -251px;
+    background-position: -353px -251px;
 }
 
 .hex.Fusillade {
     width: 42px;
     height: 48px;
-    background-position: -529px -251px;
+    background-position: -397px -251px;
 }
 
 .hex.GalvanicOutburst {
     width: 42px;
     height: 48px;
-    background-position: -573px -251px;
+    background-position: -441px -251px;
 }
 
 .hex.Gemini {
     width: 42px;
     height: 48px;
-    background-position: -617px -251px;
+    background-position: -485px -251px;
+}
+
+.hex.GraceProtocol {
+    width: 42px;
+    height: 48px;
+    background-position: -529px -251px;
 }
 
 .hex.Grandeur {
     width: 42px;
     height: 48px;
-    background-position: -1px -301px;
+    background-position: -573px -251px;
 }
 
 .hex.Grenade {
     width: 42px;
     height: 48px;
-    background-position: -45px -301px;
+    background-position: -617px -251px;
 }
 
 .hex.Guardian {
     width: 42px;
     height: 48px;
-    background-position: -89px -301px;
+    background-position: -661px -251px;
 }
 
 .hex.Halo {
     width: 42px;
     height: 48px;
-    background-position: -133px -301px;
+    background-position: -1px -301px;
 }
 
 .hex.HeatSeeking {
     width: 42px;
     height: 48px;
-    background-position: -177px -301px;
+    background-position: -45px -301px;
 }
 
 .hex.HeavyCaliber {
     width: 42px;
     height: 48px;
-    background-position: -221px -301px;
+    background-position: -89px -301px;
 }
 
 .hex.Helix {
     width: 42px;
     height: 48px;
-    background-position: -265px -301px;
+    background-position: -133px -301px;
 }
 
 .hex.HiddenPower {
     width: 42px;
     height: 48px;
-    background-position: -309px -301px;
+    background-position: -177px -301px;
 }
 
 .hex.HighExplosive {
     width: 42px;
     height: 48px;
-    background-position: -353px -301px;
+    background-position: -221px -301px;
 }
 
 .hex.HomingStrike {
     width: 42px;
     height: 48px;
-    background-position: -397px -301px;
+    background-position: -265px -301px;
 }
 
 .hex.HullRegeneration {
     width: 42px;
     height: 48px;
-    background-position: -441px -301px;
+    background-position: -309px -301px;
 }
 
 .hex.HullStrength {
     width: 42px;
     height: 48px;
-    background-position: -485px -301px;
+    background-position: -353px -301px;
 }
 
 .hex.Hullbreaker {
     width: 42px;
     height: 48px;
-    background-position: -529px -301px;
+    background-position: -397px -301px;
 }
 
 .hex.Hypermetabolism {
     width: 42px;
     height: 48px;
-    background-position: -573px -301px;
+    background-position: -441px -301px;
 }
 
 .hex.ImprovedThrusters {
     width: 42px;
     height: 48px;
-    background-position: -617px -301px;
+    background-position: -485px -301px;
+}
+
+.hex.Infuse {
+    width: 42px;
+    height: 48px;
+    background-position: -529px -301px;
 }
 
 .hex.IntegratedWeaponry {
     width: 42px;
     height: 48px;
-    background-position: -1px -351px;
+    background-position: -573px -301px;
 }
 
 .hex.Juggernaut {
     width: 42px;
     height: 48px;
-    background-position: -45px -351px;
+    background-position: -617px -301px;
 }
 
 .hex.KineticBoost {
     width: 42px;
     height: 48px;
-    background-position: -89px -351px;
+    background-position: -661px -301px;
 }
 
 .hex.Lance {
     width: 42px;
     height: 48px;
-    background-position: -133px -351px;
+    background-position: -1px -351px;
 }
 
 .hex.LastStand {
     width: 42px;
     height: 48px;
-    background-position: -177px -351px;
+    background-position: -45px -351px;
 }
 
 .hex.LeafOnTheWind {
     width: 42px;
     height: 48px;
-    background-position: -221px -351px;
+    background-position: -89px -351px;
 }
 
 .hex.Leviathan {
     width: 42px;
     height: 48px;
-    background-position: -265px -351px;
+    background-position: -133px -351px;
 }
 
 .hex.LoadedMines {
     width: 42px;
     height: 48px;
-    background-position: -309px -351px;
+    background-position: -177px -351px;
 }
 
 .hex.LockedGrey {
     width: 42px;
     height: 48px;
-    background-position: -353px -351px;
+    background-position: -221px -351px;
 }
 
 .hex.Locked {
     width: 42px;
     height: 48px;
-    background-position: -397px -351px;
+    background-position: -265px -351px;
 }
 
 .hex.Maelstrom {
     width: 42px;
     height: 48px;
-    background-position: -441px -351px;
+    background-position: -309px -351px;
 }
 
 .hex.Magnetism {
     width: 42px;
     height: 48px;
-    background-position: -485px -351px;
+    background-position: -353px -351px;
 }
 
 .hex.Magnitude {
     width: 42px;
     height: 48px;
-    background-position: -529px -351px;
+    background-position: -397px -351px;
 }
 
 .hex.Mask {
     width: 42px;
     height: 48px;
-    background-position: -573px -351px;
+    background-position: -441px -351px;
 }
 
 .hex.Masochism {
     width: 42px;
     height: 48px;
-    background-position: -617px -351px;
+    background-position: -485px -351px;
 }
 
 .hex.Mastery {
     width: 42px;
     height: 48px;
-    background-position: -1px -401px;
+    background-position: -529px -351px;
 }
 
 .hex.Max {
     width: 42px;
     height: 48px;
-    background-position: -45px -401px;
+    background-position: -573px -351px;
 }
 
 .hex.MediCharge {
     width: 42px;
     height: 48px;
-    background-position: -89px -401px;
+    background-position: -617px -351px;
 }
 
 .hex.Mines {
     width: 42px;
     height: 48px;
-    background-position: -133px -401px;
+    background-position: -661px -351px;
 }
 
 .hex.Mortar {
     width: 42px;
     height: 48px;
-    background-position: -177px -401px;
+    background-position: -1px -401px;
 }
 
 .hex.Nanotech {
     width: 42px;
     height: 48px;
-    background-position: -221px -401px;
+    background-position: -45px -401px;
 }
 
 .hex.Obsession {
     width: 42px;
     height: 48px;
-    background-position: -265px -401px;
+    background-position: -89px -401px;
 }
 
 .hex.OmniShield {
     width: 42px;
     height: 48px;
-    background-position: -309px -401px;
+    background-position: -133px -401px;
 }
 
 .hex.Outmaneuver {
     width: 42px;
     height: 48px;
-    background-position: -353px -401px;
+    background-position: -177px -401px;
 }
 
 .hex.OutrageModule {
     width: 42px;
     height: 48px;
-    background-position: -397px -401px;
+    background-position: -221px -401px;
 }
 
 .hex.Overclock {
     width: 42px;
     height: 48px;
-    background-position: -441px -401px;
+    background-position: -265px -401px;
 }
 
 .hex.Overpower {
     width: 42px;
     height: 48px;
-    background-position: -485px -401px;
+    background-position: -309px -401px;
 }
 
 .hex.Overseer {
     width: 42px;
     height: 48px;
-    background-position: -529px -401px;
+    background-position: -353px -401px;
 }
 
 .hex.Payload {
     width: 42px;
     height: 48px;
-    background-position: -573px -401px;
+    background-position: -397px -401px;
 }
 
 .hex.PhantomStrike {
     width: 42px;
     height: 48px;
-    background-position: -617px -401px;
+    background-position: -441px -401px;
 }
 
 .hex.PointDefense {
     width: 42px;
     height: 48px;
-    background-position: -1px -451px;
+    background-position: -485px -401px;
 }
 
 .hex.PolarInversion {
     width: 42px;
     height: 48px;
-    background-position: -45px -451px;
+    background-position: -529px -401px;
 }
 
 .hex.PowerReserves {
     width: 42px;
     height: 48px;
-    background-position: -89px -451px;
+    background-position: -573px -401px;
 }
 
 .hex.PowerSpike {
     width: 42px;
     height: 48px;
-    background-position: -133px -451px;
-}
-
-.hex.PredatorDrones {
-    width: 42px;
-    height: 48px;
-    background-position: -177px -451px;
+    background-position: -617px -401px;
 }
 
 .hex.PriorityZero {
     width: 42px;
     height: 48px;
-    background-position: -221px -451px;
+    background-position: -661px -401px;
 }
 
 .hex.PropulsiveMunitions {
     width: 42px;
     height: 48px;
-    background-position: -265px -451px;
+    background-position: -1px -451px;
 }
 
 .hex.Pulse {
     width: 42px;
     height: 48px;
-    background-position: -309px -451px;
+    background-position: -45px -451px;
 }
 
 .hex.Purge {
     width: 42px;
     height: 48px;
-    background-position: -353px -451px;
+    background-position: -89px -451px;
 }
 
 .hex.Purification {
     width: 42px;
     height: 48px;
-    background-position: -397px -451px;
+    background-position: -133px -451px;
 }
 
 .hex.RadiantShields {
     width: 42px;
     height: 48px;
-    background-position: -441px -451px;
+    background-position: -177px -451px;
 }
 
 .hex.Railgun {
     width: 42px;
     height: 48px;
-    background-position: -485px -451px;
+    background-position: -221px -451px;
 }
 
 .hex.Rampage {
     width: 42px;
     height: 48px;
-    background-position: -529px -451px;
+    background-position: -265px -451px;
 }
 
 .hex.Rancor {
     width: 42px;
     height: 48px;
-    background-position: -573px -451px;
+    background-position: -309px -451px;
 }
 
 .hex.Ranger {
     width: 42px;
     height: 48px;
-    background-position: -617px -451px;
+    background-position: -353px -451px;
 }
 
 .hex.RapidFire {
     width: 42px;
     height: 48px;
-    background-position: -1px -501px;
+    background-position: -397px -451px;
 }
 
 .hex.RapidReconstruction {
     width: 42px;
     height: 48px;
-    background-position: -45px -501px;
+    background-position: -441px -451px;
 }
 
 .hex.Rebirth {
     width: 42px;
     height: 48px;
-    background-position: -89px -501px;
+    background-position: -485px -451px;
 }
 
 .hex.Rebuke {
     width: 42px;
     height: 48px;
-    background-position: -133px -501px;
+    background-position: -529px -451px;
+}
+
+.hex.Reconstitution {
+    width: 42px;
+    height: 48px;
+    background-position: -573px -451px;
 }
 
 .hex.Reflect {
     width: 42px;
     height: 48px;
-    background-position: -177px -501px;
+    background-position: -617px -451px;
 }
 
 .hex.RegenerativeShields {
     width: 42px;
     height: 48px;
-    background-position: -221px -501px;
+    background-position: -661px -451px;
 }
 
 .hex.Regression {
     width: 42px;
     height: 48px;
-    background-position: -265px -501px;
-}
-
-.hex.ReinforcedDrones {
-    width: 42px;
-    height: 48px;
-    background-position: -309px -501px;
+    background-position: -1px -501px;
 }
 
 .hex.Research {
     width: 42px;
     height: 48px;
-    background-position: -353px -501px;
+    background-position: -45px -501px;
 }
 
 .hex.RetaliationShields {
     width: 42px;
     height: 48px;
-    background-position: -397px -501px;
+    background-position: -89px -501px;
 }
 
 .hex.RetributionSuper {
     width: 42px;
     height: 48px;
-    background-position: -441px -501px;
+    background-position: -133px -501px;
 }
 
 .hex.Retribution {
     width: 42px;
     height: 48px;
-    background-position: -485px -501px;
+    background-position: -177px -501px;
 }
 
 .hex.Revelation {
     width: 42px;
     height: 48px;
-    background-position: -529px -501px;
+    background-position: -221px -501px;
 }
 
 .hex.Ricochet {
     width: 42px;
     height: 48px;
-    background-position: -573px -501px;
+    background-position: -265px -501px;
 }
 
-.hex.RocketDrones {
+.hex.Rive {
     width: 42px;
     height: 48px;
-    background-position: -617px -501px;
+    background-position: -309px -501px;
 }
 
 .hex.Rupture {
     width: 42px;
     height: 48px;
-    background-position: -1px -551px;
+    background-position: -353px -501px;
 }
 
 .hex.Salvo {
     width: 42px;
     height: 48px;
-    background-position: -45px -551px;
+    background-position: -397px -501px;
 }
 
 .hex.Sanctuary {
     width: 42px;
     height: 48px;
-    background-position: -89px -551px;
+    background-position: -441px -501px;
 }
 
 .hex.SaturationFire {
     width: 42px;
     height: 48px;
-    background-position: -133px -551px;
+    background-position: -485px -501px;
 }
 
 .hex.ScorchingWake {
     width: 42px;
     height: 48px;
-    background-position: -177px -551px;
+    background-position: -529px -501px;
 }
 
 .hex.SelfDestruction {
     width: 42px;
     height: 48px;
-    background-position: -221px -551px;
+    background-position: -573px -501px;
 }
 
 .hex.Sentinel {
     width: 42px;
     height: 48px;
-    background-position: -265px -551px;
+    background-position: -617px -501px;
 }
 
 .hex.Service {
     width: 42px;
     height: 48px;
-    background-position: -309px -551px;
+    background-position: -661px -501px;
 }
 
 .hex.ShieldCooldown {
     width: 42px;
     height: 48px;
-    background-position: -353px -551px;
+    background-position: -1px -551px;
 }
 
 .hex.ShieldDurability {
     width: 42px;
     height: 48px;
-    background-position: -397px -551px;
+    background-position: -45px -551px;
 }
 
 .hex.ShieldRadius {
     width: 42px;
     height: 48px;
-    background-position: -441px -551px;
+    background-position: -89px -551px;
 }
 
 .hex.ShieldedDrones {
     width: 42px;
     height: 48px;
-    background-position: -485px -551px;
+    background-position: -133px -551px;
 }
 
 .hex.Shockwave {
     width: 42px;
     height: 48px;
-    background-position: -529px -551px;
+    background-position: -177px -551px;
 }
 
 .hex.SiegeWeaponry {
     width: 42px;
     height: 48px;
-    background-position: -573px -551px;
+    background-position: -221px -551px;
 }
 
 .hex.SingularStrikeNew {
     width: 42px;
     height: 48px;
-    background-position: -617px -551px;
+    background-position: -265px -551px;
 }
 
 .hex.Siphon {
     width: 42px;
     height: 48px;
-    background-position: -1px -601px;
+    background-position: -309px -551px;
 }
 
 .hex.Skirmish {
     width: 42px;
     height: 48px;
-    background-position: -45px -601px;
+    background-position: -353px -551px;
 }
 
 .hex.Slipstream {
     width: 42px;
     height: 48px;
-    background-position: -89px -601px;
+    background-position: -397px -551px;
 }
 
 .hex.Snipe {
     width: 42px;
     height: 48px;
-    background-position: -133px -601px;
+    background-position: -441px -551px;
 }
 
 .hex.SolarHeart {
     width: 42px;
     height: 48px;
-    background-position: -177px -601px;
+    background-position: -485px -551px;
 }
 
 .hex.SpecialistAlly {
     width: 42px;
     height: 48px;
-    background-position: -221px -601px;
+    background-position: -529px -551px;
 }
 
 .hex.SpecialistDrone {
     width: 42px;
     height: 48px;
-    background-position: -265px -601px;
+    background-position: -573px -551px;
 }
 
 .hex.SpecialistMine {
     width: 42px;
     height: 48px;
-    background-position: -309px -601px;
+    background-position: -617px -551px;
 }
 
 .hex.SpecialistTurret {
     width: 42px;
     height: 48px;
-    background-position: -353px -601px;
+    background-position: -661px -551px;
 }
 
 .hex.SplinterShot {
     width: 42px;
     height: 48px;
-    background-position: -397px -601px;
+    background-position: -1px -601px;
 }
 
 .hex.Split {
     width: 42px;
     height: 48px;
-    background-position: -441px -601px;
+    background-position: -45px -601px;
 }
 
 .hex.SpontaneousGeneration {
     width: 42px;
     height: 48px;
-    background-position: -485px -601px;
+    background-position: -89px -601px;
 }
 
 .hex.Stabilization {
     width: 42px;
     height: 48px;
-    background-position: -529px -601px;
+    background-position: -133px -601px;
 }
 
 .hex.Stealth {
     width: 42px;
     height: 48px;
-    background-position: -573px -601px;
+    background-position: -177px -601px;
 }
 
 .hex.Strafe {
     width: 42px;
     height: 48px;
-    background-position: -617px -601px;
+    background-position: -221px -601px;
+}
+
+.hex.StrafingStrikes {
+    width: 42px;
+    height: 48px;
+    background-position: -265px -601px;
 }
 
 .hex.Streamline {
     width: 42px;
     height: 48px;
-    background-position: -661px -1px;
+    background-position: -309px -601px;
+}
+
+.hex.Subsumption {
+    width: 42px;
+    height: 48px;
+    background-position: -353px -601px;
 }
 
 .hex.SupportSpecialist {
     width: 42px;
     height: 48px;
-    background-position: -660px -51px;
+    background-position: -397px -601px;
+}
+
+.hex.TacticalBeacon {
+    width: 42px;
+    height: 48px;
+    background-position: -441px -601px;
 }
 
 .hex.TacticalLink {
     width: 42px;
     height: 48px;
-    background-position: -661px -101px;
+    background-position: -485px -601px;
 }
 
 .hex.TargettingSystems {
     width: 42px;
     height: 48px;
-    background-position: -661px -151px;
+    background-position: -529px -601px;
 }
 
 .hex.TempestBreak {
     width: 42px;
     height: 48px;
-    background-position: -661px -201px;
+    background-position: -573px -601px;
 }
 
 .hex.Temporal {
     width: 42px;
     height: 48px;
-    background-position: -661px -251px;
+    background-position: -617px -601px;
 }
 
-.hex.Terminate {
-    width: 42px;
-    height: 48px;
-    background-position: -661px -301px;
-}
-
-.hex.ThermalLance {
-    width: 42px;
-    height: 48px;
-    background-position: -661px -351px;
-}
-
-.hex.Torrent {
-    width: 42px;
-    height: 48px;
-    background-position: -661px -401px;
-}
-
-.hex.Transmogrification {
-    width: 42px;
-    height: 48px;
-    background-position: -661px -451px;
-}
-
-.hex.Turret {
-    width: 42px;
-    height: 48px;
-    background-position: -661px -501px;
-}
-
-.hex.TwinStrike {
-    width: 42px;
-    height: 48px;
-    background-position: -661px -551px;
-}
-
-.hex.Velocity {
+.hex.TerminalDirective {
     width: 42px;
     height: 48px;
     background-position: -661px -601px;
 }
 
-.hex.Viper {
+.hex.Terminate {
     width: 42px;
     height: 48px;
     background-position: -1px -651px;
 }
 
-.hex.VitalBond {
+.hex.ThermalLance {
     width: 42px;
     height: 48px;
     background-position: -45px -651px;
 }
 
-.hex.Void {
+.hex.Torrent {
     width: 42px;
     height: 48px;
     background-position: -89px -651px;
 }
 
-.hex.VolatileShields {
+.hex.Transmogrification {
     width: 42px;
     height: 48px;
     background-position: -133px -651px;
 }
 
-.hex.Vortex {
+.hex.Turret {
     width: 42px;
     height: 48px;
     background-position: -177px -651px;
 }
 
-.hex.WarMachine {
+.hex.TwinStrike {
     width: 42px;
     height: 48px;
     background-position: -221px -651px;
 }
 
-.hex.WarpStrike {
+.hex.Velocity {
     width: 42px;
     height: 48px;
     background-position: -265px -651px;
 }
 
-.hex.Warp {
+.hex.Viper {
     width: 42px;
     height: 48px;
     background-position: -309px -651px;
 }
 
-.hex.Warpath {
+.hex.VitalBond {
     width: 42px;
     height: 48px;
     background-position: -353px -651px;
 }
 
-.hex.WeaponizedShields {
+.hex.Void {
     width: 42px;
     height: 48px;
     background-position: -397px -651px;
 }
 
-.hex.Wingman {
+.hex.VolatileShields {
     width: 42px;
     height: 48px;
     background-position: -441px -651px;
 }
 
-.hex.Winnow {
+.hex.Vortex {
     width: 42px;
     height: 48px;
     background-position: -485px -651px;
+}
+
+.hex.WarMachine {
+    width: 42px;
+    height: 48px;
+    background-position: -529px -651px;
+}
+
+.hex.WarpStrike {
+    width: 42px;
+    height: 48px;
+    background-position: -573px -651px;
+}
+
+.hex.Warp {
+    width: 42px;
+    height: 48px;
+    background-position: -617px -651px;
+}
+
+.hex.Warpath {
+    width: 42px;
+    height: 48px;
+    background-position: -661px -651px;
+}
+
+.hex.WeaponizedShields {
+    width: 42px;
+    height: 48px;
+    background-position: -705px -1px;
+}
+
+.hex.Wingman {
+    width: 42px;
+    height: 48px;
+    background-position: -704px -51px;
+}
+
+.hex.Winnow {
+    width: 42px;
+    height: 48px;
+    background-position: -705px -101px;
 }

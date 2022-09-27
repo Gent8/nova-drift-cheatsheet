@@ -1,4 +1,6 @@
 package;
+import sys.io.File;
+import format.csv.*;
 
 /**
  * ...
@@ -7,240 +9,29 @@ package;
 class ModShortNames {
 	static var abbrMap = new Map<Mod, Bool>();
 	static var abbrMap2 = new Map<String, Bool>();
+	static var csv = Reader.parseCsv(File.getContent("src/ModName.csv"));
 
-	public static function check(mod:Mod, title:String):Void {
-		if (!abbrMap.exists(mod)) {
-			abbrMap[mod] = true;
-			var a = ~/[^A-Z]/g.replace(mod, "");
-			if (abbrMap2.exists(a))
-				a += "#";
-			else
-				abbrMap2[a] = true;
-			Sys.println('add("$a", Mod.$mod);		// $title');
-		}
-	}
-
-	public static function print()
+	/**
+	 * Returns (MODALIAS1)=(MODNAME1);(MODALIAS2)=(MODNAME2);...
+	 * @param csvCol Column number of CSV for alias acquisition
+	 */
+	public static function print(csvCol:Int)
 	{
-		var shortenMap:Map<Mod, String> = new Map();
-		var longenMap:Map<String, Mod> = new Map();
+		var fromMap:Map<String, String> = new Map();
+		var toMap:Map<String, String> = new Map();
 		var arr = [];
-		function add(sh:String, mod:Mod) {
-			if (shortenMap.exists(mod))
-				throw '$mod already added';
-			if (longenMap.exists(sh))
-				throw '$sh for $mod is taken by ' + longenMap[sh];
-			shortenMap[mod] = sh;
-			longenMap[sh] = mod;
-			arr.push('$sh=$mod');
+
+		for (row in csv)
+		{
+			if (fromMap.exists(row[0]))
+				throw row[0] + ' already added';
+			if (toMap.exists(row[csvCol]))
+				throw row[0] + ' is taken by ' + toMap[row[csvCol]];
+			fromMap[row[0]] = row[csvCol];
+			toMap[row[csvCol]] = row[0];
+			arr.push(row[csvCol] + '=' + row[0]);
 		}
-		add("ALY", Mod.Ally);
-		add("NTR", Mod.Nanotech);
-		add("EVA", Mod.Evasion);
-		add("EVO", Mod.Evolution);
-		add("GUR", Mod.Guardian);
-		add("ES", Mod.EchoStrike);
-		add("DS", Mod.DecoySignal);
-		add("MC", Mod.MediCharge);
-		add("ITW", Mod.IntegratedWeaponry);
-		add("OMN", Mod.Outmaneuver);
-		add("WNM", Mod.Wingman);
-		add("OV", Mod.Overpower);
-		add("TUR", Mod.Turret);
-		add("PD", Mod.PointDefense);
-		add("WM", Mod.WarMachine);
-		add("CA", Mod.CounterArtillery);
-		add("EC", Mod.ElegantConstruction);
-		add("SD", Mod.SelfDestruction);
-		add("SDR", Mod.ShieldedDrones);
-		add("OVS", Mod.Overseer);
-		add("PZ", Mod.PriorityZero);
-		add("OVC", Mod.Overclock);
-		add("TL", Mod.TacticalLink);
-		add("SS", Mod.SupportSpecialist);
-		add("MIN", Mod.Mines);
-		add("AM", Mod.AutoMines);
-		add("LM", Mod.LoadedMines);
-		add("RTB", Mod.Retribution);
-		add("D", Mod.Drones);
-		add("RKD", Mod.RocketDrones);
-		add("RFD", Mod.ReinforcedDrones);
-		add("AE", Mod.AdvancedEngineering);
-		add("AD", Mod.AssaultDrones);
-		add("PRD", Mod.PredatorDrones);
-		add("BD", Mod.BattalionDrones);
-		add("FLT", Mod.Fleet);
-		add("DD", Mod.DefenseDrone);
-		add("FR", Mod.FormationRampart);
-		add("CP", Mod.Counterpulse);
-		add("FLO", Mod.Flotilla);
-		add("IT", Mod.ImprovedThrusters);
-		add("DW", Mod.DeadlyWake);
-		add("SL", Mod.Streamline);
-		add("BK", Mod.Blink);
-		add("KB", Mod.KineticBoost);
-		add("AEG", Mod.Aegis);
-		add("LN", Mod.Lance);
-		add("ESY", Mod.EmergencySystems);
-		add("STB", Mod.Stabilization);
-		add("AGI", Mod.Agility);
-		add("PR", Mod.PowerReserves);
-		add("STF", Mod.Strafe);
-		add("SKM", Mod.Skirmish);
-		add("BLZ", Mod.Blitz);
-		add("TMN", Mod.Terminate);
-		add("ESP", Mod.EssenceSap);
-		add("VEL", Mod.Velocity);
-		add("SNP", Mod.Snipe);
-		add("CAL", Mod.Calibrate);
-		add("BRC", Mod.Breach);
-		add("RF", Mod.RapidFire);
-		add("BF", Mod.BurstFire);
-		add("WP", Mod.Warpath);
-		add("SW", Mod.SiegeWeaponry);
-		add("AP", Mod.AddedProjectiles);
-		add("FF", Mod.FocusFire);
-		add("FA", Mod.FiringArray);
-		add("FSL", Mod.Fusillade);
-		add("MGT", Mod.Magnitude);
-		add("P", Mod.Payload);
-		add("SSH", Mod.SplinterShot);
-		add("CS", Mod.ChargedShot);
-		add("BR", Mod.BlastRadius);
-		add("HE", Mod.HighExplosive);
-		add("CB", Mod.ConcentratedBlast);
-		add("RUP", Mod.Rupture);
-		add("TS", Mod.TargettingSystems);
-		add("HS", Mod.HeatSeeking);
-		add("HST", Mod.HomingStrike);
-		add("CVG", Mod.Convergence);
-		add("CDS", Mod.Candescence);
-		add("COR", Mod.Corrosion);
-		add("PUG", Mod.Purge);
-		add("PUR", Mod.Purification);
-		add("EF", Mod.Efficiency);
-		add("GP", Mod.Gemini);
-		add("CN", Mod.Conversion);
-		add("RG", Mod.Regression);
-		add("AA", Mod.AdaptiveArmor);
-		add("CH", Mod.Channeling);
-		add("RB", Mod.Rebuke);
-		add("CSH", Mod.CoreShielding);
-		add("HUS", Mod.HullStrength);
-		add("ABS", Mod.Absorption);
-		add("JGR", Mod.Juggernaut);
-		add("FAR", Mod.ForceArmor);
-		add("HR", Mod.HullRegeneration);
-		add("RS", Mod.RegenerativeShields);
-		add("RR", Mod.RapidReconstruction);
-		add("AMD", Mod.AdrenalModule);
-		add("SHD", Mod.ShieldDurability);
-		add("RTS", Mod.RetaliationShields);
-		add("BAR", Mod.Barrier);
-		add("OS", Mod.OmniShield);
-		add("SC", Mod.ShieldCooldown);
-		add("VS", Mod.VolatileShields);
-		add("FS", Mod.FlashShielding);
-		add("DSC", Mod.Discharge);
-		add("SR", Mod.ShieldRadius);
-		add("RAS", Mod.RadiantShields);
-		add("FOS", Mod.FocusedShields);
-		add("WS", Mod.WeaponizedShields);
-		add("MST", Mod.Mastery);
-		add("MRT", Mod.Mortar);
-		add("CM", Mod.ChargedMines);
-		add("LS", Mod.LastStand);
-		add("HP", Mod.HiddenPower);
-		add("CLS", Mod.CelestialSurge);
-		add("SF", Mod.SaturationFire);
-		add("CMX", Mod.Max);
-		add("AMC", Mod.ApexMachinery);
-		add("TB", Mod.TempestBreak);
-		add("SAN", Mod.Sanctuary);
-		add("VTB", Mod.VitalBond);
-		add("LTW", Mod.LeafOnTheWind);
-		add("APO", Mod.Apotheosis);
-		add("RAN", Mod.Rancor);
-		add("DST", Mod.DyingStar);
-		add("WST", Mod.WarpStrike);
-		add("ANH", Mod.Annihilation);
-		add("ATX", Mod.Ataraxia);
-		add("DSP", Mod.Displacement);
-		add("BUR", Mod.BurnoutReactors);
-		add("SSN", Mod.SingularStrikeNew);
-		add("BRG", Mod.Barrage);
-		add("DFL", Mod.Deflagration);
-		add("SLS", Mod.Slipstream);
-		add("GO", Mod.GalvanicOutburst);
-		add("RM", Mod.Rampage);
-		add("H", Mod.Hypermetabolism);
-		add("DT", Mod.DoubleTap);
-		add("HC", Mod.HeavyCaliber);
-		add("ENS", Mod.EnergizedShields);
-		add("SH", Mod.SolarHeart);
-		add("PI", Mod.PolarInversion);
-		add("PM", Mod.PropulsiveMunitions);
-		add("SCW", Mod.ScorchingWake);
-		add("SPM", Mod.SpecialistMine);
-		add("SPD", Mod.SpecialistDrone);
-		add("ST", Mod.SpecialistTurret);
-		add("SA", Mod.SpecialistAlly);
-		add("MAS", Mod.Masochism);
-		add("CHA", Mod.ChaoticAmbition);
-		add("DEF", Mod.Defiance);
-		add("S2", Mod.TwinStrike);
-		add("OM", Mod.OutrageModule);
-		add("PS", Mod.PhantomStrike);
-		add("DIS", Mod.Discord);
-		add("TRX", Mod.Transmogrification);
-		add("DHB", Mod.DeathBlossom);
-		add("RVL", Mod.Revelation);
-		add("WIN", Mod.Winnow);
-		add("OBS", Mod.Obsession);
-		add("BVD", Mod.Bravado);
-		add("EXG", Mod.ExplosiveGrowth);
-		add("MAE", Mod.Maelstrom);
-		add("EVN", Mod.EvolutionaryNiche);
-		add("SPG", Mod.SpontaneousGeneration);
-		add("FRS", Mod.Farsight);
-		add("GDR", Mod.Grandeur);
-		add("PWS", Mod.PowerSpike);
-		add("WP0", Mod.DefaultWeapon);
-		add("SPL", Mod.Split);
-		add("RLG", Mod.Railgun);
-		add("GRD", Mod.Grenade);
-		add("TRN", Mod.Torrent);
-		add("PUL", Mod.Pulse);
-		add("FLK", Mod.Flak);
-		add("THL", Mod.ThermalLance);
-		add("SLV", Mod.Salvo);
-		add("VTX", Mod.Vortex);
-		add("BLD", Mod.BladeDrone);
-		add("DRT", Mod.Dart);
-		add("BD0", Mod.DefaultBody);
-		add("AST", Mod.Assault);
-		add("STH", Mod.Stealth);
-		add("SNT", Mod.Sentinel);
-		add("ENG", Mod.Engineer);
-		add("FFL", Mod.Firefly);
-		add("CRR", Mod.Carrier);
-		add("HLB", Mod.Hullbreaker);
-		add("BTR", Mod.Battery);
-		add("ARC", Mod.Architect);
-		add("RSC", Mod.Research);
-		add("VPR", Mod.Viper);
-		add("CUR", Mod.Courser);
-		add("LV", Mod.Leviathan);
-		add("SH0", Mod.DefaultShield);
-		add("HAL", Mod.Halo);
-		add("TMP", Mod.Temporal);
-		add("RFL", Mod.Reflect);
-		add("WRP", Mod.Warp);
-		add("SWV", Mod.Shockwave);
-		add("AMP", Mod.Amp);
-		add("BST", Mod.Bastion);
-		add("HLX", Mod.Helix);
-		add("SPH", Mod.Siphon);
+
 		return arr.join(";");
 	}
 }

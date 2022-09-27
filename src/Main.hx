@@ -25,14 +25,13 @@ class Main {
 		var csv = Reader.parseCsv(File.getContent("docs/variables.csv"));
 
 		for (row in csv) {
-			// var regex = new EReg("\\[\\$\\=\\{?[%]?[\\+|-]"+row[0]+"\\}\\]", "g");
-			// src = regex.replace(src, "$2"+row[1]+"$1");
+			if (Std.string(row[0]).contains("+"))
+				row[1] = "+" + row[1];
+			if (Std.string(row[0]).contains("-"))
+				row[1] = "-" + row[1];
+			if (Std.string(row[0]).contains("%"))
+				row[1] = row[1] + "%";
 
-			src = src.replace("[$={%+" + row[0] + "}]", "+" + row[1] + "%");
-			src = src.replace("[$={%-" + row[0] + "}]", "-" + row[1] + "%");
-			src = src.replace("[$={%" + row[0] + "}]", row[1] + "%");
-			src = src.replace("[$={+" + row[0] + "}]", "+" + row[1]);
-			src = src.replace("[$={-" + row[0] + "}]", "-" + row[1]);
 			src = src.replace("[$={" + row[0] + "}]", row[1]);
 		}
 
@@ -73,6 +72,12 @@ class Main {
 			case Mod.DefaultBody: return "Standard";
 			case Mod.DefaultShield: return "Standard";
 			case Mod.Split: return "SplitShot";
+			case Mod.ArcBarrier: return "FormationRampart";
+			case Mod.FleetCommander: return "Fleet";
+			case Mod.Reconstitution: return "Flotilla";
+			case Mod.Subsumption: return "RocketDrones";
+			case Mod.TerminalDirective: return "PredatorDrones";
+			case Mod.GraceProtocol: return "ReinforcedDrones";
 			default: name;
 		}
 	}
@@ -174,9 +179,9 @@ class Main {
 		add(Mod.Guardian, Mod.EchoStrike, Mod.DecoySignal, Mod.MediCharge);
 		add(Mod.Turret, Mod.PointDefense, Mod.WarMachine, Mod.CounterArtillery);
 		add(Mod.Mines, Mod.AutoMines, Mod.LoadedMines, Mod.Retribution);
-		add(Mod.Drones, Mod.RocketDrones, Mod.ReinforcedDrones, Mod.AdvancedEngineering);
-		add(Mod.AssaultDrones, Mod.PredatorDrones, Mod.BattalionDrones, Mod.Fleet);
-		add(Mod.DefenseDrone, Mod.FormationRampart, Mod.Counterpulse, Mod.Flotilla);
+		add(Mod.Drones, Mod.Subsumption, Mod.GraceProtocol, Mod.AdvancedEngineering);
+		add(Mod.AssaultDrones, Mod.TerminalDirective, Mod.BattalionDrones, Mod.FleetCommander);
+		add(Mod.DefenseDrone, Mod.ArcBarrier, Mod.Counterpulse, Mod.Reconstitution);
 		add(Mod.ElegantConstruction, Mod.SelfDestruction, Mod.ShieldedDrones, Mod.Overseer);
 		add(Mod.PriorityZero, Mod.Overclock, Mod.TacticalLink, Mod.SupportSpecialist);
 
@@ -237,6 +242,9 @@ class Main {
 		addText(Mod.Mastery, '10x<br/>Weapon Mods', '10x<br/>武器MOD');
 		addPair(Mod.Apotheosis, Mod.KineticBoost, Mod.Strafe);
 		addText(Mod.Ataraxia, '4x<br/>Unspent Upgrades', '4x<br/>未使用アップグレード');
+		addPair(Mod.Infuse, Mod.Magnitude, Mod.Discharge);
+		addPair(Mod.ChargedShields, Mod.ChargedShot, Mod.FocusedShields);
+		addPair(Mod.StrafingStrikes, Mod.Warpath, Mod.Strafe);
 		return b.toString();
 	}
 
@@ -260,6 +268,7 @@ class Main {
 		add(Mod.SpecialistTurret);
 		add(Mod.SpecialistAlly);
 		add(Mod.Masochism, "rc");
+		add(Mod.Defiance, "rc");
 		return b.toString();
 	}
 
@@ -268,7 +277,6 @@ class Main {
 		function add(mod:Mod, sub:String = "")
 			addSingle(b, mod, "Mod", "", sub);
 		add(Mod.ChaoticAmbition, "rc");
-		add(Mod.Defiance, "rc");
 		add(Mod.OutrageModule);
 		add(Mod.PhantomStrike);
 		add(Mod.Discord);
@@ -293,6 +301,8 @@ class Main {
 		add(Mod.ExplosiveGrowth);
 		add(Mod.PowerSpike);
 		add(Mod.Maelstrom);
+		add(Mod.Ricochet, "rc");
+		add(Mod.Challenger, "rc");
 		return b.toString();
 	}
 
@@ -356,6 +366,7 @@ class Main {
 	static function main()
 	{
 		var html = File.getContent("docs/base.html");
+		var jscript = File.getContent("docs/base.js");
 		var hexStat:sys.FileStat = sys.FileSystem.stat("docs/hex.css");
 		var styleStat:sys.FileStat = sys.FileSystem.stat("docs/style.css");
 		var scriptStat:sys.FileStat = sys.FileSystem.stat("docs/script.js");
@@ -409,9 +420,12 @@ class Main {
 		html = StringTools.replace(html, "<!--shieldsJP-->", genShields());
 		Sys.println("[JP] Shield");
 
-		html = StringTools.replace(html, "[[shorten_data]]", ModShortNames.print());
+		jscript = StringTools.replace(jscript, "[[shorten_data]]", ModShortNames.print(1));
+		jscript = StringTools.replace(jscript, "[[prefab_data]]", ModShortNames.print(2));
 
 		File.saveContent("docs/index.html", html);
+		File.saveContent("docs/main.js", jscript);
+
 		Sys.println("All Done!");
 	}
 }

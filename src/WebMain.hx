@@ -16,23 +16,23 @@ class WebMain {
 			allowHTML: true,
 			content: function(el:Element) {
 				var tip = el.title;
-				
+
 				//
 				var metaStr = el.getAttribute("data-hex-meta");
 				var metaArr = metaStr != null ? metaStr.split(";") : [];
-				
+
 				// used for filtering:
 				el.setAttribute('data-hex-text', tip.toLowerCase());
-				
+
 				// switch up ZWSP<->\n+ so that we have less trouble parsing
 				tip = ~/(\n+)(\u200b)/g.replace(tip, "$2$1");
-				
+
 				var start = 0;
 				var pos = 0;
 				var b = "";
 				var isList = false;
 				var color:String = null;
-				
+
 				while (pos < tip.length) {
 					var from = pos++;
 					inline function flush():Void {
