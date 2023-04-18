@@ -124,6 +124,7 @@ MediCharge,MC,mMediCharge
 Mines,MIN,mMines
 Mortar,MRT,mMortar
 Nanotech,NTR,mNanotechReconstruction
+NanotechDissemination,NTD,mNanotechDissemination
 Obsession,OBS,mObsession
 OmniShield,OS,mOmniShield
 Outmaneuver,OMN,mOutmaneuver

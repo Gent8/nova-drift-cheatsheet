@@ -26,7 +26,6 @@ enum abstract Mod(String) to String {
 	var BlastRadius;
 	var Blink;
 	var Blitz;
-	var BombingRun;
 	var Border;
 	var Bravado;
 	var Breach;
@@ -50,6 +49,11 @@ enum abstract Mod(String) to String {
 	var CounterArtillery;
 	var Counterpulse;
 	var Courser;
+	var Cover3WithBackground;
+	var Cover3;
+	var Cover5;
+	var CoverBackground;
+	var Cover;
 	var Dart;
 	var DeadlyWake;
 	var DeathBlossom;
@@ -128,6 +132,7 @@ enum abstract Mod(String) to String {
 	var MediCharge;
 	var Mines;
 	var Mortar;
+	var NanotechDissemination;
 	var Nanotech;
 	var Obsession;
 	var OmniShield;

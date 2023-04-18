@@ -176,7 +176,7 @@ class Main {
 
 		add(Mod.Ally, Mod.Nanotech, Mod.Evasion, Mod.Evolution);
 		add(Mod.IntegratedWeaponry, Mod.Outmaneuver, Mod.Wingman, Mod.Overpower);
-		add(Mod.Guardian, Mod.EchoStrike, Mod.DecoySignal, Mod.MediCharge);
+		add(Mod.Guardian, Mod.NanotechDissemination, Mod.DecoySignal, Mod.MediCharge);
 		add(Mod.Turret, Mod.PointDefense, Mod.WarMachine, Mod.CounterArtillery);
 		add(Mod.Mines, Mod.AutoMines, Mod.LoadedMines, Mod.Retribution);
 		add(Mod.Drones, Mod.Subsumption, Mod.GraceProtocol, Mod.AdvancedEngineering);
