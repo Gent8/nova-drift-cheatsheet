@@ -234,9 +234,14 @@
         var hex = e.target;
         var els = document.querySelectorAll('.hex.' + hex.getAttribute('data-hex-name'));
         var elsMax = document.querySelectorAll('.hex.Max');
+        var checkedMax = 0;
         if (hex.hasAttribute('checked')) {
             for (var i = 0; i < els.length; i++) els[i].removeAttribute('checked');
-            for (var i = 0; i < elsMax.length; i++) elsMax[i].removeAttribute('checked');
+            for (var i = 0; i < listConstructMax.length - 1; i++)
+                if (document.querySelector('.hex.' + listConstructMax[i]).hasAttribute('checked'))
+                    ++checkedMax;
+            if (checkedMax == 0)
+                for (var i = 0; i < elsMax.length; i++) elsMax[i].removeAttribute('checked');
             if (--hexCheckCount == 0) clearMatch();
         } else {
             for (var i = 0; i < els.length; i++) els[i].setAttribute('checked', '');
