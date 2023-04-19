@@ -62,30 +62,33 @@
         style.innerHTML = css.join('\n');
     }
 
+    var listConstructMax = [
+        'Retribution',
+        'AdvancedEngineering',
+        'FleetCommander',
+        'Reconstitution',
+        'CounterArtillery',
+        'Evolution',
+        'MediCharge',
+        'Overpower',
+        'Overseer',
+        'SupportSpecialist',
+        'Max',
+    ];
+
     function onMaxEnter(e) {
         var hex = e.target;
         var name = hex.getAttribute('data-hex-name');
-        var constructMax = [
-            'Retribution',
-            'Fleet',
-            'Flotilla',
-            'CounterArtillery',
-            'MediCharge',
-            'Overpower',
-            'Overseer',
-            'SupportSpecialist',
-            'Max',
-        ];
         if (!name) return;
 
         var css = [];
         var inactiveList = '.hex';
         var activeList = '';
 
-        for (var i = 0; i < constructMax.length; i++) {
-            inactiveList = inactiveList + ':not(.' + constructMax[i] + ')';
-            if (i == 0) activeList = activeList + '.hex.' + constructMax[i];
-            else activeList = activeList + ',.hex.' + constructMax[i];
+        for (var i = 0; i < listConstructMax.length; i++) {
+            inactiveList = inactiveList + ':not(.' + listConstructMax[i] + ')';
+            if (i == 0) activeList = activeList + '.hex.' + listConstructMax[i];
+            else activeList = activeList + ',.hex.' + listConstructMax[i];
         }
 
         css.push(inactiveList + cssInactive);
@@ -227,6 +230,21 @@
         }
         hexCheckCountSpan.innerHTML = '' + hexCheckCount;
     }
+    function onMaxToggle(e) {
+        var hex = e.target;
+        var els = document.querySelectorAll('.hex.' + hex.getAttribute('data-hex-name'));
+        var elsMax = document.querySelectorAll('.hex.Max');
+        if (hex.hasAttribute('checked')) {
+            for (var i = 0; i < els.length; i++) els[i].removeAttribute('checked');
+            for (var i = 0; i < elsMax.length; i++) elsMax[i].removeAttribute('checked');
+            if (--hexCheckCount == 0) clearMatch();
+        } else {
+            for (var i = 0; i < els.length; i++) els[i].setAttribute('checked', '');
+            for (var i = 0; i < elsMax.length; i++) elsMax[i].setAttribute('checked', '');
+            if (++hexCheckCount == 1) clearMatch();
+        }
+        hexCheckCountSpan.innerHTML = '' + hexCheckCount;
+    }
     function onHexRcPlus(e) {
         var hex = e.target;
         var els = document.querySelectorAll('.hex.' + hex.getAttribute('data-hex-name'));
@@ -280,15 +298,26 @@
             hex.setAttribute('data-hex-name', hex.classList[k]);
             break;
         }
-        if (hex.classList[k] == 'Max') hex.addEventListener('mouseenter', onMaxEnter);
-        else hex.addEventListener('mouseenter', onModEnter);
 
         hex.addEventListener('mouseleave', clearMatch);
 
+        if (hex.classList[k] == 'Max') {
+            hex.addEventListener('mouseenter', onMaxEnter);
+            continue;
+        }
+        else {
+            hex.addEventListener('mouseenter', onModEnter);
+        }
+
+        var isMax = listConstructMax.indexOf(hex.classList[k])
         if (hex.classList.contains('rc')) {
             hex.addEventListener('click', onHexRcPlus);
             hex.parentElement.insertAdjacentHTML('beforeend', '<div class="rcNum"></div>');
-        } else {
+        }
+        else if (isMax != -1) {
+            hex.addEventListener('click', onMaxToggle);
+        }
+        else {
             hex.addEventListener('click', onHexToggle);
         }
     }
@@ -330,7 +359,7 @@
                         }
                         if (mod.length == 1 || parseInt(mod[1]) <= 0 || !isRecursive) mod[1] = '1';
                         if (parseInt(mod[1]) >= 10) mod[1] = 10;
-                        hexCheckCount = hexCheckCount + parseInt(mod[1]);
+                        if (mod[0] != 'CMX') hexCheckCount = hexCheckCount + parseInt(mod[1]);
                     } catch (e) {
                         console.log(e);
                     }
