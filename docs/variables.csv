@@ -296,7 +296,7 @@ warpStrikeRemovalFlat,5
 %-barrageMultRecovery,15
 %+singularStrikeMultMagnitude,15
 %+singularStrikePercentFused,50
-+singularStrikeFiringDelay,0.125
+%-singularStrikeMultROF,15
 %+burnoutReactorsMultAssemblySpeed,30
 %+burnoutReactorsMultAgility,30
 burnoutReactorsIgniteDamage,30

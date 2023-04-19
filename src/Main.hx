@@ -179,7 +179,7 @@ class Main {
 		add(Mod.Guardian, Mod.NanotechDissemination, Mod.DecoySignal, Mod.MediCharge);
 		add(Mod.Turret, Mod.PointDefense, Mod.WarMachine, Mod.CounterArtillery);
 		add(Mod.Mines, Mod.AutoMines, Mod.LoadedMines, Mod.Retribution);
-		add(Mod.Drones, Mod.Subsumption, Mod.GraceProtocol, Mod.AdvancedEngineering);
+		add(Mod.Drones, Mod.GraceProtocol, Mod.Subsumption, Mod.AdvancedEngineering);
 		add(Mod.AssaultDrones, Mod.TerminalDirective, Mod.BattalionDrones, Mod.FleetCommander);
 		add(Mod.DefenseDrone, Mod.ArcBarrier, Mod.Counterpulse, Mod.Reconstitution);
 		add(Mod.ElegantConstruction, Mod.SelfDestruction, Mod.ShieldedDrones, Mod.Overseer);
