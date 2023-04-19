@@ -62,6 +62,51 @@
         style.innerHTML = css.join('\n');
     }
 
+    var listWeapon = [
+        'DefaultWeapon',
+        'Split',
+        'Railgun',
+        'Grenade',
+        'Torrent',
+        'Pulse',
+        'Flak',
+        'ThermalLance',
+        'Salvo',
+        'Vortex',
+        'BladeDrone',
+        'Dart'
+    ]
+
+    var listBody = [
+        'DefaultBody',
+        'Assault',
+        'Stealth',
+        'Sentinel',
+        'Engineer',
+        'Firefly',
+        'Carrier',
+        'Hullbreaker',
+        'Battery',
+        'Architect',
+        'Research',
+        'Viper',
+        'Courser',
+        'Leviathan'
+    ]
+
+    var listShield = [
+        'DefaultShield',
+        'Halo',
+        'Temporal',
+        'Reflect',
+        'Warp',
+        'Shockwave',
+        'Amp',
+        'Bastion',
+        'Helix',
+        'Siphon'
+    ]
+
     var listConstructMax = [
         'Retribution',
         'AdvancedEngineering',
@@ -364,7 +409,8 @@
                         }
                         if (mod.length == 1 || parseInt(mod[1]) <= 0 || !isRecursive) mod[1] = '1';
                         if (parseInt(mod[1]) >= 10) mod[1] = 10;
-                        if (mod[0] != 'CMX') hexCheckCount = hexCheckCount + parseInt(mod[1]);
+                        if (mod[0] != 'CMX')
+                            hexCheckCount = hexCheckCount + parseInt(mod[1]);
                     } catch (e) {
                         console.log(e);
                     }

@@ -5,6 +5,8 @@
 %+firingArrayMultProjectileSpread,10
 %+snipeMaxBonus,120
 %+snipeMultVelocity,20
+%+warpathBuffMult,0.75
+%+warpathBuffMax,30
 %-siegeWeaponryMultTotalThrust,80
 %-splinterShotMultROF,15
 +convergenceAddedProjectiles,2
