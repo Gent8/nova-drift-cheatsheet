@@ -206,6 +206,7 @@ enum abstract Mod(String) to String {
 	var Streamline;
 	var Subsumption;
 	var SupportSpecialist;
+	var Swords;
 	var TacticalBeacon;
 	var TacticalLink;
 	var TargettingSystems;
@@ -222,6 +223,7 @@ enum abstract Mod(String) to String {
 	var Viper;
 	var VitalBond;
 	var Void;
+	var VoidSlice;
 	var VolatileShields;
 	var Vortex;
 	var WarMachine;

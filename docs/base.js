@@ -121,6 +121,12 @@
         'Max',
     ];
 
+    var listDefaultLoadout = [
+        'DefaultWeapon',
+        'DefaultBody',
+        'DefaultShield'
+    ]
+
     function onMaxEnter(e) {
         var hex = e.target;
         var name = hex.getAttribute('data-hex-name');
@@ -295,6 +301,15 @@
         }
         hexCheckCountSpan.innerHTML = '' + hexCheckCount;
     }
+    function onDefaultToggle(e) {
+        var hex = e.target;
+        var els = document.querySelectorAll('.hex.' + hex.getAttribute('data-hex-name'));
+        if (hex.hasAttribute('checked')) {
+            for (var i = 0; i < els.length; i++) els[i].removeAttribute('checked');
+        } else {
+            for (var i = 0; i < els.length; i++) els[i].setAttribute('checked', '');
+        }
+    }
     function onHexRcPlus(e) {
         var hex = e.target;
         var els = document.querySelectorAll('.hex.' + hex.getAttribute('data-hex-name'));
@@ -360,12 +375,16 @@
         }
 
         var isMax = listConstructMax.indexOf(hex.classList[k])
+        var isDefault = listDefaultLoadout.indexOf(hex.classList[k])
         if (hex.classList.contains('rc')) {
             hex.addEventListener('click', onHexRcPlus);
             hex.parentElement.insertAdjacentHTML('beforeend', '<div class="rcNum"></div>');
         }
         else if (isMax != -1) {
             hex.addEventListener('click', onMaxToggle);
+        }
+        else if (isDefault != -1) {
+            hex.addEventListener('click', onDefaultToggle)
         }
         else {
             hex.addEventListener('click', onHexToggle);
@@ -409,7 +428,7 @@
                         }
                         if (mod.length == 1 || parseInt(mod[1]) <= 0 || !isRecursive) mod[1] = '1';
                         if (parseInt(mod[1]) >= 10) mod[1] = 10;
-                        if (mod[0] != 'CMX')
+                        if (mod[0] != 'CMX' && mod[0] != 'WP0' && mod[0] != 'BD0' && mod[0] != 'SH0')
                             hexCheckCount = hexCheckCount + parseInt(mod[1]);
                     } catch (e) {
                         console.log(e);

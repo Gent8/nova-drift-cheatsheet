@@ -78,6 +78,7 @@ class Main {
 			case Mod.Subsumption: return "RocketDrones";
 			case Mod.TerminalDirective: return "PredatorDrones";
 			case Mod.GraceProtocol: return "ReinforcedDrones";
+			case Mod.VoidSlice: return "Displacement";
 			default: name;
 		}
 	}
@@ -174,7 +175,7 @@ class Main {
 		add(Mod.BlastRadius, Mod.HighExplosive, Mod.ConcentratedBlast, Mod.Rupture);
 		add(Mod.Candescence, Mod.Corrosion, Mod.Purge, Mod.Purification);
 
-		add(Mod.Ally, Mod.Nanotech, Mod.Evasion, Mod.Evolution);
+		add(Mod.Ally, Mod.Nanotech, Mod.EchoStrike, Mod.Evolution);
 		add(Mod.IntegratedWeaponry, Mod.Outmaneuver, Mod.Wingman, Mod.Overpower);
 		add(Mod.Guardian, Mod.NanotechDissemination, Mod.DecoySignal, Mod.MediCharge);
 		add(Mod.Turret, Mod.PointDefense, Mod.WarMachine, Mod.CounterArtillery);
@@ -223,7 +224,7 @@ class Main {
 		addPair(Mod.VitalBond, Mod.Max, Mod.RapidReconstruction);
 		addPair(Mod.TempestBreak, Mod.DeadlyWake, Mod.FlashShielding);
 		addPair(Mod.SaturationFire, Mod.Calibrate, Mod.SiegeWeaponry);
-		addPair(Mod.Mortar, Mod.Overseer, Mod.LoadedMines);
+		addPair(Mod.Mortar, Mod.Overseer, Mod.Mines);
 		addPair(Mod.CelestialSurge, Mod.Lance, Mod.Stabilization);
 		addPair(Mod.Rancor, Mod.ChargedShot, Mod.Absorption);
 		addPair(Mod.ChargedMines, Mod.ChargedShot, Mod.LoadedMines);
@@ -235,7 +236,7 @@ class Main {
 		addPair(Mod.BurnoutReactors, Mod.SelfDestruction, Mod.Candescence);
 		addText(Mod.LastStand, '10x<br/>Shield/Body Mods', '10x<br/>防御MOD');
 		addPair(Mod.Barrage, Mod.FocusFire, Mod.BurstFire);
-		addPair(Mod.Displacement, Mod.Blink, Mod.Strafe);
+		addPair(Mod.VoidSlice, Mod.Blink, Mod.Strafe);
 		addPair(Mod.LeafOnTheWind, Mod.Streamline, Mod.Warpath);
 		addPair(Mod.SingularStrikeNew, Mod.Payload, Mod.Juggernaut);
 		addPair(Mod.Deflagration, Mod.Rupture, Mod.Purge);
@@ -322,6 +323,7 @@ class Main {
 		add(Mod.Vortex);
 		add(Mod.BladeDrone);
 		add(Mod.Dart);
+		add(Mod.Swords);
 		return b.toString();
 	}
 

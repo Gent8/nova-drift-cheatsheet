@@ -195,6 +195,7 @@ StrafingStrikes,SRS,mStrafingStrikes
 Streamline,SL,mStreamline
 Subsumption,SBS,mSubsumption
 SupportSpecialist,SS,mSupportSpecialist
+Swords,SWD,mSwords
 TacticalLink,TL,mTacticalLink
 TargettingSystems,TS,mTargetting
 TempestBreak,TB,mTempestBreak
@@ -209,6 +210,7 @@ TwinStrike,S2,mTwinStrike
 Velocity,VEL,mVelocity
 Viper,VPR,gViper
 VitalBond,VTB,mVitalBond
+VoidSlice,VOS,mVoidSlice
 VolatileShields,VS,mVolatileShields
 Vortex,VTX,gVortex
 WarMachine,WM,mWarMachine
