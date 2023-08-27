@@ -148,7 +148,7 @@ purificationAddedRecovery,0.2
 %-purificationMultWeaponDamage,30
 %+armorStackChannelingRegenMult,1
 %+armorStackChannelingEffectMult,1
-%+channelingArmorStackDuration,2
+%+channelingArmorStackDuration,20
 %+rebukeVulnerability,2.5
 %+coreShieldingSelfDamageResistance,20
 %+coreShieldingMultArmorStackDuration,20
