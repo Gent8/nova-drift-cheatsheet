@@ -285,7 +285,7 @@ shockwaveDamage,120
 shockwaveBaseShield,60
 shockwaveCooldown,7
 blasterBaseDamage,20
-blasterBaseProjectiles,2
+blasterBaseProjectiles,1
 blasterBaseROF,6
 splitShotBaseDamage,24
 %splitShotBlastPercent,50
@@ -317,7 +317,7 @@ pulseShardCount,12
 pulseBaseROF,1
 %-torrentMultMobility,30
 torrentBaseDamage,20
-torrentBaseProjectiles,2
+torrentBaseProjectiles,3
 torrentBaseROF,12
 %+bladeDeployBuff,50
 bladeBaseDamage,32
