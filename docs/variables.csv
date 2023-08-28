@@ -340,8 +340,8 @@ thermalLanceSparkCount,1
 thermalLanceBaseROF,7.5
 %+swordsROFThreshold,100
 %swordsCrashPercent,50
-swordsBaseDamage,180
-swordsDamagePerLevel,2
+swordsBaseDamage,150
+swordsDamagePerLevel,5
 %swordsSparkPercent,50
 swordsBaseHull,150
 swordsBaseROF,0.75
@@ -385,7 +385,7 @@ burnoutReactorsSelfDamage,8
 voidSliceBaseDamage,1200
 %voidSlicePercentDamage,7
 voidSliceCharges,2
-voidSliceCooldown,3
+voidSliceCooldown,2.5
 %-mortarMultEffect,15
 %mortarPercentageSelfDamage,20
 mortarFlatSelfDamage,5
