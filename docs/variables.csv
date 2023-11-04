@@ -20,6 +20,7 @@
 %rupturePercentHull,3
 %+snipeMaxBonus,120
 %+snipeMultVelocity,20
+incendiaryIgniteDuration,3
 %+rapidFireMultROF,15
 +burstFireAddBurst,2
 %+burstFireMultROF,20
@@ -29,9 +30,9 @@
 %+magnitudeMultSize,20
 %+magnitudeMultDamage,15
 %+magnitudeBlastRadius,5
-%payloadMultDamage,30
-%payloadMultSize,12
-%payloadMultBlast,5
+%+payloadMultDamage,30
+%+payloadMultSize,12
+%+payloadMultBlast,5
 %-payloadMultROF,12
 %-splinterShotMultROF,15
 %-chargedShotMobility,30
@@ -224,6 +225,7 @@ researchBaseThrust,100
 +batteryAddedProjectiles,3
 %+batteryMultWeaponDamage,15
 %-batteryMultSpread,50
+%+batteryMultCrashDamage,50
 %-batteryMultROF,15
 batteryBaseHull,125
 batteryBaseThrust,75
@@ -241,6 +243,7 @@ viperVenomStrikeIgniteDamage,45
 viperBaseHull,100
 viperBaseThrust,110
 %+carrierMultShield,15
+%+carrierMultCrashDamage,250
 carrierBaseHull,115
 carrierBaseThrust,75
 carrierBaseSwarmLimit,4
