@@ -356,7 +356,7 @@ thermalLanceSparkDamage,6
 thermalLanceSparkCount,1
 thermalLanceBaseROF,7.5
 %+swordsROFThreshold,100
-%swordsCrashPercent,20
+%swordsCrashPercent,25
 swordsBaseDamage,150
 swordsDamagePerLevel,5
 %swordsSparkPercent,50
