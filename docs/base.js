@@ -9,7 +9,6 @@
 
     var language = NavigatorGetLanguage();
 
-    // Currently supported: en, ja
     if (language == 'en' || language == 'ja') {
         document.getElementById('langswitch-' + language).classList.add('clicked');
         document.getElementsByTagName('html')[0].className = language;
@@ -55,10 +54,8 @@
         var name = hex.getAttribute('data-hex-name');
         if (!name) return;
         var css = [];
-        // if (!hex.parentElement.classList.contains("single")) {
         css.push('.hex:not(.' + name + ')' + cssInactive);
         css.push('.hex.' + name + cssActive);
-        // }
         style.innerHTML = css.join('\n');
     }
 

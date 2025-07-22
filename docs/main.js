@@ -11,7 +11,6 @@
 
   var language = NavigatorGetLanguage();
 
-  // Currently supported: en, ja
   if (language == "en" || language == "ja") {
     document.getElementById("langswitch-" + language).classList.add("clicked");
     document.getElementsByTagName("html")[0].className = language;
@@ -57,10 +56,8 @@
     var name = hex.getAttribute("data-hex-name");
     if (!name) return;
     var css = [];
-    // if (!hex.parentElement.classList.contains("single")) {
     css.push(".hex:not(." + name + ")" + cssInactive);
     css.push(".hex." + name + cssActive);
-    // }
     style.innerHTML = css.join("\n");
   }
 
@@ -176,11 +173,12 @@
   }
 
   var hexFilter = document.getElementById("hex-filter");
+  var hexFilterJa = document.getElementById("hex-filter-ja");
   var hexCheckCount = 0;
   var hexCheckCountSpan = document.getElementById("hex-select-count");
   var hexFilterUpdate;
   function clearMatch(e) {
-    if (document.activeElement == hexFilter) {
+    if (document.activeElement == hexFilter || document.activeElement == hexFilterJa) {
       hexFilterUpdate(true);
     } else if (hexCheckCount > 0) {
       style.innerHTML = [
@@ -496,10 +494,12 @@
   var hexFilterValue = null;
   hexFilterUpdate = function (force) {
     var val = hexFilter.value;
-    if (!force && val == hexFilterValue) return;
-    hexFilterValue = val;
+    var valJa = hexFilterJa.value;
+    var combinedVal = val + " " + valJa;
+    if (!force && combinedVal == hexFilterValue) return;
+    hexFilterValue = combinedVal;
 
-    var words = val.split(" ");
+    var words = combinedVal.split(" ");
     var wordsAll = [];
     var wordsNot = [];
     for (var i = 0; i < words.length; i++) {
@@ -519,11 +519,11 @@
     }
 
     var cssLine = ".hex";
-    // Require ALL words to match (AND logic)
+
     for (var i = 0; i < wordsAll.length; i++) {
       cssLine += '[data-hex-text*="' + wordsAll[i] + '"]';
     }
-    // Exclude items with NOT words
+    
     for (var i = 0; i < wordsNot.length; i++) {
       cssLine += ':not([data-hex-text*="' + wordsNot[i] + '"])';
     }
@@ -538,6 +538,14 @@
   hexFilter.addEventListener("keydown", hexFilterUpdate);
   hexFilter.addEventListener("keyup", hexFilterUpdate);
   hexFilter.addEventListener("blur", function () {
+    style.innerHTML = "";
+    hexFilterValue = null;
+  });
+  
+  hexFilterJa.addEventListener("focus", hexFilterUpdate);
+  hexFilterJa.addEventListener("keydown", hexFilterUpdate);
+  hexFilterJa.addEventListener("keyup", hexFilterUpdate);
+  hexFilterJa.addEventListener("blur", function () {
     style.innerHTML = "";
     hexFilterValue = null;
   });
