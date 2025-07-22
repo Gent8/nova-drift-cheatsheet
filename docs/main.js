@@ -11,6 +11,7 @@
 
   var language = NavigatorGetLanguage();
 
+  // Currently supported: en, ja
   if (language == "en" || language == "ja") {
     document.getElementById("langswitch-" + language).classList.add("clicked");
     document.getElementsByTagName("html")[0].className = language;
@@ -56,8 +57,10 @@
     var name = hex.getAttribute("data-hex-name");
     if (!name) return;
     var css = [];
+    // if (!hex.parentElement.classList.contains("single")) {
     css.push(".hex:not(." + name + ")" + cssInactive);
     css.push(".hex." + name + cssActive);
+    // }
     style.innerHTML = css.join("\n");
   }
 
@@ -178,7 +181,10 @@
   var hexCheckCountSpan = document.getElementById("hex-select-count");
   var hexFilterUpdate;
   function clearMatch(e) {
-    if (document.activeElement == hexFilter || document.activeElement == hexFilterJa) {
+    if (
+      document.activeElement == hexFilter ||
+      document.activeElement == hexFilterJa
+    ) {
       hexFilterUpdate(true);
     } else if (hexCheckCount > 0) {
       style.innerHTML = [
@@ -523,7 +529,7 @@
     for (var i = 0; i < wordsAll.length; i++) {
       cssLine += '[data-hex-text*="' + wordsAll[i] + '"]';
     }
-    
+
     for (var i = 0; i < wordsNot.length; i++) {
       cssLine += ':not([data-hex-text*="' + wordsNot[i] + '"])';
     }
@@ -541,7 +547,7 @@
     style.innerHTML = "";
     hexFilterValue = null;
   });
-  
+
   hexFilterJa.addEventListener("focus", hexFilterUpdate);
   hexFilterJa.addEventListener("keydown", hexFilterUpdate);
   hexFilterJa.addEventListener("keyup", hexFilterUpdate);
