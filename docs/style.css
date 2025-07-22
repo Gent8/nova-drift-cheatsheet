@@ -1,188 +1,213 @@
 body {
-    background: #0c111f;
-    color: white;
-    font: 12px sans-serif;
+  background: #0c111f;
+  color: white;
+  font: 12px sans-serif;
 }
 a,
 a:visited {
-    color: #4fd;
+  color: #4fd;
 }
 #mods > header {
-    font-size: 125%;
-    font-weight: bold;
-    margin-top: 1em;
-    margin-bottom: 0.5em;
-    border-bottom: 1px solid currentColor;
+  font-size: 125%;
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid currentColor;
 }
 #intro {
-    padding-bottom: 1em;
+  padding-bottom: 1em;
 }
 #mods > section {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 #mods > section.pad {
-    margin: 0.5em 0;
+  margin: 0.5em 0;
 }
 #mods > section > section {
-    z-index: 1;
-    position: relative;
-    margin: 4px;
+  z-index: 1;
+  position: relative;
+  margin: 4px;
 }
 section.branch {
-    width: 84px;
-    height: 120px;
+  width: 84px;
+  height: 120px;
 }
 .hex {
-    z-index: -1;
-    position: absolute;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    transition: filter ease-in-out 0.2s;
+  z-index: -1;
+  position: absolute;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  transition: filter ease-in-out 0.2s;
 }
 .hex:hover {
-    filter: brightness(125%);
+  filter: brightness(125%);
 }
 section.branch .hex:nth-child(1) {
-    left: 21px;
-    top: 0;
+  left: 21px;
+  top: 0;
 }
 section.branch .hex:nth-child(2) {
-    left: 0px;
-    top: 35px;
+  left: 0px;
+  top: 35px;
 }
 section.branch .hex:nth-child(3) {
-    left: 42px;
-    top: 35px;
+  left: 42px;
+  top: 35px;
 }
 section.branch .hex:nth-child(4) {
-    left: 21px;
-    top: 70px;
+  left: 21px;
+  top: 70px;
 }
 section.super,
 section.super-text {
-    width: 84px;
-    height: 84px;
+  width: 84px;
+  height: 84px;
 }
 section.super .hex:nth-child(1) {
-    left: 0px;
-    top: 0px;
+  left: 0px;
+  top: 0px;
 }
 section.super .hex:nth-child(2) {
-    left: 42px;
-    top: 0px;
+  left: 42px;
+  top: 0px;
 }
 section.super .hex:nth-child(3),
 section.super-text .hex {
-    left: 21px;
-    top: 35px;
+  left: 21px;
+  top: 35px;
 }
 section.super-text .text {
-    display: flex;
-    line-height: 1;
-    width: 84px;
-    height: 36px;
-    text-align: center;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  line-height: 1;
+  width: 84px;
+  height: 36px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
 }
 #mods section.single {
-    width: 42px;
-    height: 48px;
+  width: 42px;
+  height: 48px;
 }
 .tippy-box {
-    background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 .tippy-arrow {
-    color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.8);
 }
 .tippy-box ul {
-    padding-left: 20px;
-    margin: 0.5em 0;
-    list-style-type: '◈ ';
+  padding-left: 20px;
+  margin: 0.5em 0;
+  list-style-type: "◈ ";
 }
 .hextag,
-input[type='button'] {
-    display: inline-block;
-    margin-right: 0.3em;
-    padding: 0.4em 0.4em;
-    background: rgba(255, 255, 255, 0.3);
-    color: white;
-    border: 0;
-    opacity: 1;
-    transition: all ease-in-out 0.2s;
-    cursor: default;
+input[type="button"] {
+  display: inline-block;
+  margin-right: 0.3em;
+  padding: 0.4em 0.4em;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: 0;
+  opacity: 1;
+  transition: all ease-in-out 0.2s;
+  cursor: default;
 }
 .hextag:hover,
-input[type='button']:hover {
-    background: white;
-    color: black;
+input[type="button"]:hover {
+  background: white;
+  color: black;
 }
-input[type='button'] {
-    cursor: pointer;
+input[type="button"] {
+  cursor: pointer;
 }
-input[type='button'].clicked {
-    background: white;
-    color: black;
+input[type="button"].clicked {
+  background: white;
+  color: black;
 }
 .hex {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .hex[checked]:before {
-    content: 'bok';
-    width: 100%;
-    height: 100%;
-    background: white;
-    clip-path: polygon(0% 0%, 50% 0%, 50% 10%, 10% 30%, 10% 70%, 50% 90%, 90% 70%, 90% 30%, 50% 10%, 50% 0%, 100% 0%, 100% 100%, 0% 100%);
+  content: "bok";
+  width: 100%;
+  height: 100%;
+  background: white;
+  clip-path: polygon(
+    0% 0%,
+    50% 0%,
+    50% 10%,
+    10% 30%,
+    10% 70%,
+    50% 90%,
+    90% 70%,
+    90% 30%,
+    50% 10%,
+    50% 0%,
+    100% 0%,
+    100% 100%,
+    0% 100%
+  );
 }
-input[type='text'] {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 0.4em 0.4em;
-    color: white;
-    border: 0;
-    width: 15em;
+input[type="text"] {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.4em 0.4em;
+  color: white;
+  border: 0;
+  width: 15em;
 }
-input[type='range'] {
-    vertical-align: top;
-    width: 250px;
+input[type="range"] {
+  vertical-align: top;
+  width: 250px;
 }
 span.langswitch {
-    align-content: right;
-    float: right;
+  align-content: right;
+  float: right;
 }
 .rcNum {
-    pointer-events: none;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 200%;
-    position: absolute;
-    bottom: -15%;
-    left: 50%;
-    vertical-align: text-bottom;
-    text-shadow: 1px 1px 0 black, -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
-    -webkit-transform: translate(-50%);
-    transform: translate(-50%);
+  pointer-events: none;
+  font-family: "Source Code Pro", monospace;
+  font-size: 200%;
+  position: absolute;
+  bottom: -15%;
+  left: 50%;
+  vertical-align: text-bottom;
+  text-shadow: 1px 1px 0 black, -1px 1px 0 black, 1px -1px 0 black,
+    -1px -1px 0 black;
+  -webkit-transform: translate(-50%);
+  transform: translate(-50%);
 }
 
 /* Multi-Lang switcher */
 .content-ja {
-    display: none;
+  display: none;
 }
 .ja div.content-ja {
-    display: block;
+  display: block;
 }
 .ja span.content-ja {
-    display: inline;
+  display: inline;
 }
 .ja .content-en {
-    display: none;
+  display: none;
 }
 #mods .content-ja {
-    display: none;
+  display: none;
 }
 .ja #mods .content-ja {
-    display: flex;
+  display: flex;
 }
 .ja #mods .content-en {
-    display: none;
+  display: none;
+}
+
+input.content-ja {
+  display: none;
+}
+.ja input.content-ja {
+  display: inline-block;
+}
+.ja input.content-en {
+  display: none;
 }
