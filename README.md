@@ -1,6 +1,8 @@
 ## What this is
 It's an [interactive cheat sheet for Nova Drift](https://gent8.github.io/nova-drift-cheatsheet/).
 
+## Why
+As a new player, I found it hard to find powerups and understand the synergies between different mods. This fork adds a search feature to the interactive cheat sheet, allowing you to quickly find specific mods.
 
 ## Initial setup for build
 ```
