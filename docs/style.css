@@ -10,12 +10,12 @@ a:visited {
 #mods > header {
   font-size: 125%;
   font-weight: bold;
-  margin-top: 1em;
+  margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-bottom: 1px solid currentColor;
 }
 #intro {
-  padding-bottom: 1em;
+  padding-bottom: 0.5em;
 }
 #mods > section {
   display: flex;
@@ -162,6 +162,8 @@ input[type="text"].search-input {
   width: 300px;
   padding: 4px;
   margin-left: 8px;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
 }
 input[type="range"] {
   vertical-align: top;
