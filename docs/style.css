@@ -1,18 +1,43 @@
-body {
-  background: #0c111f;
-  color: white;
-  font: 12px sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;500&display=swap');
+
+html {
+  background: radial-gradient(ellipse at center, #1a1f3a 0%, #0c111f 50%, #060a15 100%);
+  min-height: 100vh;
 }
+
+body {
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 50, 200, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(200, 50, 120, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(50, 150, 255, 0.05) 0%, transparent 70%);
+  color: #e8f0ff;
+  font: 12px 'Exo 2', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  min-height: 100vh;
+}
+
 a,
 a:visited {
-  color: #4fd;
+  color: #7dd8ff;
+  text-shadow: 0 0 3px rgba(125, 216, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: #b589ff;
+  text-shadow: 0 0 5px rgba(181, 137, 255, 0.5);
 }
 #mods > header {
   font-size: 125%;
-  font-weight: bold;
+  font-weight: 500;
+  font-family: 'Orbitron', sans-serif;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-bottom: 1px solid currentColor;
+  color: #b589ff;
+  text-shadow: 0 0 8px rgba(181, 137, 255, 0.2);
+  letter-spacing: 1px;
 }
 #intro {
   padding-bottom: 0.5em;
@@ -37,10 +62,13 @@ section.branch {
   z-index: -1;
   position: absolute;
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  transition: filter ease-in-out 0.2s;
+  transition: all ease-in-out 0.3s;
+  box-shadow: 0 0 8px rgba(181, 137, 255, 0.1);
 }
 .hex:hover {
-  filter: brightness(125%);
+  filter: brightness(125%) saturate(120%);
+  box-shadow: 0 0 15px rgba(181, 137, 255, 0.3);
+  transform: none !important;
 }
 section.branch .hex:nth-child(1) {
   left: 21px;
@@ -105,24 +133,39 @@ input[type="button"] {
   display: inline-block;
   margin-right: 0.3em;
   padding: 0.4em 0.4em;
-  background: rgba(255, 255, 255, 0.3);
-  color: white;
-  border: 0;
+  background: rgba(181, 137, 255, 0.15);
+  color: #e8f0ff;
+  border: 1px solid rgba(181, 137, 255, 0.3);
   opacity: 1;
   transition: all ease-in-out 0.2s;
   cursor: default;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  border-radius: 3px;
+  box-shadow: 0 0 5px rgba(181, 137, 255, 0.1);
 }
 .hextag:hover,
 input[type="button"]:hover {
-  background: white;
-  color: black;
+  background: rgba(181, 137, 255, 0.8);
+  color: #0c111f;
+  box-shadow: 0 0 15px rgba(181, 137, 255, 0.5);
 }
 input[type="button"] {
   cursor: pointer;
 }
 input[type="button"].clicked {
-  background: white;
-  color: black;
+  background: rgba(125, 216, 255, 0.9);
+  color: #0c111f;
+  box-shadow: 0 0 15px rgba(125, 216, 255, 0.5);
+}
+
+#reset-selection:hover,
+#copy-link:hover,
+#copy-prefab:hover {
+  background: rgba(181, 137, 255, 0.8);
+  color: #0c111f;
+  box-shadow: 0 0 15px rgba(181, 137, 255, 0.5);
+  transform: none !important;
 }
 .hex {
   display: flex;
@@ -151,12 +194,20 @@ input[type="button"].clicked {
   );
 }
 input[type="text"] {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(12, 17, 31, 0.8);
   padding: 0.4em 0.4em;
-  color: white;
-  border: 1px solid #ddd;
+  color: #e8f0ff;
+  border: 1px solid rgba(181, 137, 255, 0.4);
   border-radius: 4px;
   width: 15em;
+  font-family: 'Exo 2', sans-serif;
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:focus {
+  border-color: rgba(125, 216, 255, 0.8);
+  box-shadow: 0 0 8px rgba(125, 216, 255, 0.3);
+  outline: none;
 }
 input[type="text"].search-input {
   width: 300px;
@@ -175,16 +226,19 @@ span.langswitch {
 }
 .rcNum {
   pointer-events: none;
-  font-family: "Source Code Pro", monospace;
+  font-family: "Orbitron", monospace;
   font-size: 200%;
+  font-weight: 700;
   position: absolute;
   bottom: -15%;
   left: 50%;
   vertical-align: text-bottom;
-  text-shadow: 1px 1px 0 black, -1px 1px 0 black, 1px -1px 0 black,
-    -1px -1px 0 black;
+  text-shadow: 0 0 8px rgba(181, 137, 255, 0.6), 
+               1px 1px 0 #0c111f, -1px 1px 0 #0c111f, 
+               1px -1px 0 #0c111f, -1px -1px 0 #0c111f;
   -webkit-transform: translate(-50%);
   transform: translate(-50%);
+  color: #b589ff;
 }
 
 /* Multi-Lang switcher */
