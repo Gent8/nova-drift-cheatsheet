@@ -1,5 +1,5 @@
 ## What this is
-It's an [interactive cheat sheet for Nova Drift](https://alicemetic.github.io/nova-drift-cheatsheet/).
+It's an [interactive cheat sheet for Nova Drift](https://gent8.github.io/nova-drift-cheatsheet/).
 
 
 ## Initial setup for build
