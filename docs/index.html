@@ -141,6 +141,38 @@
             <button class="error-close" id="error-close">×</button>
           </div>
         </div>
+
+        <!-- Phase 2: Grid Mapping Results (Debug Panel) -->
+        <div id="grid-mapping-results" class="grid-results" style="display: none;">
+          <h3>🗺️ Grid Mapping Results (Phase 2)</h3>
+          <div class="results-grid">
+            <div class="result-item">
+              <strong>Scale Factor:</strong> <span id="detected-scale">-</span>
+            </div>
+            <div class="result-item">
+              <strong>Confidence:</strong> <span id="mapping-confidence">-</span>
+            </div>
+            <div class="result-item">
+              <strong>Grid Center:</strong> <span id="grid-center">-</span>
+            </div>
+            <div class="result-item">
+              <strong>Mods Detected:</strong> <span id="mods-detected-count">-</span>
+            </div>
+            <div class="result-item">
+              <strong>Resolution:</strong> <span id="detected-resolution">-</span>
+            </div>
+            <div class="result-item">
+              <strong>Hex Radius:</strong> <span id="hex-radius">-</span>
+            </div>
+          </div>
+          <div class="detected-mods-list">
+            <h4>Detected Mod Positions:</h4>
+            <div id="detected-mods" class="mod-list"></div>
+          </div>
+          <button id="test-grid-mapping" class="test-button">🧪 Run Grid Mapping Tests</button>
+          <button id="hide-grid-results" class="close-button">Hide Results</button>
+        </div>
+
         <label style="margin-left: 1px;" for="hex-filter">
           <span class="content-en">Search upgrades:</span>
           <span class="content-ja">アップグレード検索:</span>
@@ -3807,5 +3839,9 @@
     <script src="main.js?v=20240821_105515"></script>
     <script src="upload-feature.js?v=20250125_000001"></script>
     <script src="upload-tests.js?v=20250125_000001"></script>
+    <!-- Phase 2: Grid Mapping System -->
+    <script src="mod-positions.js?v=20250125_000002"></script>
+    <script src="grid-mapper.js?v=20250125_000002"></script>
+    <script src="grid-mapper-tests.js?v=20250125_000002"></script>
   </body>
 </html>
