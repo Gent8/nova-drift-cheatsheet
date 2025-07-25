@@ -1,22 +1,48 @@
 # Nova Drift Screenshot Recognition - Phase Implementation Template
 
-This file provides a standardized template for implementing each phase of the screenshot-based preset recognition system. Copy and paste the template below, updating the phase number and file name for each implementation phase.
+**⚠️ DEPRECATED**: This file has been refactored into organized directories.
+
+## 🚀 New Location
+
+All prompts have been moved to the `phase-prompts/` directory with better organization:
+
+```
+phase-prompts/
+├── README.md                           # Updated documentation
+├── phase1-image-upload/
+│   ├── initialize.md                   # Standard implementation
+│   └── architectural-fix.md            # Fix prompt
+├── phase2-hex-mapping/
+│   ├── initialize.md                   
+│   └── critical-fix.md                 
+├── phase3-image-processing/
+│   ├── initialize.md                   
+│   └── critical-fix.md                 
+├── phase4-recognition/
+│   ├── initialize.md                   
+│   └── critical-issue-fix.md           
+├── phase5-integration/
+│   └── initialize.md                   
+├── phase6-user-feedback/
+│   └── initialize.md                   
+├── phase7-testing/
+│   └── initialize.md                   
+└── phase8-documentation/
+    └── initialize.md                   
+```
+
+## Quick Start
+
+1. **Navigate to `phase-prompts/`**
+2. **Read `phase-prompts/README.md`** for complete instructions
+3. **Copy prompts from individual phase directories**
+4. **Use fix prompts when issues are discovered**
 
 ---
 
-## Phase Template (Copy & Paste for Each Phase)
+## Legacy Content (Reference Only)
 
-```
-I need to implement a screenshot-based preset recognition system for my Nova Drift cheatsheet.
-
-Please read prompts/README.md to understand the overall approach, then implement Phase [PHASE_NUMBER] according to prompts/[PHASE_FILE].md.
-
-Focus on the success criteria and ensure all testing requirements are met. IMPORTANT: You must verify that all success criteria are actually achieved by running unit tests in the terminal - do not assume success without terminal-based verification. Only proceed to Phase [NEXT_PHASE_NUMBER] after confirming all tests pass.
-```
-
----
-
-## Phase-Specific Copy-Paste Commands
+The content below is kept for reference but should not be used. Use the new directory structure instead.
 
 ### Phase 1: Image Upload & UX
 ```
