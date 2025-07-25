@@ -418,6 +418,54 @@ input.content-ja {
   background: rgba(255, 107, 107, 0.2);
 }
 
+/* Modular Progress Indicator Styles */
+.progress-container {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.progress-container[data-state="idle"] {
+  display: none;
+}
+
+.progress-container[data-state="uploading"],
+.progress-container[data-state="processing"],
+.progress-container[data-state="analyzing"] {
+  display: flex;
+}
+
+.progress-container[data-state="complete"] {
+  display: flex;
+}
+
+.progress-container[data-state="error"] {
+  display: flex;
+}
+
+.progress-container.error-state .progress-bar {
+  background: rgba(255, 107, 107, 0.2);
+}
+
+.progress-container.error-state .progress-fill {
+  background: linear-gradient(90deg, #ff6b6b 0%, #ff4e4e 100%);
+}
+
+.progress-container.success-state .progress-fill {
+  background: linear-gradient(90deg, #4ecdc4 0%, #44a08d 100%);
+}
+
+.progress-percentage {
+  font-size: 11px;
+  color: #a0b0d0;
+  min-width: 35px;
+  text-align: right;
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 600px) {
   #screenshot-upload-btn {
