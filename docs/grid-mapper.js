@@ -628,14 +628,238 @@
     }
 
     async loadHexTemplate() {
-      // Placeholder for hex template loading
-      // In a real implementation, this would load the hex.png sprite
-      return null;
+      try {
+        // Load the hex template from the filesystem
+        const img = new Image();
+        return new Promise((resolve, reject) => {
+          img.onload = () => {
+            // Create canvas to extract image data
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            
+            resolve({
+              canvas: canvas,
+              ctx: ctx,
+              width: img.width,
+              height: img.height,
+              imageData: ctx.getImageData(0, 0, img.width, img.height)
+            });
+          };
+          img.onerror = () => {
+            // Fallback to synthetic template if loading fails
+            console.warn('Could not load hex.png, creating synthetic template');
+            resolve(this.createSyntheticHexTemplate(48));
+          };
+          img.src = 'docs/hex.png';
+        });
+      } catch (error) {
+        console.warn('Template loading failed, using synthetic template:', error);
+        return this.createSyntheticHexTemplate(48);
+      }
+    }
+
+    createSyntheticHexTemplate(diameter) {
+      // Create a synthetic hexagon template
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const radius = diameter / 2;
+      
+      canvas.width = diameter;
+      canvas.height = diameter;
+      
+      // Clear to transparent
+      ctx.clearRect(0, 0, diameter, diameter);
+      
+      // Draw hexagon outline
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      
+      for (let i = 0; i < 6; i++) {
+        const angle = (i * Math.PI) / 3;
+        const x = radius + (radius * 0.8) * Math.cos(angle);
+        const y = radius + (radius * 0.8) * Math.sin(angle);
+        
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      
+      ctx.closePath();
+      ctx.stroke();
+      
+      return {
+        canvas: canvas,
+        ctx: ctx,
+        width: diameter,
+        height: diameter,
+        imageData: ctx.getImageData(0, 0, diameter, diameter)
+      };
     }
 
     performTemplateMatching(ctx, template, canvas) {
-      // Placeholder for template matching algorithm
-      return [];
+      if (!template || !template.imageData) {
+        console.warn('Invalid template provided for matching');
+        return [];
+      }
+
+      const sourceImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const templateData = template.imageData;
+      const matches = [];
+      
+      const searchStep = Math.max(8, Math.floor(template.width / 4)); // Skip pixels for performance
+      const minConfidence = 0.6; // Minimum correlation threshold
+      
+      // Scan across the image looking for template matches
+      for (let y = 0; y <= canvas.height - template.height; y += searchStep) {
+        for (let x = 0; x <= canvas.width - template.width; x += searchStep) {
+          const confidence = this.calculateNormalizedCrossCorrelation(
+            sourceImageData, 
+            templateData,
+            x, y,
+            canvas.width,
+            template.width,
+            template.height
+          );
+          
+          if (confidence > minConfidence) {
+            // Calculate scale factor based on local edge density
+            const localScale = this.estimateScaleAtPosition(ctx, x, y, template.width, template.height);
+            
+            matches.push({
+              x: x + template.width / 2,
+              y: y + template.height / 2,
+              confidence: confidence,
+              scaleFactor: localScale,
+              templateSize: template.width
+            });
+          }
+        }
+      }
+      
+      // Filter overlapping matches, keeping highest confidence
+      return this.filterOverlappingMatches(matches, template.width);
+    }
+
+    calculateNormalizedCrossCorrelation(sourceData, templateData, startX, startY, sourceWidth, templateWidth, templateHeight) {
+      let numerator = 0;
+      let sourceSumSquared = 0;
+      let templateSumSquared = 0;
+      let sourceSum = 0;
+      let templateSum = 0;
+      let count = 0;
+
+      // Calculate correlation over template region
+      for (let ty = 0; ty < templateHeight; ty++) {
+        for (let tx = 0; tx < templateWidth; tx++) {
+          const sourceIdx = ((startY + ty) * sourceWidth + (startX + tx)) * 4;
+          const templateIdx = (ty * templateWidth + tx) * 4;
+          
+          if (sourceIdx < sourceData.data.length && templateIdx < templateData.data.length) {
+            // Convert to grayscale
+            const sourceGray = (sourceData.data[sourceIdx] + sourceData.data[sourceIdx + 1] + sourceData.data[sourceIdx + 2]) / 3;
+            const templateGray = (templateData.data[templateIdx] + templateData.data[templateIdx + 1] + templateData.data[templateIdx + 2]) / 3;
+            
+            numerator += sourceGray * templateGray;
+            sourceSumSquared += sourceGray * sourceGray;
+            templateSumSquared += templateGray * templateGray;
+            sourceSum += sourceGray;
+            templateSum += templateGray;
+            count++;
+          }
+        }
+      }
+
+      if (count === 0) return 0;
+
+      // Normalized cross-correlation formula
+      const sourceMean = sourceSum / count;
+      const templateMean = templateSum / count;
+      
+      let numeratorCentered = 0;
+      let sourceVariance = 0;
+      let templateVariance = 0;
+
+      // Recalculate with centered values
+      for (let ty = 0; ty < templateHeight; ty++) {
+        for (let tx = 0; tx < templateWidth; tx++) {
+          const sourceIdx = ((startY + ty) * sourceWidth + (startX + tx)) * 4;
+          const templateIdx = (ty * templateWidth + tx) * 4;
+          
+          if (sourceIdx < sourceData.data.length && templateIdx < templateData.data.length) {
+            const sourceGray = (sourceData.data[sourceIdx] + sourceData.data[sourceIdx + 1] + sourceData.data[sourceIdx + 2]) / 3;
+            const templateGray = (templateData.data[templateIdx] + templateData.data[templateIdx + 1] + templateData.data[templateIdx + 2]) / 3;
+            
+            const sourceCentered = sourceGray - sourceMean;
+            const templateCentered = templateGray - templateMean;
+            
+            numeratorCentered += sourceCentered * templateCentered;
+            sourceVariance += sourceCentered * sourceCentered;
+            templateVariance += templateCentered * templateCentered;
+          }
+        }
+      }
+
+      const denominator = Math.sqrt(sourceVariance * templateVariance);
+      return denominator > 0 ? numeratorCentered / denominator : 0;
+    }
+
+    estimateScaleAtPosition(ctx, x, y, templateWidth, templateHeight) {
+      // Estimate local scale by analyzing edge density
+      const imageData = ctx.getImageData(x, y, templateWidth, templateHeight);
+      const edges = this.detectEdges(imageData);
+      
+      // Count edge pixels
+      let edgeCount = 0;
+      for (let i = 0; i < edges.length; i++) {
+        if (edges[i] > 50) edgeCount++; // Threshold for edge detection
+      }
+      
+      const edgeDensity = edgeCount / edges.length;
+      
+      // Scale factor estimation based on edge density
+      // Higher edge density typically means smaller scale (more detail)
+      const baseScale = 1.0;
+      const scaleFactor = baseScale + (0.2 - edgeDensity) * 2; // Rough estimation
+      
+      return Math.max(0.5, Math.min(3.0, scaleFactor)); // Clamp to reasonable range
+    }
+
+    filterOverlappingMatches(matches, templateSize) {
+      if (matches.length === 0) return matches;
+      
+      // Sort by confidence (highest first)
+      matches.sort((a, b) => b.confidence - a.confidence);
+      
+      const filtered = [];
+      const exclusionRadius = templateSize * 0.7; // Overlapping threshold
+      
+      for (const match of matches) {
+        let isOverlapping = false;
+        
+        for (const existing of filtered) {
+          const distance = Math.sqrt(
+            Math.pow(match.x - existing.x, 2) + 
+            Math.pow(match.y - existing.y, 2)
+          );
+          
+          if (distance < exclusionRadius) {
+            isOverlapping = true;
+            break;
+          }
+        }
+        
+        if (!isOverlapping) {
+          filtered.push(match);
+        }
+      }
+      
+      return filtered;
     }
 
     generateValidationPoints(canvas) {
@@ -1251,22 +1475,331 @@
     }
 
     detectHorizontalOffset(canvas) {
-      // Detect horizontal offset by looking for dark regions on left/right
-      // This is a simplified implementation
+      // Detect horizontal offset by analyzing left/right edges for dark regions (pillarboxing)
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Sample vertical strips on left and right edges
+      const stripWidth = Math.min(50, width * 0.05); // 5% of width or 50px max
+      const sampleHeight = height;
+      
+      // Analyze left edge
+      const leftImageData = ctx.getImageData(0, 0, stripWidth, sampleHeight);
+      const leftDarkness = this.calculateAverageDarkness(leftImageData);
+      
+      // Analyze right edge
+      const rightImageData = ctx.getImageData(width - stripWidth, 0, stripWidth, sampleHeight);
+      const rightDarkness = this.calculateAverageDarkness(rightImageData);
+      
+      // If both edges are dark (below threshold), we likely have pillarboxing
+      const darknessThreshold = 30; // RGB values below this are considered "dark"
+      const leftIsDark = leftDarkness < darknessThreshold;
+      const rightIsDark = rightDarkness < darknessThreshold;
+      
+      if (leftIsDark && rightIsDark) {
+        // Find the actual content boundaries
+        const leftBoundary = this.findContentBoundary(ctx, 'left', stripWidth * 2);
+        const rightBoundary = this.findContentBoundary(ctx, 'right', stripWidth * 2);
+        
+        // Calculate offset from center
+        const contentWidth = rightBoundary - leftBoundary;
+        const contentCenter = leftBoundary + contentWidth / 2;
+        const imageCenter = width / 2;
+        
+        return contentCenter - imageCenter;
+      } else if (leftIsDark) {
+        // Only left side is dark
+        const leftBoundary = this.findContentBoundary(ctx, 'left', stripWidth * 2);
+        const offset = leftBoundary - (width * 0.1); // Expected small margin
+        return Math.max(0, offset);
+      } else if (rightIsDark) {
+        // Only right side is dark
+        const rightBoundary = this.findContentBoundary(ctx, 'right', stripWidth * 2);
+        const offset = (width * 0.9) - rightBoundary; // Expected small margin
+        return Math.min(0, -offset);
+      }
+      
+      // No significant dark edges detected
       return 0;
     }
 
     detectVerticalOffset(canvas) {
-      // Detect vertical offset by looking for dark regions on top/bottom
-      // This is a simplified implementation
+      // Detect vertical offset by analyzing top/bottom edges for dark regions (letterboxing)
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Sample horizontal strips on top and bottom edges
+      const stripHeight = Math.min(50, height * 0.05); // 5% of height or 50px max
+      const sampleWidth = width;
+      
+      // Analyze top edge
+      const topImageData = ctx.getImageData(0, 0, sampleWidth, stripHeight);
+      const topDarkness = this.calculateAverageDarkness(topImageData);
+      
+      // Analyze bottom edge
+      const bottomImageData = ctx.getImageData(0, height - stripHeight, sampleWidth, stripHeight);
+      const bottomDarkness = this.calculateAverageDarkness(bottomImageData);
+      
+      // Check for dark bars or UI elements
+      const darknessThreshold = 30;
+      const topIsDark = topDarkness < darknessThreshold;
+      const bottomIsDark = bottomDarkness < darknessThreshold;
+      
+      if (topIsDark && bottomIsDark) {
+        // Find the actual content boundaries
+        const topBoundary = this.findContentBoundary(ctx, 'top', stripHeight * 2);
+        const bottomBoundary = this.findContentBoundary(ctx, 'bottom', stripHeight * 2);
+        
+        // Calculate offset from center
+        const contentHeight = bottomBoundary - topBoundary;
+        const contentCenter = topBoundary + contentHeight / 2;
+        const imageCenter = height / 2;
+        
+        return contentCenter - imageCenter;
+      } else if (topIsDark) {
+        // Only top is dark (top UI bar)
+        const topBoundary = this.findContentBoundary(ctx, 'top', stripHeight * 2);
+        const offset = topBoundary - (height * 0.1); // Expected small margin
+        return Math.max(0, offset);
+      } else if (bottomIsDark) {
+        // Only bottom is dark (bottom UI bar)
+        const bottomBoundary = this.findContentBoundary(ctx, 'bottom', stripHeight * 2);
+        const offset = (height * 0.9) - bottomBoundary;
+        return Math.min(0, -offset);
+      }
+      
+      // No significant dark edges detected
       return 0;
     }
 
     detectUIOffset(canvas, scaleResult) {
-      // Detect offset caused by UI elements
-      // This is a simplified implementation
-      return { x: 0, y: 0 };
+      // Detect offset caused by Nova Drift UI elements
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Look for characteristic Nova Drift UI colors (blues, purples, UI chrome)
+      const uiFeatures = this.detectUIFeatures(ctx, width, height);
+      
+      if (uiFeatures.length === 0) {
+        return { x: 0, y: 0 };
+      }
+      
+      // Calculate UI bounds
+      const uiBounds = this.calculateUIBounds(uiFeatures);
+      
+      // Determine if UI elements create a consistent offset
+      const uiCenterX = (uiBounds.left + uiBounds.right) / 2;
+      const uiCenterY = (uiBounds.top + uiBounds.bottom) / 2;
+      
+      const imageCenterX = width / 2;
+      const imageCenterY = height / 2;
+      
+      // Check if UI elements suggest the game area is offset
+      let offsetX = 0;
+      let offsetY = 0;
+      
+      // If UI elements are predominantly on one side, game area might be offset
+      const uiWidth = uiBounds.right - uiBounds.left;
+      const uiHeight = uiBounds.bottom - uiBounds.top;
+      
+      // Significant UI on left/right suggests horizontal offset
+      if (uiWidth > width * 0.3) { // UI takes up significant horizontal space
+        if (uiBounds.left < width * 0.3 && uiBounds.right < width * 0.7) {
+          // UI primarily on left, game area offset right
+          offsetX = (width - uiBounds.right) / 2 - imageCenterX;
+        } else if (uiBounds.left > width * 0.3 && uiBounds.right > width * 0.7) {
+          // UI primarily on right, game area offset left
+          offsetX = uiBounds.left / 2 - imageCenterX;
+        }
+      }
+      
+      // Significant UI on top/bottom suggests vertical offset  
+      if (uiHeight > height * 0.2) { // UI takes up significant vertical space
+        if (uiBounds.top < height * 0.3 && uiBounds.bottom < height * 0.7) {
+          // UI primarily on top, game area offset down
+          offsetY = (height - uiBounds.bottom) / 2 - imageCenterY;
+        } else if (uiBounds.top > height * 0.3 && uiBounds.bottom > height * 0.7) {
+          // UI primarily on bottom, game area offset up
+          offsetY = uiBounds.top / 2 - imageCenterY;
+        }
+      }
+      
+      // Apply scale factor to offsets
+      const scaleFactor = scaleResult ? scaleResult.scaleFactor : 1.0;
+      
+      return { 
+        x: offsetX / scaleFactor, 
+        y: offsetY / scaleFactor 
+      };
     }
+
+    calculateAverageDarkness(imageData) {
+      const data = imageData.data;
+      let totalBrightness = 0;
+      let pixelCount = 0;
+      
+      for (let i = 0; i < data.length; i += 4) {
+        const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        totalBrightness += brightness;
+        pixelCount++;
+      }
+      
+      return pixelCount > 0 ? totalBrightness / pixelCount : 255;
+    }
+
+    findContentBoundary(ctx, direction, searchDistance) {
+      const canvas = ctx.canvas;
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      let boundary = 0;
+      const brightnessThreshold = 50; // Threshold to distinguish content from dark areas
+      
+      switch (direction) {
+        case 'left':
+          for (let x = 0; x < Math.min(searchDistance, width); x++) {
+            const columnData = ctx.getImageData(x, 0, 1, height);
+            const avgBrightness = this.calculateAverageDarkness(columnData);
+            
+            if (avgBrightness > brightnessThreshold) {
+              boundary = x;
+              break;
+            }
+          }
+          break;
+          
+        case 'right':
+          for (let x = width - 1; x >= Math.max(0, width - searchDistance); x--) {
+            const columnData = ctx.getImageData(x, 0, 1, height);
+            const avgBrightness = this.calculateAverageDarkness(columnData);
+            
+            if (avgBrightness > brightnessThreshold) {
+              boundary = x;
+              break;
+            }
+          }
+          if (boundary === 0) boundary = width - 1;
+          break;
+          
+        case 'top':
+          for (let y = 0; y < Math.min(searchDistance, height); y++) {
+            const rowData = ctx.getImageData(0, y, width, 1);
+            const avgBrightness = this.calculateAverageDarkness(rowData);
+            
+            if (avgBrightness > brightnessThreshold) {
+              boundary = y;
+              break;
+            }
+          }
+          break;
+          
+        case 'bottom':
+          for (let y = height - 1; y >= Math.max(0, height - searchDistance); y--) {
+            const rowData = ctx.getImageData(0, y, width, 1);
+            const avgBrightness = this.calculateAverageDarkness(rowData);
+            
+            if (avgBrightness > brightnessThreshold) {
+              boundary = y;
+              break;
+            }
+          }
+          if (boundary === 0) boundary = height - 1;
+          break;
+      }
+      
+      return boundary;
+    }
+
+    detectUIFeatures(ctx, width, height) {
+      // Detect Nova Drift UI elements by looking for characteristic colors and shapes
+      const features = [];
+      const sampleSize = 20; // Pixel step size for performance
+      
+      // Nova Drift UI typically uses blues (#4A90E2), purples, and dark backgrounds
+      const uiColors = [
+        { r: 74, g: 144, b: 226, tolerance: 50 },   // Blue UI elements
+        { r: 128, g: 100, b: 162, tolerance: 50 },  // Purple elements
+        { r: 45, g: 45, b: 55, tolerance: 30 },     // Dark UI panels
+        { r: 200, g: 200, b: 255, tolerance: 40 }   // Light text/highlights
+      ];
+      
+      for (let y = 0; y < height; y += sampleSize) {
+        for (let x = 0; x < width; x += sampleSize) {
+          const imageData = ctx.getImageData(x, y, Math.min(sampleSize, width - x), Math.min(sampleSize, height - y));
+          const hasUIColor = this.containsUIColors(imageData, uiColors);
+          
+          if (hasUIColor) {
+            features.push({ x, y, size: sampleSize });
+          }
+        }
+      }
+      
+      return features;
+    }
+
+    containsUIColors(imageData, uiColors) {
+      const data = imageData.data;
+      
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        
+        for (const uiColor of uiColors) {
+          const dr = Math.abs(r - uiColor.r);
+          const dg = Math.abs(g - uiColor.g);
+          const db = Math.abs(b - uiColor.b);
+          
+          if (dr <= uiColor.tolerance && dg <= uiColor.tolerance && db <= uiColor.tolerance) {
+            return true;
+          }
+        }
+      }
+      
+      return false;
+    }
+
+    detectEdges(imageData) {
+      // Sobel edge detection algorithm
+      const width = imageData.width;
+      const height = imageData.height;
+      const data = imageData.data;
+      const edges = new Float32Array(width * height);
+      
+      // Sobel kernels
+      const sobelX = [-1, 0, 1, -2, 0, 2, -1, 0, 1];
+      const sobelY = [-1, -2, -1, 0, 0, 0, 1, 2, 1];
+      
+      // Convert to grayscale and apply Sobel operator
+      for (let y = 1; y < height - 1; y++) {
+        for (let x = 1; x < width - 1; x++) {
+          let gx = 0;
+          let gy = 0;
+          
+          // Apply 3x3 Sobel kernels
+          for (let ky = -1; ky <= 1; ky++) {
+            for (let kx = -1; kx <= 1; kx++) {
+              const pixelIdx = ((y + ky) * width + (x + kx)) * 4;
+              const gray = (data[pixelIdx] + data[pixelIdx + 1] + data[pixelIdx + 2]) / 3;
+              
+              const kernelIdx = (ky + 1) * 3 + (kx + 1);
+              gx += gray * sobelX[kernelIdx];
+              gy += gray * sobelY[kernelIdx];
+            }
+          }
+          
+          // Calculate gradient magnitude
+          const magnitude = Math.sqrt(gx * gx + gy * gy);
+          edges[y * width + x] = magnitude;
+        }
+      }
+      
+      return edges;
+    }
+
     /**
      * Enhanced coordinate map generation with validation
      */
