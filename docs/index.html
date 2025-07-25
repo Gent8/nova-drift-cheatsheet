@@ -107,7 +107,40 @@
           id="copy-prefab"
           title="Export your build for Debug Mode!"
         />
+        <input
+          type="button"
+          value="📷 Upload Screenshot"
+          id="screenshot-upload-btn"
+          title="Upload a screenshot to auto-detect your build!"
+        />
+        <input 
+          type="file" 
+          id="screenshot-input" 
+          accept="image/png,image/jpeg,image/jpg" 
+          style="display: none;"
+          aria-describedby="upload-help" 
+        />
         Count: <span id="hex-select-count">0</span> <br /><br />
+        
+        <!-- Screenshot upload drop zone (initially hidden) -->
+        <div id="screenshot-drop-zone" class="drop-zone" style="display: none;" role="button" tabindex="0" aria-label="Drop screenshot here or click to browse">
+          <div class="drop-zone-content">
+            <span class="drop-icon">📁</span>
+            <span class="drop-text">Drop screenshot here or click to browse</span>
+            <span class="drop-help" id="upload-help">Supports PNG and JPG files up to 10MB</span>
+          </div>
+          <div class="upload-progress" id="upload-progress" style="display: none;">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <span class="progress-text" id="progress-text">Processing...</span>
+          </div>
+          <div class="upload-error" id="upload-error" style="display: none;">
+            <span class="error-icon">⚠️</span>
+            <span class="error-text" id="error-text"></span>
+            <button class="error-close" id="error-close">×</button>
+          </div>
+        </div>
         <label style="margin-left: 1px;" for="hex-filter">
           <span class="content-en">Search upgrades:</span>
           <span class="content-ja">アップグレード検索:</span>
@@ -3772,5 +3805,7 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="script.js?v=20230829_065938"></script>
     <script src="main.js?v=20240821_105515"></script>
+    <script src="upload-feature.js?v=20250125_000001"></script>
+    <script src="upload-tests.js?v=20250125_000001"></script>
   </body>
 </html>

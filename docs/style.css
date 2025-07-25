@@ -273,3 +273,175 @@ input.content-ja {
 .ja input.content-en {
   display: none;
 }
+
+/* Screenshot Upload Styles */
+#screenshot-upload-btn {
+  margin-left: 4px;
+  font-size: 12px;
+  background: linear-gradient(135deg, #4a6cfa 0%, #6c5ce7 100%);
+  border: 1px solid #5a7cfa;
+  color: #e8f0ff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(74, 108, 250, 0.2);
+}
+
+#screenshot-upload-btn:hover {
+  background: linear-gradient(135deg, #5a7cfa 0%, #7c6ce7 100%);
+  box-shadow: 0 4px 8px rgba(74, 108, 250, 0.3);
+  transform: translateY(-1px);
+}
+
+#screenshot-upload-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(74, 108, 250, 0.2);
+}
+
+.drop-zone {
+  margin: 10px 0;
+  padding: 20px;
+  border: 2px dashed #5a7cfa;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(74, 108, 250, 0.1) 0%, rgba(108, 92, 231, 0.1) 100%);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.drop-zone:hover {
+  border-color: #7dd8ff;
+  background: linear-gradient(135deg, rgba(125, 216, 255, 0.1) 0%, rgba(181, 137, 255, 0.1) 100%);
+}
+
+.drop-zone.drag-over {
+  border-color: #b589ff;
+  background: linear-gradient(135deg, rgba(181, 137, 255, 0.2) 0%, rgba(125, 216, 255, 0.2) 100%);
+  transform: scale(1.02);
+}
+
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.drop-icon {
+  font-size: 2em;
+  opacity: 0.7;
+}
+
+.drop-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e8f0ff;
+}
+
+.drop-help {
+  font-size: 11px;
+  color: #a0b0d0;
+  opacity: 0.8;
+}
+
+.upload-progress {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(160, 176, 208, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4a6cfa 0%, #7dd8ff 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #e8f0ff;
+}
+
+.upload-error {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 78, 78, 0.1) 100%);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 4px;
+}
+
+.error-icon {
+  font-size: 1.2em;
+  color: #ff6b6b;
+}
+
+.error-text {
+  flex: 1;
+  font-size: 12px;
+  color: #ff9999;
+}
+
+.error-close {
+  background: none;
+  border: none;
+  color: #ff9999;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.error-close:hover {
+  background: rgba(255, 107, 107, 0.2);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 600px) {
+  #screenshot-upload-btn {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+  
+  .drop-zone {
+    padding: 15px;
+    min-height: 100px;
+  }
+  
+  .drop-text {
+    font-size: 12px;
+  }
+  
+  .drop-help {
+    font-size: 10px;
+  }
+}
+
+/* Focus styles for accessibility */
+#screenshot-upload-btn:focus,
+.drop-zone:focus {
+  outline: 2px solid #7dd8ff;
+  outline-offset: 2px;
+}
