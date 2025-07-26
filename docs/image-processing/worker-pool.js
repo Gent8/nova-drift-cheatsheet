@@ -13,8 +13,8 @@
     constructor(maxWorkers = 4) {
       this.maxWorkers = Math.min(maxWorkers, navigator.hardwareConcurrency || 4);
       this.workers = [];
-      this.availableWorkers = [];
       this.taskQueue = [];
+      this.activeTasks = new Map(); // taskId to resolve/reject
       this.isInitialized = false;
       
       // Performance statistics
@@ -31,154 +31,119 @@
     }
 
     /**
-     * Initialize worker pool
+     * Initialize worker pool with actual web workers
      */
     async initialize() {
-      try {
-        // For now, we'll use a simple fallback since we don't have dedicated worker files
-        // In a full implementation, workers would be loaded from separate files
-        this.isInitialized = true;
-        console.log(`WorkerPool initialized with ${this.maxWorkers} workers (fallback mode)`);
-      } catch (error) {
-        console.warn('Worker initialization failed, using synchronous processing:', error);
-        this.isInitialized = false;
+      // Check if we're in a browser environment with Web Worker support
+      if (typeof Worker !== 'undefined') {
+        try {
+          for (let i = 0; i < this.maxWorkers; i++) {
+            const worker = new Worker('../workers/image-processing-worker.js');
+            worker.onmessage = (e) => this.handleWorkerMessage(worker, e);
+            worker.onerror = (e) => this.handleWorkerError(worker, e);
+            this.workers.push(worker);
+          }
+          
+          this.isInitialized = true;
+          console.log(`WorkerPool initialized with ${this.maxWorkers} workers`);
+          return;
+        } catch (error) {
+          console.error('Worker initialization failed:', error);
+        }
+      }
+      
+      // Fallback to synchronous mode in Node.js environments
+      this.isInitialized = true;
+      console.log('WorkerPool running in synchronous mode (Node.js fallback)');
+    }
+
+    /**
+     * Handle messages from workers
+     */
+    handleWorkerMessage(worker, e) {
+      const { taskId, success, result, error } = e.data;
+      
+      if (!this.activeTasks.has(taskId)) {
+        console.warn(`Received response for unknown task: ${taskId}`);
+        return;
+      }
+      
+      const { resolve, reject, startTime } = this.activeTasks.get(taskId);
+      this.activeTasks.delete(taskId);
+      
+      const taskTime = performance.now() - startTime;
+      this.stats.completedTasks++;
+      this.stats.totalTime += taskTime;
+      this.stats.averageTaskTime = this.stats.totalTime / this.stats.completedTasks;
+      
+      if (success) {
+        resolve(result);
+      } else {
+        this.stats.failedTasks++;
+        reject(new Error(error || 'Worker task failed'));
+      }
+      
+      this.processQueue();
+    }
+
+    /**
+     * Handle worker errors
+     */
+    handleWorkerError(worker, error) {
+      console.error('Worker error:', error);
+      // Find the task associated with this worker and reject it
+      for (const [taskId, { reject }] of this.activeTasks) {
+        if (this.activeTasks.get(taskId).worker === worker) {
+          this.stats.failedTasks++;
+          reject(error);
+          this.activeTasks.delete(taskId);
+          break;
+        }
       }
     }
 
     /**
-     * Execute a task (with fallback to synchronous processing)
-     * @param {Object} task - Task to execute
-     * @returns {Promise} Task result
+     * Execute a task in a worker
      */
     async executeTask(task) {
       const startTime = performance.now();
       this.stats.totalTasks++;
       
-      try {
-        // For Phase 3, we'll use synchronous processing as fallback
-        // In a full implementation, this would dispatch to web workers
-        const result = await this.executeSynchronous(task);
-        
-        const taskTime = performance.now() - startTime;
-        this.stats.completedTasks++;
-        this.stats.totalTime += taskTime;
-        this.stats.averageTaskTime = this.stats.totalTime / this.stats.completedTasks;
-        
-        return result;
-        
-      } catch (error) {
-        this.stats.failedTasks++;
-        throw error;
-      }
+      const taskId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      
+      return new Promise((resolve, reject) => {
+        this.taskQueue.push({ task, taskId, resolve, reject, startTime });
+        this.processQueue();
+      });
+    }
+
+    /**
+     * Process the next task in the queue
+     */
+    processQueue() {
+      if (this.taskQueue.length === 0) return;
+      
+      const availableWorker = this.workers.find(worker => 
+        !Array.from(this.activeTasks.values()).some(t => t.worker === worker)
+      );
+      
+      if (!availableWorker) return;
+      
+      const { task, taskId, resolve, reject, startTime } = this.taskQueue.shift();
+      this.activeTasks.set(taskId, { resolve, reject, startTime, worker: availableWorker });
+      
+      availableWorker.postMessage({
+        type: task.type,
+        data: task.data,
+        taskId
+      });
     }
 
     /**
      * Execute multiple tasks in parallel
-     * @param {Array} tasks - Array of tasks to execute
-     * @returns {Promise<Array>} Array of results
      */
     async executeBatch(tasks) {
-      if (!tasks || tasks.length === 0) {
-        return [];
-      }
-      
-      // Limit concurrent tasks to worker count
-      const batchSize = Math.min(tasks.length, this.maxWorkers);
-      const results = [];
-      
-      for (let i = 0; i < tasks.length; i += batchSize) {
-        const batch = tasks.slice(i, i + batchSize);
-        const batchPromises = batch.map(task => this.executeTask(task));
-        const batchResults = await Promise.allSettled(batchPromises);
-        results.push(...batchResults);
-      }
-      
-      return results;
-    }
-
-    /**
-     * Synchronous task execution (fallback)
-     */
-    async executeSynchronous(task) {
-      switch (task.type) {
-        case 'extract-region':
-          return this.extractRegionSync(task.data);
-        case 'analyze-quality':
-          return this.analyzeQualitySync(task.data);
-        case 'normalize-region':
-          return this.normalizeRegionSync(task.data);
-        default:
-          throw new Error(`Unknown task type: ${task.type}`);
-      }
-    }
-
-    /**
-     * Synchronous region extraction
-     */
-    extractRegionSync(data) {
-      // This would typically be done in a worker
-      // For now, return a placeholder result
-      return {
-        success: true,
-        imageData: data.imageData,
-        extractionTime: 50 + Math.random() * 100
-      };
-    }
-
-    /**
-     * Synchronous quality analysis
-     */
-    analyzeQualitySync(data) {
-      // Simplified quality analysis
-      const { imageData } = data;
-      
-      // Calculate basic metrics
-      let totalBrightness = 0;
-      let pixelCount = 0;
-      
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        const r = imageData.data[i];
-        const g = imageData.data[i + 1];
-        const b = imageData.data[i + 2];
-        const brightness = (r + g + b) / 3;
-        totalBrightness += brightness;
-        pixelCount++;
-      }
-      
-      const averageBrightness = totalBrightness / pixelCount;
-      
-      // Simple quality score based on brightness variance
-      let variance = 0;
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        const r = imageData.data[i];
-        const g = imageData.data[i + 1];
-        const b = imageData.data[i + 2];
-        const brightness = (r + g + b) / 3;
-        variance += Math.pow(brightness - averageBrightness, 2);
-      }
-      variance /= pixelCount;
-      
-      const quality = Math.min(1, Math.sqrt(variance) / 128); // Normalize to 0-1
-      
-      return {
-        success: true,
-        quality,
-        sharpness: quality * 0.8 + 0.2,
-        contrast: Math.min(1, variance / 10000),
-        analysisTime: 10 + Math.random() * 20
-      };
-    }
-
-    /**
-     * Synchronous region normalization
-     */
-    normalizeRegionSync(data) {
-      // This would typically be done in a worker
-      return {
-        success: true,
-        normalizedData: data.imageData,
-        normalizationTime: 20 + Math.random() * 30
-      };
+      return Promise.allSettled(tasks.map(task => this.executeTask(task)));
     }
 
     /**
@@ -187,7 +152,7 @@
     getStats() {
       return {
         ...this.stats,
-        activeWorkers: this.maxWorkers - this.availableWorkers.length,
+        activeWorkers: this.activeTasks.size,
         queueLength: this.taskQueue.length,
         successRate: this.stats.totalTasks > 0 ? 
           this.stats.completedTasks / this.stats.totalTasks : 0,
@@ -212,16 +177,15 @@
      * Check if workers are available
      */
     hasAvailableWorkers() {
-      return this.availableWorkers.length > 0 || !this.isInitialized;
+      return this.activeTasks.size < this.maxWorkers;
     }
 
     /**
      * Get optimal batch size for current load
      */
     getOptimalBatchSize() {
-      const baseSize = this.maxWorkers;
-      const queueFactor = Math.max(1, Math.floor(this.taskQueue.length / 10));
-      return Math.min(baseSize * 2, baseSize + queueFactor);
+      const available = this.maxWorkers - this.activeTasks.size;
+      return Math.max(1, Math.min(available * 2, 10));
     }
 
     /**
@@ -230,13 +194,11 @@
     dispose() {
       // Terminate all workers
       for (const worker of this.workers) {
-        if (worker && typeof worker.terminate === 'function') {
-          worker.terminate();
-        }
+        worker.terminate();
       }
       
       this.workers = [];
-      this.availableWorkers = [];
+      this.activeTasks.clear();
       this.taskQueue = [];
       this.isInitialized = false;
       
@@ -268,8 +230,7 @@
      * Get current load percentage
      */
     getLoadPercentage() {
-      const activeWorkers = this.maxWorkers - this.availableWorkers.length;
-      return (activeWorkers / this.maxWorkers) * 100;
+      return (this.activeTasks.size / this.maxWorkers) * 100;
     }
   }
 

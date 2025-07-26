@@ -62,20 +62,23 @@
         const extractionTasks = Array.from(coordinateMap.entries()).map(([positionId, coordData]) => ({
           positionId,
           modName: coordData.modName,
-          centerPoint: coordData.centerPoint,
-          hexBounds: coordData.hexBounds,
-          confidence: coordData.confidence
+          centerPoint: coordData.centerPoint, // The center point for extraction
+          hexBounds: coordData.hexBounds, // The bounding box of the hex
+          confidence: coordData.confidence, // Initial confidence from mapping
+          hexRadius: coordData.hexBounds ? Math.min(coordData.hexBounds.width, coordData.hexBounds.height) / 2 : 24
         }));
 
         // Process regions in batches for memory efficiency
-        const batchSize = Math.max(1, Math.min(10, Math.floor(this.maxWorkers * 2)));
+        const batchSize = this.workerPool.getOptimalBatchSize();
         const regionData = new Map();
         let totalQuality = 0;
         let successCount = 0;
 
+        const sourceImageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+
         for (let i = 0; i < extractionTasks.length; i += batchSize) {
-          const batch = extractionTasks.slice(i, i + batchSize);
-          const batchResults = await this.processBatch(imageElement, batch);
+          const batchTasks = extractionTasks.slice(i, i + batchSize);
+          const batchResults = await this.processBatch(sourceImageData, batchTasks);
           
           for (const result of batchResults) {
             if (result.success) {
@@ -150,8 +153,22 @@
     /**
      * Process a batch of extraction tasks
      */
-    async processBatch(imageElement, tasks) {
-      const promises = tasks.map(task => this.extractSingleRegion(imageElement, task));
+    async processBatch(sourceImageData, tasks) {
+      const workerTasks = tasks.map(task => ({
+        type: 'process-region',
+        data: {
+          // Pass a copy of the task data to the worker
+          task: JSON.parse(JSON.stringify(task)),
+          targetSize: this.targetSize,
+          qualityThreshold: this.qualityThreshold
+        }
+      }));
+
+      // The worker needs the full image data to extract from.
+      // For performance, this could be optimized to pass only once or use SharedArrayBuffer.
+      workerTasks.forEach(wt => wt.data.sourceImageData = sourceImageData);
+
+      const promises = await this.workerPool.executeBatch(workerTasks);
       return await Promise.allSettled(promises).then(results =>
         results.map((result, index) => ({
           positionId: tasks[index].positionId,
@@ -160,62 +177,6 @@
           error: result.status === 'rejected' ? result.reason : null
         }))
       );
-    }
-
-    /**
-     * Extract a single hex region
-     */
-    async extractSingleRegion(imageElement, task) {
-      try {
-        // Calculate hex radius from bounds or use default
-        const hexRadius = task.hexBounds ? 
-          Math.min(task.hexBounds.width, task.hexBounds.height) / 2 : 24;
-
-        // Extract raw region
-        const rawImageData = this.regionExtractor.extractHexRegion(
-          imageElement,
-          task.centerPoint,
-          hexRadius
-        );
-
-        // Normalize to target size
-        const normalizedImageData = this.regionExtractor.normalizeRegion(
-          rawImageData,
-          this.targetSize
-        );
-
-        // Assess quality
-        const quality = this.qualityAnalyzer.analyzeImageQuality(normalizedImageData);
-        const completeness = this.qualityAnalyzer.calculateCompleteness(
-          normalizedImageData, 
-          { radius: this.targetSize.width / 2 }
-        );
-
-        // Skip if quality is too low
-        if (quality < this.qualityThreshold) {
-          throw new Error(`Quality too low: ${quality.toFixed(2)} < ${this.qualityThreshold}`);
-        }
-
-        return {
-          modName: task.modName,
-          imageData: normalizedImageData,
-          originalBounds: task.hexBounds || {
-            x: task.centerPoint.x - hexRadius,
-            y: task.centerPoint.y - hexRadius,
-            width: hexRadius * 2,
-            height: hexRadius * 2
-          },
-          extractionMetadata: {
-            quality,
-            completeness,
-            confidence: task.confidence * quality,
-            timestamp: Date.now()
-          }
-        };
-
-      } catch (error) {
-        throw new Error(`Region extraction failed for ${task.modName}: ${error.message}`);
-      }
     }
 
     /**

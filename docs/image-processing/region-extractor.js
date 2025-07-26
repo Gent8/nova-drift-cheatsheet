@@ -86,7 +86,7 @@
     }
 
     /**
-     * Normalize extracted region to target size
+     * Normalize extracted region to target size with adaptive enhancement
      * @param {ImageData} sourceImageData - Source region data
      * @param {Object} targetSize - Target dimensions {width, height}
      * @returns {ImageData} Normalized image data
@@ -114,14 +114,23 @@
           0, 0, targetSize.width, targetSize.height
         );
         
-        // Apply quality enhancement
+        // Get normalized image data
         const normalizedData = ctx.getImageData(0, 0, targetSize.width, targetSize.height);
-        const enhancedData = this.enhanceImageQuality(normalizedData);
+        
+        // Assess quality before enhancement
+        const quality = global.QualityAnalyzer.analyzeImageQuality(normalizedData);
+        
+        // Apply enhancement only if quality is below threshold
+        let finalData = normalizedData;
+        if (quality.quality < 0.8) {
+          // Only enhance if quality is low
+          finalData = this.enhanceImageQuality(normalizedData);
+        }
         
         // Return canvas to pool
         this.memoryManager.releaseCanvas(sourceCanvas);
         
-        return enhancedData;
+        return finalData;
         
       } catch (error) {
         throw new Error(`Region normalization failed: ${error.message}`);
@@ -155,21 +164,29 @@
     }
 
     /**
-     * Enhance image quality for better recognition
+     * Enhance image quality adaptively based on image characteristics
      */
     enhanceImageQuality(imageData) {
       const width = imageData.width;
       const height = imageData.height;
       const data = new Uint8ClampedArray(imageData.data);
       
-      // Apply unsharp mask for sharpness
-      this.applyUnsharpMask(data, width, height);
+      // First analyze the image to determine enhancement needs
+      const quality = global.QualityAnalyzer.analyzeImageQuality(imageData);
       
-      // Enhance contrast slightly
-      this.enhanceContrast(data, 1.1);
+      // Apply different enhancements based on quality characteristics
+      if (quality.sharpness < 0.5) {
+        this.applyUnsharpMask(data, width, height, 0.8, 1.5);
+      }
       
-      // Reduce noise while preserving edges
-      this.adaptiveDenoising(data, width, height);
+      // Apply adaptive contrast enhancement
+      const contrastFactor = quality.brightness > 0.7 ? 1.05 : 1.15;
+      this.enhanceContrast(data, contrastFactor);
+      
+      // Only apply denoising if noise level is high
+      if (quality.sharpness > 0.6) {
+        this.adaptiveDenoising(data, width, height);
+      }
       
       return new ImageData(data, width, height);
     }
