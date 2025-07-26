@@ -306,11 +306,13 @@ class ScreenshotUploadHandler {
               }
             });
             
+            // Clean up the canvas immediately after use to free up memory
+            this.cleanupCanvas(canvas);
+
             // Auto-hide after success
             if (this.options.autoHideDropZone) {
               setTimeout(() => {
                 this.hideDropZone();
-                this.cleanupCanvas(canvas);
               }, 1500);
             }
             

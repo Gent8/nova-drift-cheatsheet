@@ -275,6 +275,13 @@ input.content-ja {
 }
 
 /* Screenshot Upload Styles */
+.toolbar-section {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
 #screenshot-upload-btn {
   margin-left: 4px;
   font-size: 12px;
@@ -300,7 +307,11 @@ input.content-ja {
 }
 
 .drop-zone {
-  margin: 10px 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  margin-top: 8px;
   padding: 20px;
   border: 2px dashed #5a7cfa;
   border-radius: 8px;
@@ -308,7 +319,7 @@ input.content-ja {
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-height: 120px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;

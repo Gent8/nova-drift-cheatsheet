@@ -107,27 +107,28 @@
           id="copy-prefab"
           title="Export your build for Debug Mode!"
         />
-        <input
-          type="button"
-          value="📷 Upload Screenshot"
-          id="screenshot-upload-btn"
-          title="Upload a screenshot to auto-detect your build!"
-        />
-        <input 
-          type="file" 
-          id="screenshot-input" 
-          accept="image/png,image/jpeg,image/jpg" 
-          style="display: none;"
-          aria-describedby="upload-help" 
-        />
-        Count: <span id="hex-select-count">0</span> <br /><br />
-        
-        <!-- Screenshot upload drop zone (initially hidden) -->
-        <div id="screenshot-drop-zone" class="drop-zone" style="display: none;" role="button" tabindex="0" aria-label="Drop screenshot here or click to browse">
-          <div class="drop-zone-content">
-            <span class="drop-icon">📁</span>
-            <span class="drop-text">Drop screenshot here or click to browse</span>
-            <span class="drop-help" id="upload-help">Supports PNG and JPG files up to 10MB</span>
+        <!-- Screenshot Upload Component -->
+        <div id="screenshot-upload-container" class="toolbar-section">
+          <input
+            type="button"
+            value="📷 Upload Screenshot"
+            id="screenshot-upload-btn"
+            title="Upload a screenshot to auto-detect your build!"
+          />
+          <input 
+            type="file" 
+            id="screenshot-input" 
+            accept="image/png,image/jpeg,image/jpg" 
+            style="display: none;"
+            aria-describedby="upload-help" 
+          />
+          <!-- Screenshot upload drop zone (initially hidden) -->
+          <div id="screenshot-drop-zone" class="drop-zone" style="display: none;" role="button" tabindex="0" aria-label="Drop screenshot here or click to browse">
+            <div class="drop-zone-content">
+              <span class="drop-icon">📁</span>
+              <span class="drop-text">Drop screenshot here or click to browse</span>
+              <span class="drop-help" id="upload-help">Supports PNG and JPG files up to 10MB</span>
+            </div>
           </div>
           <div class="upload-progress" id="upload-progress" style="display: none;">
             <div class="progress-bar">
@@ -141,6 +142,7 @@
             <button class="error-close" id="error-close">×</button>
           </div>
         </div>
+        Count: <span id="hex-select-count">0</span> <br /><br />
 
         <!-- Phase 2: Grid Mapping Results (Debug Panel) -->
         <div id="grid-mapping-results" class="grid-results" style="display: none;">

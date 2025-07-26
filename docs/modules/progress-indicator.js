@@ -28,10 +28,10 @@ class ProgressIndicator {
    */
   createElements() {
     // Create progress container if it doesn't exist
-    let progressContainer = this.container.querySelector('.progress-container');
+    let progressContainer = this.container.querySelector('.upload-progress');
     if (!progressContainer) {
       progressContainer = document.createElement('div');
-      progressContainer.className = 'progress-container';
+      progressContainer.className = 'upload-progress';
       progressContainer.style.display = 'none';
       this.container.appendChild(progressContainer);
     }
