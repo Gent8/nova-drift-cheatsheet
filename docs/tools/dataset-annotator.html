@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Drift Screenshot Dataset Annotator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .workspace {
+            display: flex;
+            min-height: 800px;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .main-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 16px;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-input:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .file-input.drag-over {
+            border-color: #667eea;
+            background: #e7f3ff;
+        }
+
+        .canvas-container {
+            position: relative;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+
+        .annotation-canvas {
+            display: block;
+            max-width: 100%;
+            cursor: crosshair;
+        }
+
+        .roi-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .roi-selection {
+            position: absolute;
+            border: 2px solid #007bff;
+            background: rgba(0, 123, 255, 0.1);
+            display: none;
+        }
+
+        .roi-handles {
+            display: none;
+        }
+
+        .roi-selection.active ~ .roi-handles {
+            display: block;
+        }
+
+        .roi-handle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #007bff;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+        }
+
+        .annotation-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .annotation-info div {
+            margin-bottom: 5px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .metadata-form {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .dataset-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+
+        .dataset-item {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .dataset-item:hover {
+            background: #f8f9fa;
+        }
+
+        .dataset-item.selected {
+            background: #e7f3ff;
+            border-color: #007bff;
+        }
+
+        .dataset-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .item-meta {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            background: #28a745;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-pending {
+            background: #ffc107;
+        }
+
+        .status-annotated {
+            background: #28a745;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nova Drift Screenshot Dataset Annotator</h1>
+            <p>Create ground truth data for ROI detection algorithm validation</p>
+        </div>
+
+        <div class="workspace">
+            <div class="sidebar">
+                <div class="section">
+                    <h3>Dataset Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-count">0</div>
+                            <div class="stat-label">Total Images</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="annotated-count">0</div>
+                            <div class="stat-label">Annotated</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Add New Screenshot</h3>
+                    <div class="file-input" id="file-input">
+                        <p>Click or drag screenshot here</p>
+                        <p class="help-text">PNG, JPG files up to 10MB</p>
+                    </div>
+                    <input type="file" id="file-selector" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="section">
+                    <h3>Image Metadata</h3>
+                    <div class="metadata-form">
+                        <div class="form-group">
+                            <label for="resolution">Resolution</label>
+                            <select id="resolution">
+                                <option value="1920x1080">1920x1080</option>
+                                <option value="2560x1440">2560x1440</option>
+                                <option value="3840x2160">3840x2160</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ui-scale">UI Scale</label>
+                            <select id="ui-scale">
+                                <option value="100">100%</option>
+                                <option value="125">125%</option>
+                                <option value="150">150%</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="capture-type">Capture Type</label>
+                            <select id="capture-type">
+                                <option value="fullscreen">Fullscreen</option>
+                                <option value="windowed">Windowed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quality">Image Quality</label>
+                            <select id="quality">
+                                <option value="clean">Clean</option>
+                                <option value="compressed">Compressed</option>
+                                <option value="watermarked">Watermarked</option>
+                                <option value="overlays">With Overlays</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Dataset Images</h3>
+                    <div class="dataset-list" id="dataset-list">
+                        <!-- Dataset items will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-area">
+                <div class="controls">
+                    <button class="btn btn-primary" id="mark-roi-btn" disabled>Mark Build Area</button>
+                    <button class="btn btn-secondary" id="clear-roi-btn" disabled>Clear Selection</button>
+                    <button class="btn btn-success" id="save-annotation-btn" disabled>Save Annotation</button>
+                    <button class="btn btn-secondary" id="export-dataset-btn">Export Dataset</button>
+                </div>
+
+                <div class="canvas-container" id="canvas-container">
+                    <canvas id="annotation-canvas" class="annotation-canvas"></canvas>
+                    <div class="roi-overlay">
+                        <div class="roi-selection" id="roi-selection"></div>
+                        <div class="roi-handles">
+                            <div class="roi-handle" data-handle="nw"></div>
+                            <div class="roi-handle" data-handle="ne"></div>
+                            <div class="roi-handle" data-handle="sw"></div>
+                            <div class="roi-handle" data-handle="se"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="annotation-info" id="annotation-info">
+                    <div><strong>Instructions:</strong></div>
+                    <div>1. Upload a Nova Drift screenshot using the file input</div>
+                    <div>2. Click "Mark Build Area" and draw a rectangle around the hexagonal mod grid</div>
+                    <div>3. Fill in the metadata form with screenshot details</div>
+                    <div>4. Save the annotation to add it to the validation dataset</div>
+                    <div style="margin-top: 10px;"><strong>Selection:</strong> <span id="selection-info">No area selected</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class DatasetAnnotator {
+            constructor() {
+                this.dataset = JSON.parse(localStorage.getItem('nova-drift-dataset') || '[]');
+                this.currentImage = null;
+                this.currentImageData = null;
+                this.isSelecting = false;
+                this.isDragging = false;
+                this.startPoint = { x: 0, y: 0 };
+                this.selection = { x: 0, y: 0, width: 0, height: 0 };
+                this.dragHandle = null;
+
+                this.init();
+            }
+
+            init() {
+                this.setupElements();
+                this.setupEventListeners();
+                this.updateUI();
+            }
+
+            setupElements() {
+                this.elements = {
+                    fileInput: document.getElementById('file-input'),
+                    fileSelector: document.getElementById('file-selector'),
+                    canvas: document.getElementById('annotation-canvas'),
+                    canvasContainer: document.getElementById('canvas-container'),
+                    roiSelection: document.getElementById('roi-selection'),
+                    markRoiBtn: document.getElementById('mark-roi-btn'),
+                    clearRoiBtn: document.getElementById('clear-roi-btn'),
+                    saveAnnotationBtn: document.getElementById('save-annotation-btn'),
+                    exportDatasetBtn: document.getElementById('export-dataset-btn'),
+                    datasetList: document.getElementById('dataset-list'),
+                    totalCount: document.getElementById('total-count'),
+                    annotatedCount: document.getElementById('annotated-count'),
+                    progressFill: document.getElementById('progress-fill'),
+                    selectionInfo: document.getElementById('selection-info'),
+                    resolution: document.getElementById('resolution'),
+                    uiScale: document.getElementById('ui-scale'),
+                    captureType: document.getElementById('capture-type'),
+                    quality: document.getElementById('quality')
+                };
+
+                this.ctx = this.elements.canvas.getContext('2d');
+            }
+
+            setupEventListeners() {
+                // File input events
+                this.elements.fileInput.addEventListener('click', () => {
+                    this.elements.fileSelector.click();
+                });
+
+                this.elements.fileSelector.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.loadImage(e.target.files[0]);
+                    }
+                });
+
+                // Drag and drop
+                this.elements.fileInput.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    this.elements.fileInput.classList.add('drag-over');
+                });
+
+                this.elements.fileInput.addEventListener('dragleave', () => {
+                    this.elements.fileInput.classList.remove('drag-over');
+                });
+
+                this.elements.fileInput.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    this.elements.fileInput.classList.remove('drag-over');
+                    if (e.dataTransfer.files.length > 0) {
+                        this.loadImage(e.dataTransfer.files[0]);
+                    }
+                });
+
+                // Canvas events
+                this.elements.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
+                this.elements.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
+                this.elements.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
+
+                // Button events
+                this.elements.markRoiBtn.addEventListener('click', this.startSelection.bind(this));
+                this.elements.clearRoiBtn.addEventListener('click', this.clearSelection.bind(this));
+                this.elements.saveAnnotationBtn.addEventListener('click', this.saveAnnotation.bind(this));
+                this.elements.exportDatasetBtn.addEventListener('click', this.exportDataset.bind(this));
+
+                // ROI handle events
+                const handles = document.querySelectorAll('.roi-handle');
+                handles.forEach(handle => {
+                    handle.addEventListener('mousedown', (e) => {
+                        e.stopPropagation();
+                        this.isDragging = true;
+                        this.dragHandle = handle.dataset.handle;
+                        this.startPoint = this.getMousePos(e);
+                    });
+                });
+            }
+
+            async loadImage(file) {
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        this.currentImage = img;
+                        this.currentImageData = {
+                            name: file.name,
+                            size: file.size,
+                            lastModified: file.lastModified,
+                            dataUrl: e.target.result
+                        };
+                        this.displayImage();
+                        this.updateControls();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            displayImage() {
+                if (!this.currentImage) return;
+
+                // Calculate canvas size maintaining aspect ratio
+                const maxWidth = 1000;
+                const maxHeight = 600;
+                const imageRatio = this.currentImage.width / this.currentImage.height;
+
+                let canvasWidth, canvasHeight;
+                if (imageRatio > maxWidth / maxHeight) {
+                    canvasWidth = maxWidth;
+                    canvasHeight = maxWidth / imageRatio;
+                } else {
+                    canvasHeight = maxHeight;
+                    canvasWidth = maxHeight * imageRatio;
+                }
+
+                this.elements.canvas.width = canvasWidth;
+                this.elements.canvas.height = canvasHeight;
+                this.elements.canvas.style.width = canvasWidth + 'px';
+                this.elements.canvas.style.height = canvasHeight + 'px';
+
+                // Draw image
+                this.ctx.drawImage(this.currentImage, 0, 0, canvasWidth, canvasHeight);
+
+                // Update canvas container size
+                this.elements.canvasContainer.style.width = canvasWidth + 'px';
+                this.elements.canvasContainer.style.height = canvasHeight + 'px';
+
+                // Clear any existing selection
+                this.clearSelection();
+            }
+
+            updateControls() {
+                const hasImage = this.currentImage !== null;
+                this.elements.markRoiBtn.disabled = !hasImage;
+            }
+
+            startSelection() {
+                this.isSelecting = true;
+                this.elements.canvas.style.cursor = 'crosshair';
+                this.elements.markRoiBtn.disabled = true;
+                this.elements.clearRoiBtn.disabled = false;
+            }
+
+            handleMouseDown(e) {
+                if (!this.isSelecting && !this.isDragging) return;
+
+                const pos = this.getMousePos(e);
+                this.startPoint = pos;
+
+                if (this.isSelecting) {
+                    this.selection = { x: pos.x, y: pos.y, width: 0, height: 0 };
+                    this.updateSelection();
+                }
+            }
+
+            handleMouseMove(e) {
+                if (!this.isSelecting && !this.isDragging) return;
+
+                const pos = this.getMousePos(e);
+
+                if (this.isSelecting) {
+                    this.updateSelectionFromDrag(pos);
+                } else if (this.isDragging) {
+                    this.resizeSelection(pos);
+                }
+
+                this.updateSelection();
+            }
+
+            handleMouseUp(e) {
+                if (this.isSelecting) {
+                    this.isSelecting = false;
+                    this.elements.canvas.style.cursor = 'default';
+                    this.validateSelection();
+                }
+
+                this.isDragging = false;
+                this.dragHandle = null;
+            }
+
+            updateSelectionFromDrag(currentPos) {
+                const x = Math.min(this.startPoint.x, currentPos.x);
+                const y = Math.min(this.startPoint.y, currentPos.y);
+                const width = Math.abs(currentPos.x - this.startPoint.x);
+                const height = Math.abs(currentPos.y - this.startPoint.y);
+
+                this.selection = { x, y, width, height };
+            }
+
+            resizeSelection(currentPos) {
+                const deltaX = currentPos.x - this.startPoint.x;
+                const deltaY = currentPos.y - this.startPoint.y;
+
+                switch (this.dragHandle) {
+                    case 'nw':
+                        this.selection.x += deltaX;
+                        this.selection.y += deltaY;
+                        this.selection.width -= deltaX;
+                        this.selection.height -= deltaY;
+                        break;
+                    case 'ne':
+                        this.selection.y += deltaY;
+                        this.selection.width += deltaX;
+                        this.selection.height -= deltaY;
+                        break;
+                    case 'sw':
+                        this.selection.x += deltaX;
+                        this.selection.width -= deltaX;
+                        this.selection.height += deltaY;
+                        break;
+                    case 'se':
+                        this.selection.width += deltaX;
+                        this.selection.height += deltaY;
+                        break;
+                }
+
+                // Constrain to canvas bounds
+                this.selection.width = Math.max(20, this.selection.width);
+                this.selection.height = Math.max(20, this.selection.height);
+                this.selection.x = Math.max(0, Math.min(this.selection.x, this.elements.canvas.width - this.selection.width));
+                this.selection.y = Math.max(0, Math.min(this.selection.y, this.elements.canvas.height - this.selection.height));
+
+                this.startPoint = currentPos;
+            }
+
+            updateSelection() {
+                const selection = this.elements.roiSelection;
+                const handles = document.querySelectorAll('.roi-handle');
+
+                if (this.selection.width > 0 && this.selection.height > 0) {
+                    selection.style.display = 'block';
+                    selection.style.left = this.selection.x + 'px';
+                    selection.style.top = this.selection.y + 'px';
+                    selection.style.width = this.selection.width + 'px';
+                    selection.style.height = this.selection.height + 'px';
+                    selection.classList.add('active');
+
+                    // Update handle positions
+                    handles[0].style.left = this.selection.x + 'px';
+                    handles[0].style.top = this.selection.y + 'px';
+                    handles[1].style.left = (this.selection.x + this.selection.width) + 'px';
+                    handles[1].style.top = this.selection.y + 'px';
+                    handles[2].style.left = this.selection.x + 'px';
+                    handles[2].style.top = (this.selection.y + this.selection.height) + 'px';
+                    handles[3].style.left = (this.selection.x + this.selection.width) + 'px';
+                    handles[3].style.top = (this.selection.y + this.selection.height) + 'px';
+
+                    this.updateSelectionInfo();
+                } else {
+                    selection.style.display = 'none';
+                    selection.classList.remove('active');
+                }
+            }
+
+            updateSelectionInfo() {
+                if (this.selection.width > 0 && this.selection.height > 0) {
+                    const scaleX = this.currentImage.width / this.elements.canvas.width;
+                    const scaleY = this.currentImage.height / this.elements.canvas.height;
+                    
+                    const actualWidth = Math.round(this.selection.width * scaleX);
+                    const actualHeight = Math.round(this.selection.height * scaleY);
+                    
+                    this.elements.selectionInfo.textContent = 
+                        `${actualWidth}x${actualHeight} pixels (${this.selection.width.toFixed(0)}x${this.selection.height.toFixed(0)} canvas)`;
+                } else {
+                    this.elements.selectionInfo.textContent = 'No area selected';
+                }
+            }
+
+            validateSelection() {
+                const isValid = this.selection.width >= 20 && this.selection.height >= 20;
+                this.elements.saveAnnotationBtn.disabled = !isValid;
+                
+                if (isValid) {
+                    this.elements.markRoiBtn.textContent = 'Modify Selection';
+                    this.elements.markRoiBtn.disabled = false;
+                }
+            }
+
+            clearSelection() {
+                this.selection = { x: 0, y: 0, width: 0, height: 0 };
+                this.updateSelection();
+                this.elements.markRoiBtn.textContent = 'Mark Build Area';
+                this.elements.markRoiBtn.disabled = !this.currentImage;
+                this.elements.clearRoiBtn.disabled = true;
+                this.elements.saveAnnotationBtn.disabled = true;
+                this.isSelecting = false;
+                this.elements.canvas.style.cursor = 'default';
+            }
+
+            saveAnnotation() {
+                if (!this.currentImage || this.selection.width === 0) {
+                    alert('Please select a build area first');
+                    return;
+                }
+
+                const scaleX = this.currentImage.width / this.elements.canvas.width;
+                const scaleY = this.currentImage.height / this.elements.canvas.height;
+
+                const annotation = {
+                    id: `annotation_${Date.now()}`,
+                    filename: this.currentImageData.name,
+                    timestamp: Date.now(),
+                    metadata: {
+                        resolution: this.elements.resolution.value,
+                        uiScale: this.elements.uiScale.value,
+                        captureType: this.elements.captureType.value,
+                        quality: this.elements.quality.value,
+                        originalDimensions: {
+                            width: this.currentImage.width,
+                            height: this.currentImage.height
+                        },
+                        fileSize: this.currentImageData.size
+                    },
+                    roiBounds: {
+                        x: Math.round(this.selection.x * scaleX),
+                        y: Math.round(this.selection.y * scaleY),
+                        width: Math.round(this.selection.width * scaleX),
+                        height: Math.round(this.selection.height * scaleY)
+                    },
+                    canvasSelection: {
+                        x: this.selection.x,
+                        y: this.selection.y,
+                        width: this.selection.width,
+                        height: this.selection.height
+                    },
+                    imageData: this.currentImageData.dataUrl
+                };
+
+                this.dataset.push(annotation);
+                this.saveDataset();
+                this.updateUI();
+                
+                // Clear current image for next annotation
+                this.currentImage = null;
+                this.currentImageData = null;
+                this.ctx.clearRect(0, 0, this.elements.canvas.width, this.elements.canvas.height);
+                this.clearSelection();
+                this.updateControls();
+
+                alert('Annotation saved successfully!');
+            }
+
+            saveDataset() {
+                localStorage.setItem('nova-drift-dataset', JSON.stringify(this.dataset));
+            }
+
+            updateUI() {
+                this.updateDatasetList();
+                this.updateStats();
+            }
+
+            updateDatasetList() {
+                const list = this.elements.datasetList;
+                list.innerHTML = '';
+
+                this.dataset.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'dataset-item';
+                    div.innerHTML = `
+                        <div class="item-name">
+                            <span class="status-indicator status-annotated"></span>
+                            ${item.filename}
+                        </div>
+                        <div class="item-meta">
+                            ${item.metadata.resolution} • ${item.metadata.quality} • 
+                            ${new Date(item.timestamp).toLocaleDateString()}
+                        </div>
+                    `;
+                    
+                    div.addEventListener('click', () => {
+                        this.loadAnnotation(item);
+                    });
+                    
+                    list.appendChild(div);
+                });
+            }
+
+            updateStats() {
+                this.elements.totalCount.textContent = this.dataset.length;
+                this.elements.annotatedCount.textContent = this.dataset.length;
+                
+                const progress = this.dataset.length > 0 ? 100 : 0;
+                this.elements.progressFill.style.width = progress + '%';
+            }
+
+            loadAnnotation(annotation) {
+                const img = new Image();
+                img.onload = () => {
+                    this.currentImage = img;
+                    this.currentImageData = {
+                        name: annotation.filename,
+                        dataUrl: annotation.imageData
+                    };
+                    this.displayImage();
+                    
+                    // Load selection
+                    this.selection = annotation.canvasSelection;
+                    this.updateSelection();
+                    this.validateSelection();
+                    
+                    // Load metadata
+                    this.elements.resolution.value = annotation.metadata.resolution;
+                    this.elements.uiScale.value = annotation.metadata.uiScale;
+                    this.elements.captureType.value = annotation.metadata.captureType;
+                    this.elements.quality.value = annotation.metadata.quality;
+                };
+                img.src = annotation.imageData;
+            }
+
+            exportDataset() {
+                if (this.dataset.length === 0) {
+                    alert('No annotations to export');
+                    return;
+                }
+
+                // Create export data
+                const exportData = {
+                    version: '1.0.0',
+                    created: new Date().toISOString(),
+                    totalImages: this.dataset.length,
+                    annotations: this.dataset.map(item => ({
+                        id: item.id,
+                        filename: item.filename,
+                        timestamp: item.timestamp,
+                        metadata: item.metadata,
+                        roiBounds: item.roiBounds
+                        // Note: imageData excluded from main export to reduce size
+                    })),
+                    // Include sample images for testing
+                    sampleImages: this.dataset.slice(0, 3).map(item => ({
+                        id: item.id,
+                        filename: item.filename,
+                        imageData: item.imageData,
+                        roiBounds: item.roiBounds
+                    }))
+                };
+
+                // Download as JSON
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                    type: 'application/json' 
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `nova-drift-validation-dataset-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+
+                alert(`Dataset exported with ${this.dataset.length} annotations`);
+            }
+
+            getMousePos(e) {
+                const rect = this.elements.canvas.getBoundingClientRect();
+                return {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+            }
+        }
+
+        // Initialize the annotator when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            new DatasetAnnotator();
+        });
+    </script>
+</body>
+</html>
