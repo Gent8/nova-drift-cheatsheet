@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "created": "2025-01-27",
+  "description": "Nova Drift Screenshot Build Import Validation Dataset",
+  "targetCounts": {
+    "totalScreenshots": 40,
+    "resolutions": {
+      "1920x1080": 15,
+      "2560x1440": 10,
+      "3840x2160": 8,
+      "other": 7
+    },
+    "uiScales": {
+      "100%": 20,
+      "125%": 10,
+      "150%": 10
+    },
+    "captureTypes": {
+      "fullscreen": 25,
+      "windowed": 15
+    },
+    "visualArtifacts": {
+      "clean": 20,
+      "youtubeOverlays": 8,
+      "compressionArtifacts": 7,
+      "watermarks": 5
+    },
+    "edgeCases": {
+      "partialCrops": 5,
+      "unusualAspectRatios": 3,
+      "darkBrightLighting": 7
+    }
+  },
+  "testCases": [],
+  "statistics": {
+    "currentCount": 0,
+    "annotatedCount": 0,
+    "validatedCount": 0
+  },
+  "lastUpdated": "2025-01-27"
+}

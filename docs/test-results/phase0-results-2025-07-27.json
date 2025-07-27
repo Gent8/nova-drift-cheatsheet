@@ -1,0 +1,163 @@
+{
+  "timestamp": "2025-07-27T19:54:46.138Z",
+  "phase": "Phase 0 - Risk Reduction & Prototyping",
+  "results": {
+    "phase0": {
+      "timestamp": "2025-07-27T19:54:44.728Z",
+      "phase": "Phase 0 - Risk Reduction & Prototyping",
+      "validations": {
+        "components": {
+          "name": "Component Availability",
+          "passed": true,
+          "details": {
+            "availableComponents": [
+              "ROIDetector",
+              "EdgeROIDetector",
+              "ColorROIDetector",
+              "TemplateROIDetector",
+              "CornerROIDetector",
+              "ROIBenchmarkRunner"
+            ],
+            "missingComponents": [],
+            "totalRequired": 6,
+            "availabilityRate": 1
+          }
+        },
+        "roiDetection": {
+          "name": "ROI Detection Accuracy",
+          "passed": false,
+          "details": {
+            "targetAccuracy": 0.7,
+            "actualAccuracy": 0,
+            "selectedAlgorithm": null,
+            "algorithmResults": {},
+            "testResults": null,
+            "error": "No validation dataset available"
+          }
+        },
+        "recognition": {
+          "name": "Recognition Engine Accuracy",
+          "passed": true,
+          "details": {
+            "targetAccuracy": 0.75,
+            "actualAccuracy": 0,
+            "available": false,
+            "testResults": null,
+            "note": "Recognition engine validation is optional for Phase 0"
+          }
+        },
+        "performance": {
+          "name": "Performance Budgets",
+          "passed": true,
+          "details": {
+            "budgets": {
+              "roiDetection": 4000,
+              "gridMapping": 5000,
+              "recognition": 8000,
+              "total": 20000
+            },
+            "actualPerformance": {
+              "roiDetection": {
+                "averageTime": 0.2,
+                "minTime": 0,
+                "maxTime": 1,
+                "iterations": 5,
+                "allTimes": [
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              }
+            },
+            "testResults": [
+              {
+                "component": "ROI Detection",
+                "target": 4000,
+                "actual": 0.2,
+                "passed": true
+              }
+            ]
+          }
+        },
+        "fallbacks": {
+          "name": "Fallback Mechanisms",
+          "passed": false,
+          "details": {
+            "fallbackTests": [
+              {
+                "name": "ROI Detection Fallback",
+                "passed": true,
+                "details": {
+                  "result": {
+                    "bounds": {
+                      "x": 1,
+                      "y": 1,
+                      "width": 8,
+                      "height": 8
+                    },
+                    "confidence": 0.1,
+                    "method": "fallback",
+                    "metadata": {
+                      "fallbackReason": "window.registerCanvas is not a function",
+                      "originalError": {},
+                      "note": "Automatic detection failed, using center fallback"
+                    }
+                  },
+                  "fallbackUsed": true
+                }
+              },
+              {
+                "name": "Timeout Handling",
+                "passed": false,
+                "details": {
+                  "timeoutOccurred": false
+                }
+              },
+              {
+                "name": "Error Recovery",
+                "passed": true,
+                "details": {
+                  "errorHandled": true
+                }
+              }
+            ],
+            "allFallbacksWork": false
+          }
+        },
+        "dataset": {
+          "name": "Dataset Validation",
+          "passed": false,
+          "details": {
+            "targetCount": 40,
+            "actualCount": 0,
+            "annotatedCount": 0,
+            "qualityScore": 0,
+            "completenessRatio": 0
+          }
+        }
+      },
+      "phase0Complete": false,
+      "readyForPhase1": false,
+      "recommendations": [
+        {
+          "type": "critical",
+          "component": "ROI Detection",
+          "message": "Accuracy 0.0% below target 70.0%",
+          "action": "Optimize algorithm parameters or collect more training data"
+        },
+        {
+          "type": "important",
+          "component": "Dataset",
+          "message": "Only 0/40 test cases available",
+          "action": "Use ground truth annotator to create more test cases"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "testsRun": 1,
+    "phase0Complete": false
+  }
+}

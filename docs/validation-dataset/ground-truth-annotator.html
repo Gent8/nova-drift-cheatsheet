@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Drift Validation Dataset - Ground Truth Annotator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #2d2d2d;
+            padding: 20px;
+            border-bottom: 2px solid #3d3d3d;
+        }
+
+        .header h1 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #b0b0b0;
+            line-height: 1.5;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            height: calc(100vh - 120px);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .controls-panel {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #3d3d3d;
+            overflow-y: auto;
+        }
+
+        .file-upload {
+            margin-bottom: 30px;
+        }
+
+        .file-upload input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: #3d3d3d;
+            border: 1px solid #4d4d4d;
+            border-radius: 4px;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        .annotation-form {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b0b0b0;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            background: #3d3d3d;
+            border: 1px solid #4d4d4d;
+            border-radius: 4px;
+            color: #e0e0e0;
+        }
+
+        .form-group input[type="range"] {
+            margin-top: 5px;
+        }
+
+        .range-display {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background: #4a9eff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #357abd;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .canvas-container {
+            background: #2d2d2d;
+            border-radius: 8px;
+            border: 1px solid #3d3d3d;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: auto;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            border: 2px solid #4d4d4d;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        #annotation-canvas {
+            display: block;
+            max-width: 100%;
+            max-height: calc(100vh - 200px);
+            cursor: crosshair;
+        }
+
+        .selection-overlay {
+            position: absolute;
+            border: 2px solid #4a9eff;
+            background: rgba(74, 158, 255, 0.1);
+            pointer-events: none;
+            display: none;
+        }
+
+        .instructions {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+        }
+
+        .coordinates-display {
+            margin-top: 15px;
+            padding: 10px;
+            background: #3d3d3d;
+            border-radius: 4px;
+            border: 1px solid #4d4d4d;
+        }
+
+        .coordinates-display h4 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        .coord-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-family: monospace;
+        }
+
+        .saved-annotations {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #4d4d4d;
+        }
+
+        .saved-annotations h4 {
+            color: #4a9eff;
+            margin-bottom: 15px;
+        }
+
+        .annotation-item {
+            background: #3d3d3d;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #4a9eff;
+        }
+
+        .annotation-item .filename {
+            font-weight: 500;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        .annotation-item .details {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .export-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #4d4d4d;
+        }
+
+        .progress-info {
+            background: #3d3d3d;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #4d4d4d;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4a9eff;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Ground Truth Annotator</h1>
+        <p>Manual annotation interface for marking build configuration rectangles and mod positions in Nova Drift screenshots.</p>
+    </div>
+
+    <div class="main-container">
+        <div class="controls-panel">
+            <div class="file-upload">
+                <label for="screenshot-input">Select Screenshot:</label>
+                <input type="file" id="screenshot-input" accept="image/*">
+            </div>
+
+            <div class="annotation-form" id="annotation-form">
+                <div class="form-group">
+                    <label for="filename">Filename:</label>
+                    <input type="text" id="filename" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="resolution">Resolution:</label>
+                    <input type="text" id="resolution" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="ui-scale">UI Scale:</label>
+                    <select id="ui-scale">
+                        <option value="100">100%</option>
+                        <option value="125">125%</option>
+                        <option value="150">150%</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="capture-type">Capture Type:</label>
+                    <select id="capture-type">
+                        <option value="fullscreen">Fullscreen</option>
+                        <option value="windowed">Windowed</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quality-score">Quality Score: <span id="quality-value">5</span></label>
+                    <input type="range" id="quality-score" min="1" max="10" value="5">
+                    <div class="range-display">1 = Poor, 5 = Average, 10 = Excellent</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="visual-artifacts">Visual Artifacts:</label>
+                    <select id="visual-artifacts">
+                        <option value="clean">Clean</option>
+                        <option value="youtube-overlays">YouTube Overlays</option>
+                        <option value="compression">Compression Artifacts</option>
+                        <option value="watermarks">Watermarks</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="coordinates-display" id="coordinates-display" style="display: none;">
+                    <h4>Build Area Coordinates</h4>
+                    <div class="coord-row">
+                        <span>Left:</span>
+                        <span id="coord-left">-</span>
+                    </div>
+                    <div class="coord-row">
+                        <span>Top:</span>
+                        <span id="coord-top">-</span>
+                    </div>
+                    <div class="coord-row">
+                        <span>Width:</span>
+                        <span id="coord-width">-</span>
+                    </div>
+                    <div class="coord-row">
+                        <span>Height:</span>
+                        <span id="coord-height">-</span>
+                    </div>
+                    <div class="coord-row">
+                        <span>Right:</span>
+                        <span id="coord-right">-</span>
+                    </div>
+                    <div class="coord-row">
+                        <span>Bottom:</span>
+                        <span id="coord-bottom">-</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="clearSelection()">Clear Selection</button>
+                    <button class="btn btn-success" onclick="saveAnnotation()" style="margin-left: 10px;" disabled id="save-btn">Save Annotation</button>
+                </div>
+            </div>
+
+            <div class="saved-annotations">
+                <h4>Saved Annotations (<span id="annotation-count">0</span>)</h4>
+                <div class="progress-info">
+                    <div>Target: 40 screenshots</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div id="annotations-list"></div>
+            </div>
+
+            <div class="export-section">
+                <button class="btn btn-primary" onclick="exportAnnotations()" style="width: 100%;">Export All Annotations</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <div class="instructions" id="instructions">
+                Select a screenshot file to begin annotation
+            </div>
+            <div class="canvas-wrapper" id="canvas-wrapper" style="display: none;">
+                <canvas id="annotation-canvas"></canvas>
+                <div class="selection-overlay" id="selection-overlay"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class GroundTruthAnnotator {
+            constructor() {
+                this.canvas = document.getElementById('annotation-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.overlay = document.getElementById('selection-overlay');
+                
+                this.currentImage = null;
+                this.isSelecting = false;
+                this.selection = { x: 0, y: 0, width: 0, height: 0 };
+                this.startPoint = { x: 0, y: 0 };
+                this.annotations = this.loadAnnotations();
+                
+                this.setupEventListeners();
+                this.updateAnnotationsList();
+                this.updateProgress();
+            }
+
+            setupEventListeners() {
+                document.getElementById('screenshot-input').addEventListener('change', this.handleFileSelect.bind(this));
+                document.getElementById('quality-score').addEventListener('input', this.updateQualityDisplay.bind(this));
+                
+                this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
+                this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
+                this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
+                this.canvas.addEventListener('mouseleave', this.handleMouseUp.bind(this));
+            }
+
+            handleFileSelect(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        this.currentImage = img;
+                        this.displayImage();
+                        this.setupAnnotationForm(file);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            displayImage() {
+                if (!this.currentImage) return;
+
+                // Calculate canvas size maintaining aspect ratio
+                const maxWidth = 1200;
+                const maxHeight = 800;
+                const imageRatio = this.currentImage.width / this.currentImage.height;
+                
+                let canvasWidth, canvasHeight;
+                if (imageRatio > maxWidth / maxHeight) {
+                    canvasWidth = maxWidth;
+                    canvasHeight = maxWidth / imageRatio;
+                } else {
+                    canvasHeight = maxHeight;
+                    canvasWidth = maxHeight * imageRatio;
+                }
+                
+                this.canvas.width = canvasWidth;
+                this.canvas.height = canvasHeight;
+                this.canvas.style.width = canvasWidth + 'px';
+                this.canvas.style.height = canvasHeight + 'px';
+                
+                // Update overlay container size
+                const wrapper = document.getElementById('canvas-wrapper');
+                wrapper.style.width = canvasWidth + 'px';
+                wrapper.style.height = canvasHeight + 'px';
+                
+                // Draw image
+                this.ctx.drawImage(this.currentImage, 0, 0, canvasWidth, canvasHeight);
+                
+                // Show canvas and hide instructions
+                document.getElementById('instructions').style.display = 'none';
+                document.getElementById('canvas-wrapper').style.display = 'block';
+                
+                // Clear any existing selection
+                this.clearSelection();
+            }
+
+            setupAnnotationForm(file) {
+                document.getElementById('filename').value = file.name;
+                document.getElementById('resolution').value = `${this.currentImage.width}x${this.currentImage.height}`;
+                document.getElementById('annotation-form').style.display = 'block';
+                
+                // Reset form values
+                document.getElementById('ui-scale').value = '100';
+                document.getElementById('capture-type').value = 'fullscreen';
+                document.getElementById('quality-score').value = '5';
+                document.getElementById('visual-artifacts').value = 'clean';
+                this.updateQualityDisplay();
+            }
+
+            updateQualityDisplay() {
+                const value = document.getElementById('quality-score').value;
+                document.getElementById('quality-value').textContent = value;
+            }
+
+            handleMouseDown(event) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                this.isSelecting = true;
+                this.startPoint = { x, y };
+                this.selection = { x, y, width: 0, height: 0 };
+                this.updateSelectionDisplay();
+            }
+
+            handleMouseMove(event) {
+                if (!this.isSelecting) return;
+                
+                const rect = this.canvas.getBoundingClientRect();
+                const currentX = event.clientX - rect.left;
+                const currentY = event.clientY - rect.top;
+                
+                const x = Math.min(this.startPoint.x, currentX);
+                const y = Math.min(this.startPoint.y, currentY);
+                const width = Math.abs(currentX - this.startPoint.x);
+                const height = Math.abs(currentY - this.startPoint.y);
+                
+                this.selection = { x, y, width, height };
+                this.updateSelectionDisplay();
+            }
+
+            handleMouseUp(event) {
+                if (!this.isSelecting) return;
+                
+                this.isSelecting = false;
+                this.validateSelection();
+            }
+
+            updateSelectionDisplay() {
+                if (this.selection.width > 0 && this.selection.height > 0) {
+                    this.overlay.style.display = 'block';
+                    this.overlay.style.left = this.selection.x + 'px';
+                    this.overlay.style.top = this.selection.y + 'px';
+                    this.overlay.style.width = this.selection.width + 'px';
+                    this.overlay.style.height = this.selection.height + 'px';
+                    
+                    // Update coordinates display
+                    this.updateCoordinatesDisplay();
+                } else {
+                    this.overlay.style.display = 'none';
+                }
+            }
+
+            updateCoordinatesDisplay() {
+                if (!this.currentImage) return;
+                
+                // Convert canvas coordinates to image coordinates
+                const scaleX = this.currentImage.width / this.canvas.width;
+                const scaleY = this.currentImage.height / this.canvas.height;
+                
+                const imageCoords = {
+                    left: Math.round(this.selection.x * scaleX),
+                    top: Math.round(this.selection.y * scaleY),
+                    width: Math.round(this.selection.width * scaleX),
+                    height: Math.round(this.selection.height * scaleY)
+                };
+                
+                imageCoords.right = imageCoords.left + imageCoords.width;
+                imageCoords.bottom = imageCoords.top + imageCoords.height;
+                
+                document.getElementById('coord-left').textContent = imageCoords.left;
+                document.getElementById('coord-top').textContent = imageCoords.top;
+                document.getElementById('coord-width').textContent = imageCoords.width;
+                document.getElementById('coord-height').textContent = imageCoords.height;
+                document.getElementById('coord-right').textContent = imageCoords.right;
+                document.getElementById('coord-bottom').textContent = imageCoords.bottom;
+                
+                document.getElementById('coordinates-display').style.display = 'block';
+            }
+
+            validateSelection() {
+                const isValid = this.selection.width >= 50 && 
+                               this.selection.height >= 50 &&
+                               this.selection.width / this.selection.height > 0.5 &&
+                               this.selection.width / this.selection.height < 4.0;
+                
+                document.getElementById('save-btn').disabled = !isValid;
+                
+                if (!isValid && this.selection.width > 0) {
+                    alert('Selection must be at least 50x50 pixels and have a reasonable aspect ratio (0.5-4.0)');
+                }
+            }
+
+            clearSelection() {
+                this.selection = { x: 0, y: 0, width: 0, height: 0 };
+                this.overlay.style.display = 'none';
+                document.getElementById('coordinates-display').style.display = 'none';
+                document.getElementById('save-btn').disabled = true;
+            }
+
+            saveAnnotation() {
+                if (!this.currentImage || this.selection.width === 0) return;
+                
+                // Convert to image coordinates
+                const scaleX = this.currentImage.width / this.canvas.width;
+                const scaleY = this.currentImage.height / this.canvas.height;
+                
+                const annotation = {
+                    filename: document.getElementById('filename').value,
+                    timestamp: Date.now(),
+                    image: {
+                        width: this.currentImage.width,
+                        height: this.currentImage.height
+                    },
+                    buildArea: {
+                        left: Math.round(this.selection.x * scaleX),
+                        top: Math.round(this.selection.y * scaleY),
+                        width: Math.round(this.selection.width * scaleX),
+                        height: Math.round(this.selection.height * scaleY)
+                    },
+                    metadata: {
+                        uiScale: document.getElementById('ui-scale').value,
+                        captureType: document.getElementById('capture-type').value,
+                        qualityScore: parseInt(document.getElementById('quality-score').value),
+                        visualArtifacts: document.getElementById('visual-artifacts').value
+                    }
+                };
+                
+                annotation.buildArea.right = annotation.buildArea.left + annotation.buildArea.width;
+                annotation.buildArea.bottom = annotation.buildArea.top + annotation.buildArea.height;
+                
+                // Add to annotations array
+                this.annotations.push(annotation);
+                this.saveAnnotations();
+                this.updateAnnotationsList();
+                this.updateProgress();
+                
+                // Clear current selection and form
+                this.clearSelection();
+                document.getElementById('screenshot-input').value = '';
+                document.getElementById('annotation-form').style.display = 'none';
+                document.getElementById('instructions').style.display = 'block';
+                document.getElementById('canvas-wrapper').style.display = 'none';
+                
+                alert(`Annotation saved! Total: ${this.annotations.length}/40`);
+            }
+
+            loadAnnotations() {
+                try {
+                    const saved = localStorage.getItem('nova-drift-annotations');
+                    return saved ? JSON.parse(saved) : [];
+                } catch (error) {
+                    console.error('Failed to load annotations:', error);
+                    return [];
+                }
+            }
+
+            saveAnnotations() {
+                try {
+                    localStorage.setItem('nova-drift-annotations', JSON.stringify(this.annotations));
+                } catch (error) {
+                    console.error('Failed to save annotations:', error);
+                }
+            }
+
+            updateAnnotationsList() {
+                const list = document.getElementById('annotations-list');
+                const count = document.getElementById('annotation-count');
+                
+                count.textContent = this.annotations.length;
+                
+                list.innerHTML = this.annotations.map((annotation, index) => `
+                    <div class="annotation-item">
+                        <div class="filename">${annotation.filename}</div>
+                        <div class="details">
+                            ${annotation.image.width}x${annotation.image.height} • 
+                            ${annotation.metadata.uiScale}% • 
+                            Quality: ${annotation.metadata.qualityScore}/10
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateProgress() {
+                const progress = Math.min((this.annotations.length / 40) * 100, 100);
+                document.getElementById('progress-fill').style.width = progress + '%';
+            }
+
+            exportAnnotations() {
+                if (this.annotations.length === 0) {
+                    alert('No annotations to export');
+                    return;
+                }
+                
+                const exportData = {
+                    version: '1.0.0',
+                    created: new Date().toISOString(),
+                    totalAnnotations: this.annotations.length,
+                    annotations: this.annotations
+                };
+                
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                    type: 'application/json' 
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `nova-drift-ground-truth-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Global functions for button clicks
+        function clearSelection() {
+            window.annotator.clearSelection();
+        }
+
+        function saveAnnotation() {
+            window.annotator.saveAnnotation();
+        }
+
+        function exportAnnotations() {
+            window.annotator.exportAnnotations();
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.annotator = new GroundTruthAnnotator();
+        });
+    </script>
+</body>
+</html>

@@ -6,7 +6,7 @@
 class ROIDetector {
   constructor(config = {}) {
     this.config = {
-      algorithms: ['edge', 'color', 'template'],
+      algorithms: ['edge', 'color', 'template', 'corner'],
       timeout: 4000, // 4 second timeout
       confidenceThreshold: 0.7,
       enableFallback: true,
@@ -36,6 +36,9 @@ class ROIDetector {
     }
     if (window.TemplateROIDetector) {
       this.algorithms.set('template', new window.TemplateROIDetector());
+    }
+    if (window.CornerROIDetector) {
+      this.algorithms.set('corner', new window.CornerROIDetector());
     }
 
     console.log(`ROIDetector: Initialized ${this.algorithms.size} algorithms:`, Array.from(this.algorithms.keys()));

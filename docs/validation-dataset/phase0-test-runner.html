@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 0 Test Runner - Nova Drift ROI Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: #2d2d2d;
+            padding: 20px;
+            border-bottom: 2px solid #4a9eff;
+        }
+
+        .header h1 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-section {
+            background: #2d2d2d;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4a9eff;
+        }
+
+        .test-section h2 {
+            color: #4a9eff;
+            margin-bottom: 15px;
+        }
+
+        .test-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #4a9eff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #357abd;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-display {
+            background: #3d3d3d;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #6c757d;
+        }
+
+        .status-display.success {
+            border-left-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .status-display.error {
+            border-left-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .status-display.warning {
+            border-left-color: #ffc107;
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .status-display.info {
+            border-left-color: #17a2b8;
+            background: rgba(23, 162, 184, 0.1);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-card {
+            background: #3d3d3d;
+            padding: 15px;
+            border-radius: 4px;
+            border-top: 3px solid #4a9eff;
+        }
+
+        .result-card.passed {
+            border-top-color: #28a745;
+        }
+
+        .result-card.failed {
+            border-top-color: #dc3545;
+        }
+
+        .result-card h4 {
+            margin-bottom: 10px;
+            color: #4a9eff;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .metric .value {
+            font-weight: 500;
+            color: #28a745;
+        }
+
+        .metric .value.warning {
+            color: #ffc107;
+        }
+
+        .metric .value.error {
+            color: #dc3545;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #4d4d4d;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4a9eff;
+            transition: width 0.3s ease;
+        }
+
+        .log-output {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #4d4d4d;
+            margin-top: 15px;
+        }
+
+        .log-entry {
+            margin: 2px 0;
+            color: #b0b0b0;
+        }
+
+        .log-entry.error {
+            color: #ff6b6b;
+        }
+
+        .log-entry.success {
+            color: #51cf66;
+        }
+
+        .log-entry.warning {
+            color: #ffd43b;
+        }
+
+        .algorithm-comparison {
+            margin-top: 20px;
+        }
+
+        .algorithm-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #3d3d3d;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .algorithm-table th,
+        .algorithm-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #4d4d4d;
+        }
+
+        .algorithm-table th {
+            background: #4a9eff;
+            color: white;
+            font-weight: 500;
+        }
+
+        .algorithm-table tr:hover {
+            background: rgba(74, 158, 255, 0.1);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-wrapper label {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .file-input-wrapper label:hover {
+            background: #545b62;
+        }
+
+        .export-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #4d4d4d;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #4a9eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Phase 0 Test Runner</h1>
+        <p>Comprehensive validation system for Nova Drift ROI detection algorithms</p>
+    </div>
+
+    <div class="container">
+        <!-- Component Status Section -->
+        <div class="test-section">
+            <h2>Component Status</h2>
+            <div class="test-controls">
+                <button class="btn btn-primary" onclick="checkComponents()">Check Components</button>
+                <button class="btn btn-warning" onclick="loadMissingComponents()">Load Missing</button>
+            </div>
+            <div id="component-status" class="status-display">
+                <p>Click "Check Components" to validate all required components are loaded.</p>
+            </div>
+        </div>
+
+        <!-- Algorithm Testing Section -->
+        <div class="test-section">
+            <h2>Algorithm Testing</h2>
+            <div class="test-controls">
+                <button class="btn btn-primary" onclick="runQuickTest()">Quick Test</button>
+                <button class="btn btn-success" onclick="runFullBenchmark()" id="benchmark-btn">Full Benchmark</button>
+                <div class="file-input-wrapper">
+                    <input type="file" id="dataset-file" accept=".json" onchange="loadDataset(event)">
+                    <label for="dataset-file">Load Dataset</label>
+                </div>
+            </div>
+            <div id="algorithm-status" class="status-display">
+                <p>Ready to test ROI detection algorithms. Use Quick Test for rapid validation or Full Benchmark for comprehensive analysis.</p>
+            </div>
+            <div id="algorithm-results" class="results-grid" style="display: none;"></div>
+        </div>
+
+        <!-- Performance Analysis Section -->
+        <div class="test-section">
+            <h2>Performance Analysis</h2>
+            <div class="test-controls">
+                <button class="btn btn-primary" onclick="runPerformanceTest()">Test Performance</button>
+                <button class="btn btn-warning" onclick="stressTest()">Stress Test</button>
+            </div>
+            <div id="performance-status" class="status-display">
+                <p>Performance testing validates that algorithms meet the 20-second end-to-end processing budget.</p>
+            </div>
+            <div id="performance-results" style="display: none;"></div>
+        </div>
+
+        <!-- Phase 0 Validation Section -->
+        <div class="test-section">
+            <h2>Phase 0 Validation</h2>
+            <div class="test-controls">
+                <button class="btn btn-success" onclick="runPhase0Validation()" id="phase0-btn">Validate Phase 0</button>
+                <button class="btn btn-primary" onclick="exportResults()">Export Results</button>
+            </div>
+            <div id="phase0-status" class="status-display">
+                <p>Run complete Phase 0 validation to determine readiness for Phase 1 implementation.</p>
+            </div>
+            <div id="phase0-results" style="display: none;"></div>
+        </div>
+
+        <!-- Algorithm Comparison Table -->
+        <div class="algorithm-comparison" id="algorithm-comparison" style="display: none;">
+            <h2>Algorithm Comparison</h2>
+            <table class="algorithm-table">
+                <thead>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Accuracy</th>
+                        <th>Avg Time (ms)</th>
+                        <th>Success Rate</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="algorithm-table-body">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Export Section -->
+        <div class="export-section">
+            <h2>Export & Documentation</h2>
+            <div class="test-controls">
+                <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
+                <button class="btn btn-success" onclick="exportConfiguration()">Export Config</button>
+                <button class="btn btn-warning" onclick="openAnnotationTool()">Open Annotation Tool</button>
+            </div>
+        </div>
+
+        <!-- Log Output -->
+        <div class="log-output" id="log-output">
+            <div class="log-entry">Phase 0 Test Runner initialized. Ready to begin validation.</div>
+        </div>
+    </div>
+
+    <!-- Load required scripts -->
+    <script src="../modules/roi-detection/edge-detector.js"></script>
+    <script src="../modules/roi-detection/color-detector.js"></script>
+    <script src="../modules/roi-detection/template-detector.js"></script>
+    <script src="../modules/roi-detection/corner-detector.js"></script>
+    <script src="../modules/roi-detection/roi-detector.js"></script>
+    <script src="benchmark-runner.js"></script>
+    <script src="phase0-validator.js"></script>
+
+    <script>
+        class Phase0TestRunner {
+            constructor() {
+                this.validationDataset = [];
+                this.testResults = {};
+                this.currentTest = null;
+                this.logContainer = document.getElementById('log-output');
+                
+                this.init();
+            }
+
+            init() {
+                this.log('Phase 0 Test Runner initialized', 'success');
+                
+                // Auto-check components on load
+                setTimeout(() => {
+                    this.checkComponents();
+                }, 1000);
+            }
+
+            log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const entry = document.createElement('div');
+                entry.className = `log-entry ${type}`;
+                entry.textContent = `[${timestamp}] ${message}`;
+                
+                this.logContainer.appendChild(entry);
+                this.logContainer.scrollTop = this.logContainer.scrollHeight;
+            }
+
+            updateStatus(elementId, message, type = 'info') {
+                const element = document.getElementById(elementId);
+                element.innerHTML = `<p>${message}</p>`;
+                element.className = `status-display ${type}`;
+            }
+
+            showSpinner(buttonId) {
+                const button = document.getElementById(buttonId);
+                const originalText = button.textContent;
+                button.innerHTML = '<span class="spinner"></span>' + originalText;
+                button.disabled = true;
+                return originalText;
+            }
+
+            hideSpinner(buttonId, originalText) {
+                const button = document.getElementById(buttonId);
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+
+            async checkComponents() {
+                this.log('Checking component availability...');
+                
+                const requiredComponents = [
+                    'ROIDetector',
+                    'EdgeROIDetector',
+                    'ColorROIDetector',
+                    'TemplateROIDetector',
+                    'CornerROIDetector',
+                    'ROIBenchmarkRunner',
+                    'Phase0Validator'
+                ];
+
+                const available = [];
+                const missing = [];
+
+                requiredComponents.forEach(component => {
+                    if (window[component]) {
+                        available.push(component);
+                        this.log(`✓ ${component} loaded`, 'success');
+                    } else {
+                        missing.push(component);
+                        this.log(`✗ ${component} missing`, 'error');
+                    }
+                });
+
+                const status = missing.length === 0 ? 'success' : 'error';
+                const message = `Components: ${available.length}/${requiredComponents.length} loaded. ${missing.length > 0 ? 'Missing: ' + missing.join(', ') : 'All components available.'}`;
+                
+                this.updateStatus('component-status', message, status);
+                
+                return missing.length === 0;
+            }
+
+            async loadMissingComponents() {
+                this.log('Attempting to load missing components...');
+                // This would trigger loading of missing script files
+                // For now, just refresh the check
+                setTimeout(() => {
+                    this.checkComponents();
+                }, 500);
+            }
+
+            async runQuickTest() {
+                this.log('Starting quick algorithm test...');
+                
+                try {
+                    // Create test detector
+                    const detector = new ROIDetector();
+                    
+                    // Create test image
+                    const testImage = await this.createTestImage();
+                    
+                    // Test detection
+                    const startTime = performance.now();
+                    const result = await detector.detectROI(testImage);
+                    const processingTime = performance.now() - startTime;
+                    
+                    if (result) {
+                        this.log(`Quick test successful: ${result.method} algorithm, confidence ${(result.confidence * 100).toFixed(1)}%, ${processingTime.toFixed(0)}ms`, 'success');
+                        this.updateStatus('algorithm-status', 
+                            `Quick test passed. Algorithm: ${result.method}, Confidence: ${(result.confidence * 100).toFixed(1)}%, Time: ${processingTime.toFixed(0)}ms`, 
+                            'success'
+                        );
+                    } else {
+                        this.log('Quick test failed: No ROI detected', 'error');
+                        this.updateStatus('algorithm-status', 'Quick test failed: No ROI detected', 'error');
+                    }
+                    
+                } catch (error) {
+                    this.log(`Quick test error: ${error.message}`, 'error');
+                    this.updateStatus('algorithm-status', `Quick test error: ${error.message}`, 'error');
+                }
+            }
+
+            async runFullBenchmark() {
+                const originalText = this.showSpinner('benchmark-btn');
+                this.log('Starting full benchmark suite...');
+                
+                try {
+                    let dataset = this.validationDataset;
+                    
+                    // Use mock dataset if none loaded
+                    if (dataset.length === 0) {
+                        this.log('No dataset loaded, using mock data');
+                        const mockRunner = ROIBenchmarkRunner.createMockValidationTest();
+                        dataset = mockRunner.dataset;
+                    }
+                    
+                    const benchmarkRunner = new ROIBenchmarkRunner(dataset);
+                    await benchmarkRunner.initialize();
+                    
+                    this.updateStatus('algorithm-status', 'Running benchmark... This may take several minutes.', 'info');
+                    
+                    const results = await benchmarkRunner.runFullBenchmark();
+                    this.testResults.benchmark = results;
+                    
+                    this.displayBenchmarkResults(results);
+                    this.log(`Benchmark completed. Best algorithm: ${results.algorithmRankings[0]?.algorithm}`, 'success');
+                    
+                } catch (error) {
+                    this.log(`Benchmark error: ${error.message}`, 'error');
+                    this.updateStatus('algorithm-status', `Benchmark error: ${error.message}`, 'error');
+                } finally {
+                    this.hideSpinner('benchmark-btn', originalText);
+                }
+            }
+
+            displayBenchmarkResults(results) {
+                const resultsContainer = document.getElementById('algorithm-results');
+                const tableBody = document.getElementById('algorithm-table-body');
+                
+                resultsContainer.innerHTML = '';
+                tableBody.innerHTML = '';
+                
+                // Display summary
+                const summary = results.summary;
+                const summaryCard = document.createElement('div');
+                summaryCard.className = 'result-card';
+                summaryCard.innerHTML = `
+                    <h4>Benchmark Summary</h4>
+                    <div class="metric">
+                        <span>Total Test Cases:</span>
+                        <span class="value">${summary.totalTestCases}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Algorithms Tested:</span>
+                        <span class="value">${Object.keys(summary.algorithms).length}</span>
+                    </div>
+                `;
+                resultsContainer.appendChild(summaryCard);
+                
+                // Display algorithm rankings
+                results.algorithmRankings.forEach((ranking, index) => {
+                    const card = document.createElement('div');
+                    card.className = `result-card ${ranking.meetsRequirements.overall ? 'passed' : 'failed'}`;
+                    card.innerHTML = `
+                        <h4>${ranking.algorithm} ${index === 0 ? '(Recommended)' : ''}</h4>
+                        <div class="metric">
+                            <span>Accuracy:</span>
+                            <span class="value ${ranking.metrics.accuracy >= 0.7 ? '' : 'error'}">${(ranking.metrics.accuracy * 100).toFixed(1)}%</span>
+                        </div>
+                        <div class="metric">
+                            <span>Avg Time:</span>
+                            <span class="value ${ranking.metrics.processingTime <= 4000 ? '' : 'warning'}">${ranking.metrics.processingTime.toFixed(0)}ms</span>
+                        </div>
+                        <div class="metric">
+                            <span>Success Rate:</span>
+                            <span class="value">${(ranking.metrics.successRate * 100).toFixed(1)}%</span>
+                        </div>
+                        <div class="metric">
+                            <span>Overall Score:</span>
+                            <span class="value">${(ranking.weightedScore * 100).toFixed(1)}</span>
+                        </div>
+                    `;
+                    resultsContainer.appendChild(card);
+                    
+                    // Add to comparison table
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${ranking.algorithm}</td>
+                        <td>${(ranking.metrics.accuracy * 100).toFixed(1)}%</td>
+                        <td>${ranking.metrics.processingTime.toFixed(0)}</td>
+                        <td>${(ranking.metrics.successRate * 100).toFixed(1)}%</td>
+                        <td>${(ranking.weightedScore * 100).toFixed(1)}</td>
+                        <td>${ranking.meetsRequirements.overall ? '✓ Pass' : '✗ Fail'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+                resultsContainer.style.display = 'grid';
+                document.getElementById('algorithm-comparison').style.display = 'block';
+                
+                this.updateStatus('algorithm-status', 
+                    `Benchmark completed. Best algorithm: ${results.algorithmRankings[0]?.algorithm} (${(results.algorithmRankings[0]?.metrics.accuracy * 100).toFixed(1)}% accuracy)`, 
+                    'success'
+                );
+            }
+
+            async runPerformanceTest() {
+                this.log('Starting performance test...');
+                
+                try {
+                    const detector = new ROIDetector();
+                    const iterations = 5;
+                    const times = [];
+                    
+                    for (let i = 0; i < iterations; i++) {
+                        const testImage = await this.createTestImage();
+                        const startTime = performance.now();
+                        await detector.detectROI(testImage);
+                        const endTime = performance.now();
+                        times.push(endTime - startTime);
+                        
+                        this.log(`Performance test ${i + 1}/${iterations}: ${(endTime - startTime).toFixed(0)}ms`);
+                    }
+                    
+                    const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
+                    const maxTime = Math.max(...times);
+                    const minTime = Math.min(...times);
+                    
+                    const status = avgTime <= 4000 ? 'success' : 'warning';
+                    const message = `Performance test completed. Average: ${avgTime.toFixed(0)}ms, Min: ${minTime.toFixed(0)}ms, Max: ${maxTime.toFixed(0)}ms`;
+                    
+                    this.updateStatus('performance-status', message, status);
+                    this.log(message, status);
+                    
+                } catch (error) {
+                    this.log(`Performance test error: ${error.message}`, 'error');
+                    this.updateStatus('performance-status', `Performance test error: ${error.message}`, 'error');
+                }
+            }
+
+            async stressTest() {
+                this.log('Starting stress test...');
+                
+                try {
+                    const detector = new ROIDetector();
+                    const testCount = 20;
+                    let successCount = 0;
+                    let totalTime = 0;
+                    
+                    for (let i = 0; i < testCount; i++) {
+                        try {
+                            const testImage = await this.createTestImage();
+                            const startTime = performance.now();
+                            const result = await detector.detectROI(testImage);
+                            const endTime = performance.now();
+                            
+                            if (result) {
+                                successCount++;
+                                totalTime += (endTime - startTime);
+                            }
+                            
+                            if (i % 5 === 0) {
+                                this.log(`Stress test progress: ${i + 1}/${testCount}`);
+                            }
+                            
+                        } catch (error) {
+                            this.log(`Stress test iteration ${i + 1} failed: ${error.message}`, 'warning');
+                        }
+                    }
+                    
+                    const successRate = (successCount / testCount) * 100;
+                    const avgTime = successCount > 0 ? totalTime / successCount : 0;
+                    
+                    const status = successRate >= 80 ? 'success' : 'warning';
+                    const message = `Stress test completed. Success rate: ${successRate.toFixed(1)}%, Average time: ${avgTime.toFixed(0)}ms`;
+                    
+                    this.updateStatus('performance-status', message, status);
+                    this.log(message, status);
+                    
+                } catch (error) {
+                    this.log(`Stress test error: ${error.message}`, 'error');
+                    this.updateStatus('performance-status', `Stress test error: ${error.message}`, 'error');
+                }
+            }
+
+            async runPhase0Validation() {
+                const originalText = this.showSpinner('phase0-btn');
+                this.log('Starting Phase 0 validation...');
+                
+                try {
+                    const validator = new Phase0Validator();
+                    const results = await validator.validatePhase0Completion();
+                    
+                    this.testResults.phase0 = results;
+                    this.displayPhase0Results(results);
+                    
+                    const status = results.readyForPhase1 ? 'success' : 'warning';
+                    this.log(`Phase 0 validation completed. Ready for Phase 1: ${results.readyForPhase1}`, status);
+                    
+                } catch (error) {
+                    this.log(`Phase 0 validation error: ${error.message}`, 'error');
+                    this.updateStatus('phase0-status', `Phase 0 validation error: ${error.message}`, 'error');
+                } finally {
+                    this.hideSpinner('phase0-btn', originalText);
+                }
+            }
+
+            displayPhase0Results(results) {
+                const resultsContainer = document.getElementById('phase0-results');
+                resultsContainer.innerHTML = '';
+                
+                // Overall status
+                const overallCard = document.createElement('div');
+                overallCard.className = `result-card ${results.readyForPhase1 ? 'passed' : 'failed'}`;
+                overallCard.innerHTML = `
+                    <h4>Phase 0 Overall Status</h4>
+                    <div class="metric">
+                        <span>Ready for Phase 1:</span>
+                        <span class="value ${results.readyForPhase1 ? '' : 'error'}">${results.readyForPhase1 ? 'YES' : 'NO'}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Validations Passed:</span>
+                        <span class="value">${Object.values(results.validations).filter(v => v.passed).length}/${Object.keys(results.validations).length}</span>
+                    </div>
+                `;
+                resultsContainer.appendChild(overallCard);
+                
+                // Individual validation results
+                Object.entries(results.validations).forEach(([key, validation]) => {
+                    const card = document.createElement('div');
+                    card.className = `result-card ${validation.passed ? 'passed' : 'failed'}`;
+                    card.innerHTML = `
+                        <h4>${validation.name}</h4>
+                        <div class="metric">
+                            <span>Status:</span>
+                            <span class="value ${validation.passed ? '' : 'error'}">${validation.passed ? 'PASS' : 'FAIL'}</span>
+                        </div>
+                        ${validation.details ? `<div style="margin-top: 10px; font-size: 12px; color: #b0b0b0;">${JSON.stringify(validation.details, null, 2)}</div>` : ''}
+                    `;
+                    resultsContainer.appendChild(card);
+                });
+                
+                resultsContainer.style.display = 'grid';
+                
+                const status = results.readyForPhase1 ? 'success' : 'warning';
+                const message = `Phase 0 validation ${results.readyForPhase1 ? 'passed' : 'requires attention'}. ${results.recommendations.length} recommendations.`;
+                this.updateStatus('phase0-status', message, status);
+            }
+
+            async createTestImage(width = 1920, height = 1080) {
+                return new Promise((resolve) => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // Draw mock Nova Drift build area
+                    ctx.fillStyle = '#1a1a2e';
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    // Add mock hexagonal grid
+                    const centerX = width / 2;
+                    const centerY = height / 2;
+                    const hexRadius = 24;
+                    
+                    for (let q = -4; q <= 4; q++) {
+                        for (let r = -3; r <= 3; r++) {
+                            const x = centerX + hexRadius * (3/2 * q);
+                            const y = centerY + hexRadius * (Math.sqrt(3)/2 * q + Math.sqrt(3) * r);
+                            
+                            if (Math.random() > 0.3) { // 70% chance of mod
+                                ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                                this.drawHexagon(ctx, x, y, hexRadius);
+                            }
+                        }
+                    }
+                    
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.src = canvas.toDataURL();
+                });
+            }
+
+            drawHexagon(ctx, centerX, centerY, radius) {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * Math.PI) / 3;
+                    const x = centerX + radius * Math.cos(angle);
+                    const y = centerY + radius * Math.sin(angle);
+                    
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            loadDataset(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                ROIBenchmarkRunner.loadDatasetFromFile(file)
+                    .then(dataset => {
+                        this.validationDataset = dataset;
+                        this.log(`Dataset loaded: ${dataset.length} test cases`, 'success');
+                        this.updateStatus('algorithm-status', `Dataset loaded: ${dataset.length} test cases ready for benchmarking`, 'success');
+                    })
+                    .catch(error => {
+                        this.log(`Dataset load error: ${error.message}`, 'error');
+                        this.updateStatus('algorithm-status', `Dataset load error: ${error.message}`, 'error');
+                    });
+            }
+
+            exportResults() {
+                if (Object.keys(this.testResults).length === 0) {
+                    this.log('No results to export. Run some tests first.', 'warning');
+                    return;
+                }
+                
+                const exportData = {
+                    timestamp: new Date().toISOString(),
+                    phase: 'Phase 0 - Risk Reduction & Prototyping',
+                    results: this.testResults,
+                    summary: {
+                        testsRun: Object.keys(this.testResults).length,
+                        phase0Complete: this.testResults.phase0?.readyForPhase1 || false
+                    }
+                };
+                
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+                    type: 'application/json'
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `phase0-results-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                
+                URL.revokeObjectURL(url);
+                this.log('Results exported successfully', 'success');
+            }
+
+            generateReport() {
+                this.log('Generating comprehensive report...');
+                // Implementation would create a detailed report
+                setTimeout(() => {
+                    this.log('Report generated (feature in development)', 'success');
+                }, 1000);
+            }
+
+            exportConfiguration() {
+                this.log('Exporting configuration...');
+                // Implementation would export algorithm configuration
+                setTimeout(() => {
+                    this.log('Configuration exported (feature in development)', 'success');
+                }, 1000);
+            }
+
+            openAnnotationTool() {
+                window.open('ground-truth-annotator.html', '_blank');
+                this.log('Opened ground truth annotation tool', 'success');
+            }
+        }
+
+        // Global functions for button clicks
+        window.checkComponents = () => testRunner.checkComponents();
+        window.loadMissingComponents = () => testRunner.loadMissingComponents();
+        window.runQuickTest = () => testRunner.runQuickTest();
+        window.runFullBenchmark = () => testRunner.runFullBenchmark();
+        window.runPerformanceTest = () => testRunner.runPerformanceTest();
+        window.stressTest = () => testRunner.stressTest();
+        window.runPhase0Validation = () => testRunner.runPhase0Validation();
+        window.loadDataset = (event) => testRunner.loadDataset(event);
+        window.exportResults = () => testRunner.exportResults();
+        window.generateReport = () => testRunner.generateReport();
+        window.exportConfiguration = () => testRunner.exportConfiguration();
+        window.openAnnotationTool = () => testRunner.openAnnotationTool();
+
+        // Initialize test runner
+        let testRunner;
+        document.addEventListener('DOMContentLoaded', () => {
+            testRunner = new Phase0TestRunner();
+        });
+    </script>
+</body>
+</html>
