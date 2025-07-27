@@ -33,11 +33,6 @@ To create a "Build Import Assistant" that allows users to upload a screenshot of
 *   Solidify the cheatsheet's position as an indispensable community tool.
 *   Create a robust, community-driven pathway for improving the tool's accuracy over time without a server.
 
-**2.3. Non-Goals (Out of Scope for v1.0)**
-*   Recognition of builds from active gameplay screenshots (i.e., not the formal build configuration screen).
-*   Automated, real-time learning. All model improvements will be deployed manually by the developer.
-*   Support for video files or direct YouTube link integration.
-*   Integration with a user account system.
 
 ---
 
