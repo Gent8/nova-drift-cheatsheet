@@ -555,13 +555,13 @@
             validateSelection() {
                 const isValid = this.selection.width >= 50 && 
                                this.selection.height >= 50 &&
-                               this.selection.width / this.selection.height > 0.5 &&
+                               this.selection.width / this.selection.height > 0.3 &&
                                this.selection.width / this.selection.height < 4.0;
                 
                 document.getElementById('save-btn').disabled = !isValid;
                 
                 if (!isValid && this.selection.width > 0) {
-                    alert('Selection must be at least 50x50 pixels and have a reasonable aspect ratio (0.5-4.0)');
+                    alert('Selection must be at least 50x50 pixels and have a reasonable aspect ratio (0.3-4.0)');
                 }
             }
 
