@@ -1,0 +1,381 @@
+{
+  "version": "1.0.0",
+  "created": "2025-07-27",
+  "totalAnnotations": 17,
+  "annotations": [
+    {
+      "filename": "Screenshot 2025-07-27 220205.png",
+      "timestamp": 1753648891187,
+      "image": {
+        "width": 341,
+        "height": 936
+      },
+      "buildArea": {
+        "left": 3,
+        "top": 5,
+        "width": 332,
+        "height": 917,
+        "right": 335,
+        "bottom": 922
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 9,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "Screenshot 2025-07-27 220129.png",
+      "timestamp": 1753648988407,
+      "image": {
+        "width": 415,
+        "height": 911
+      },
+      "buildArea": {
+        "left": 5,
+        "top": 3,
+        "width": 404,
+        "height": 894,
+        "right": 409,
+        "bottom": 897
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "windowed",
+        "qualityScore": 10,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "Screenshot 2025-07-27 220101.png",
+      "timestamp": 1753649044606,
+      "image": {
+        "width": 380,
+        "height": 911
+      },
+      "buildArea": {
+        "left": 5,
+        "top": 3,
+        "width": 367,
+        "height": 891,
+        "right": 372,
+        "bottom": 894
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "windowed",
+        "qualityScore": 10,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "Screenshot 2025-07-27 220044.png",
+      "timestamp": 1753649065689,
+      "image": {
+        "width": 357,
+        "height": 918
+      },
+      "buildArea": {
+        "left": 5,
+        "top": 3,
+        "width": 342,
+        "height": 901,
+        "right": 347,
+        "bottom": 904
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 10,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "2y2xf91o8fjd1.png",
+      "timestamp": 1753649916864,
+      "image": {
+        "width": 1787,
+        "height": 1398
+      },
+      "buildArea": {
+        "left": 3,
+        "top": 3,
+        "width": 367,
+        "height": 1377,
+        "right": 370,
+        "bottom": 1380
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 10,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "i-just-joined-the-sub-this-is-the-most-fun-ive-had-with-a-v0-cw704rfaa2jd1.webp",
+      "timestamp": 1753649973307,
+      "image": {
+        "width": 1080,
+        "height": 607
+      },
+      "buildArea": {
+        "left": 5,
+        "top": 8,
+        "width": 188,
+        "height": 595,
+        "right": 193,
+        "bottom": 603
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 6,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "lazy-to-aiming-use-this-build-is-very-op-no-to-damage-but-v0-dyteyxogyt1f1.webp",
+      "timestamp": 1753650025933,
+      "image": {
+        "width": 1080,
+        "height": 607
+      },
+      "buildArea": {
+        "left": 9,
+        "top": 9,
+        "width": 187,
+        "height": 578,
+        "right": 196,
+        "bottom": 587
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 6,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "new-meta-build-just-dropped-v0-qxjl4jvhmrid1.webp",
+      "timestamp": 1753650133703,
+      "image": {
+        "width": 1920,
+        "height": 1080
+      },
+      "buildArea": {
+        "left": 9,
+        "top": 17,
+        "width": 349,
+        "height": 1046,
+        "right": 358,
+        "bottom": 1063
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 10,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "what-is-the-strongest-overseer-build-and-how-far-can-it-v0-13pczy5mhbyd1.webp",
+      "timestamp": 1753650165864,
+      "image": {
+        "width": 1080,
+        "height": 674
+      },
+      "buildArea": {
+        "left": 9,
+        "top": 11,
+        "width": 163,
+        "height": 651,
+        "right": 172,
+        "bottom": 662
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 6,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "what-is-the-strongest-overseer-build-and-how-far-can-it-v0-n1zz6qvxhbyd1.webp",
+      "timestamp": 1753650379735,
+      "image": {
+        "width": 2558,
+        "height": 1598
+      },
+      "buildArea": {
+        "left": 16,
+        "top": 21,
+        "width": 422,
+        "height": 1549,
+        "right": 438,
+        "bottom": 1570
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 10,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "second-try-with-this-build-in-the-new-update-v0-u27din6dtk3c1.webp",
+      "timestamp": 1753650469028,
+      "image": {
+        "width": 1080,
+        "height": 607
+      },
+      "buildArea": {
+        "left": 7,
+        "top": 10,
+        "width": 264,
+        "height": 572,
+        "right": 271,
+        "bottom": 582
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 4,
+        "visualArtifacts": "other"
+      }
+    },
+    {
+      "filename": "9gfq41zev7wb1.jpg",
+      "timestamp": 1753650557886,
+      "image": {
+        "width": 3472,
+        "height": 4624
+      },
+      "buildArea": {
+        "left": 751,
+        "top": 12,
+        "width": 1701,
+        "height": 4560,
+        "right": 2452,
+        "bottom": 4572
+      },
+      "metadata": {
+        "uiScale": "125",
+        "captureType": "windowed",
+        "qualityScore": 3,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "just-goofing-around-and-found-this-build-v0-wsrg93esz43c1.webp",
+      "timestamp": 1753650617540,
+      "image": {
+        "width": 1920,
+        "height": 1080
+      },
+      "buildArea": {
+        "left": 9,
+        "top": 8,
+        "width": 349,
+        "height": 1061,
+        "right": 358,
+        "bottom": 1069
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 9,
+        "visualArtifacts": "clean"
+      }
+    },
+    {
+      "filename": "please-tell-me-this-isnt-a-fluke-and-that-dart-on-the-v0-ut18580vm51e1.webp",
+      "timestamp": 1753650724705,
+      "image": {
+        "width": 1080,
+        "height": 1440
+      },
+      "buildArea": {
+        "left": 71,
+        "top": 31,
+        "width": 450,
+        "height": 1354,
+        "right": 521,
+        "bottom": 1385
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "windowed",
+        "qualityScore": 4,
+        "visualArtifacts": "other"
+      }
+    },
+    {
+      "filename": "who-wouldve-thought-that-my-hunting-for-the-4-minute-turret-v0-p1o2hyx1hfnd1.webp",
+      "timestamp": 1753650936869,
+      "image": {
+        "width": 1080,
+        "height": 608
+      },
+      "buildArea": {
+        "left": 5,
+        "top": 5,
+        "width": 150,
+        "height": 598,
+        "right": 155,
+        "bottom": 603
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 6,
+        "visualArtifacts": "other"
+      }
+    },
+    {
+      "filename": "lazy-shield-siphon-sanctuary-build-v0-nfjkcvj84lzd1.webp",
+      "timestamp": 1753651060376,
+      "image": {
+        "width": 2558,
+        "height": 1440
+      },
+      "buildArea": {
+        "left": 16,
+        "top": 18,
+        "width": 328,
+        "height": 1410,
+        "right": 344,
+        "bottom": 1428
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 4,
+        "visualArtifacts": "other"
+      }
+    },
+    {
+      "filename": "pretty-fun-whacky-build-that-actually-kinda-works-v0-019w736ypo7e1.webp",
+      "timestamp": 1753651493056,
+      "image": {
+        "width": 1080,
+        "height": 607
+      },
+      "buildArea": {
+        "left": 8,
+        "top": 10,
+        "width": 158,
+        "height": 588,
+        "right": 166,
+        "bottom": 598
+      },
+      "metadata": {
+        "uiScale": "100",
+        "captureType": "fullscreen",
+        "qualityScore": 5,
+        "visualArtifacts": "clean"
+      }
+    }
+  ]
+}
