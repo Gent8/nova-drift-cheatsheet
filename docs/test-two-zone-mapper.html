@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Zone Grid Mapper Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1a1a1a;
+            color: #ddd;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1, h2 {
+            color: #4A90E2;
+        }
+        
+        .test-controls {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background: #357ABD;
+        }
+        
+        .visualization {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .canvas-container {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 8px;
+            flex: 1;
+        }
+        
+        canvas {
+            background: #000;
+            border: 1px solid #444;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .results {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .zone-info {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        .core-zone {
+            border-left: 3px solid #E74C3C;
+        }
+        
+        .regular-zone {
+            border-left: 3px solid #2ECC71;
+        }
+        
+        .mod-item {
+            display: inline-block;
+            padding: 4px 8px;
+            margin: 2px;
+            background: #444;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .mod-item.zone-core {
+            background: #5C2E2E;
+            color: #E74C3C;
+        }
+        
+        .mod-item.zone-regular {
+            background: #2E5C3E;
+            color: #2ECC71;
+        }
+        
+        .error {
+            background: #5C2E2E;
+            color: #E74C3C;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .success {
+            background: #2E5C3E;
+            color: #2ECC71;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        #fileInput {
+            margin-bottom: 10px;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .metric {
+            background: #333;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .metric-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4A90E2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Two-Zone Grid Mapper Test</h1>
+        
+        <div class="test-controls">
+            <h2>Test Controls</h2>
+            <input type="file" id="fileInput" accept="image/*">
+            <br>
+            <button onclick="generateSyntheticImage()">Generate Synthetic Test Image</button>
+            <button onclick="testCoreZoneOnly()">Test Core Zone Detection</button>
+            <button onclick="testRegularZoneOnly()">Test Regular Zone Detection</button>
+            <button onclick="testFullMapping()">Test Full Two-Zone Mapping</button>
+            <button onclick="compareWithLegacy()">Compare Legacy vs Two-Zone</button>
+        </div>
+        
+        <div class="visualization">
+            <div class="canvas-container">
+                <h3>Input Image</h3>
+                <canvas id="inputCanvas" width="600" height="400"></canvas>
+            </div>
+            <div class="canvas-container">
+                <h3>Mapped Result</h3>
+                <canvas id="outputCanvas" width="600" height="400"></canvas>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <h2>Results</h2>
+            <div id="resultContent">
+                <p>No test run yet. Upload an image or generate a synthetic test image.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the grid mappers -->
+    <script src="two-zone-grid-mapper.js"></script>
+    <script src="grid-mapper-v2.js"></script>
+    
+    <script>
+        // Test implementation
+        let currentImage = null;
+        
+        // File input handler
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        currentImage = img;
+                        displayImage(img, 'inputCanvas');
+                        showMessage('Image loaded. Ready for testing.', 'success');
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function displayImage(img, canvasId) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Scale image to fit canvas
+            const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+            const width = img.width * scale;
+            const height = img.height * scale;
+            const x = (canvas.width - width) / 2;
+            const y = (canvas.height - height) / 2;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, x, y, width, height);
+        }
+        
+        function generateSyntheticImage() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1920;
+            canvas.height = 1080;
+            const ctx = canvas.getContext('2d');
+            
+            // Dark background
+            ctx.fillStyle = '#0a0a0a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add some game-like background
+            const gradient = ctx.createRadialGradient(960, 540, 0, 960, 540, 600);
+            gradient.addColorStop(0, 'rgba(74, 144, 226, 0.1)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            const gridCenter = { x: 960, y: 540 };
+            
+            // Draw core zone (3 upgrades)
+            drawHexagon(ctx, gridCenter.x - 60, gridCenter.y - 40, 24, '#E74C3C', 'Body');
+            drawHexagon(ctx, gridCenter.x + 60, gridCenter.y - 40, 24, '#3498DB', 'Shield');
+            drawHexagon(ctx, gridCenter.x, gridCenter.y + 20, 24, '#F39C12', 'Weapon');
+            
+            // Draw zone separation gap
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            ctx.fillRect(0, gridCenter.y + 50, canvas.width, 50);
+            
+            // Draw regular zone (4-wide grid)
+            const startY = gridCenter.y + 100;
+            const hexRadius = 24;
+            const columnSpacing = 36;
+            const rowSpacing = 42;
+            
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 4; col++) {
+                    const x = gridCenter.x - (1.5 * columnSpacing) + (col * columnSpacing);
+                    const y = startY + (row * rowSpacing);
+                    const offsetX = (row % 2 === 1) ? (columnSpacing / 2) : 0;
+                    
+                    drawHexagon(ctx, x + offsetX, y, hexRadius, '#2ECC71', `R${row}C${col}`);
+                }
+            }
+            
+            // Convert to image
+            const img = new Image();
+            img.onload = function() {
+                currentImage = img;
+                displayImage(img, 'inputCanvas');
+                showMessage('Synthetic test image generated!', 'success');
+            };
+            img.src = canvas.toDataURL();
+        }
+        
+        function drawHexagon(ctx, x, y, radius, color, label) {
+            ctx.save();
+            ctx.translate(x, y);
+            
+            // Draw hexagon
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                const hx = radius * Math.cos(angle);
+                const hy = radius * Math.sin(angle);
+                if (i === 0) {
+                    ctx.moveTo(hx, hy);
+                } else {
+                    ctx.lineTo(hx, hy);
+                }
+            }
+            ctx.closePath();
+            
+            // Fill
+            ctx.fillStyle = color + '40';
+            ctx.fill();
+            
+            // Stroke
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Label
+            if (label) {
+                ctx.fillStyle = '#fff';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(label, 0, 0);
+            }
+            
+            ctx.restore();
+        }
+        
+        async function testCoreZoneOnly() {
+            if (!currentImage) {
+                showMessage('Please load or generate an image first!', 'error');
+                return;
+            }
+            
+            try {
+                const mapper = new TwoZoneGridMapper.CoreZoneMapper(TwoZoneGridMapper.ZONE_CONFIG);
+                const gridCenter = { x: currentImage.width / 2, y: currentImage.height / 2 };
+                const scaleFactor = 1.0;
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = currentImage.width;
+                canvas.height = currentImage.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(currentImage, 0, 0);
+                
+                const coreMap = mapper.mapCoreUpgrades(gridCenter, scaleFactor, canvas);
+                
+                displayMappingResult(coreMap, 'Core Zone Only Test');
+                visualizeMappingResult(currentImage, coreMap);
+                
+            } catch (error) {
+                showMessage(`Core zone test failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testRegularZoneOnly() {
+            if (!currentImage) {
+                showMessage('Please load or generate an image first!', 'error');
+                return;
+            }
+            
+            try {
+                const mapper = new TwoZoneGridMapper.RegularZoneMapper(TwoZoneGridMapper.ZONE_CONFIG);
+                const gridCenter = { x: currentImage.width / 2, y: currentImage.height / 2 };
+                const scaleFactor = 1.0;
+                const zoneBoundary = {
+                    regularZoneTop: gridCenter.y + 100,
+                    coreZoneBottom: gridCenter.y + 50
+                };
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = currentImage.width;
+                canvas.height = currentImage.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(currentImage, 0, 0);
+                
+                const regularMap = mapper.mapRegularMods(gridCenter, scaleFactor, zoneBoundary, canvas, null);
+                
+                displayMappingResult(regularMap, 'Regular Zone Only Test');
+                visualizeMappingResult(currentImage, regularMap);
+                
+            } catch (error) {
+                showMessage(`Regular zone test failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testFullMapping() {
+            if (!currentImage) {
+                showMessage('Please load or generate an image first!', 'error');
+                return;
+            }
+            
+            try {
+                const mapper = new TwoZoneGridMapper.TwoZoneGridMapper();
+                const gridCenter = { x: currentImage.width / 2, y: currentImage.height / 2 };
+                const scaleFactor = 1.0;
+                
+                const result = await mapper.mapScreenshot(currentImage, scaleFactor, gridCenter);
+                
+                displayFullMappingResult(result);
+                visualizeMappingResult(currentImage, result.coordinateMap);
+                
+            } catch (error) {
+                showMessage(`Full mapping test failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function compareWithLegacy() {
+            if (!currentImage) {
+                showMessage('Please load or generate an image first!', 'error');
+                return;
+            }
+            
+            showMessage('Comparison feature not yet implemented', 'error');
+        }
+        
+        function displayMappingResult(coordinateMap, testName) {
+            const resultDiv = document.getElementById('resultContent');
+            
+            let html = `<h3>${testName}</h3>`;
+            html += `<p>Total positions detected: ${coordinateMap.size}</p>`;
+            
+            html += '<div class="detected-mods">';
+            for (const [key, data] of coordinateMap) {
+                html += `<span class="mod-item zone-${data.zone}">${data.modName} (${(data.confidence * 100).toFixed(0)}%)</span>`;
+            }
+            html += '</div>';
+            
+            resultDiv.innerHTML = html;
+        }
+        
+        function displayFullMappingResult(result) {
+            const resultDiv = document.getElementById('resultContent');
+            
+            let html = '<h3>Full Two-Zone Mapping Result</h3>';
+            
+            // Metrics
+            html += '<div class="metrics">';
+            html += `<div class="metric">
+                <div class="metric-label">Total Mods</div>
+                <div class="metric-value">${result.metrics.totalMods}</div>
+            </div>`;
+            html += `<div class="metric">
+                <div class="metric-label">Core Upgrades</div>
+                <div class="metric-value">${result.metrics.coreUpgrades}</div>
+            </div>`;
+            html += `<div class="metric">
+                <div class="metric-label">Regular Mods</div>
+                <div class="metric-value">${result.metrics.regularMods}</div>
+            </div>`;
+            html += `<div class="metric">
+                <div class="metric-label">Avg Confidence</div>
+                <div class="metric-value">${(result.metrics.averageConfidence * 100).toFixed(1)}%</div>
+            </div>`;
+            html += `<div class="metric">
+                <div class="metric-label">Zone Detection</div>
+                <div class="metric-value">${(result.metrics.zoneDetectionConfidence * 100).toFixed(1)}%</div>
+            </div>`;
+            html += '</div>';
+            
+            // Zone information
+            html += '<div class="zone-info core-zone">';
+            html += '<h4>Core Zone</h4>';
+            html += `<p>Detected: ${result.gridMetadata.coreZone.count} upgrades</p>`;
+            html += `<p>Confidence: ${(result.gridMetadata.coreZone.confidence * 100).toFixed(1)}%</p>`;
+            html += '</div>';
+            
+            html += '<div class="zone-info regular-zone">';
+            html += '<h4>Regular Zone</h4>';
+            html += `<p>Detected: ${result.gridMetadata.regularZone.count} mods</p>`;
+            html += `<p>Confidence: ${(result.gridMetadata.regularZone.confidence * 100).toFixed(1)}%</p>`;
+            html += '</div>';
+            
+            // Zone boundary
+            if (result.zoneBoundary) {
+                html += '<div class="zone-info">';
+                html += '<h4>Zone Boundary</h4>';
+                html += `<p>Y Position: ${Math.round(result.zoneBoundary.boundaryY)}</p>`;
+                html += `<p>Gap Size: ${result.zoneBoundary.gapSize}px</p>`;
+                html += `<p>Confidence: ${(result.zoneBoundary.confidence * 100).toFixed(1)}%</p>`;
+                html += '</div>';
+            }
+            
+            // Detected mods
+            html += '<h4>Detected Positions</h4>';
+            html += '<div class="detected-mods">';
+            
+            // Separate by zone
+            const coreMods = [];
+            const regularMods = [];
+            
+            for (const [key, data] of result.coordinateMap) {
+                if (data.zone === 'core') {
+                    coreMods.push({ key, data });
+                } else {
+                    regularMods.push({ key, data });
+                }
+            }
+            
+            // Display core mods
+            if (coreMods.length > 0) {
+                html += '<div><strong>Core Upgrades:</strong><br>';
+                for (const { key, data } of coreMods) {
+                    html += `<span class="mod-item zone-core">${data.modName} (${(data.confidence * 100).toFixed(0)}%)</span>`;
+                }
+                html += '</div>';
+            }
+            
+            // Display regular mods
+            if (regularMods.length > 0) {
+                html += '<div><strong>Regular Mods:</strong><br>';
+                for (const { key, data } of regularMods) {
+                    const pos = data.gridPosition ? `(${data.gridPosition.q},${data.gridPosition.r})` : '';
+                    html += `<span class="mod-item zone-regular">${data.modName} ${pos} (${(data.confidence * 100).toFixed(0)}%)</span>`;
+                }
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            
+            resultDiv.innerHTML = html;
+        }
+        
+        function visualizeMappingResult(image, coordinateMap) {
+            const canvas = document.getElementById('outputCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Draw the image
+            const scale = Math.min(canvas.width / image.width, canvas.height / image.height);
+            const width = image.width * scale;
+            const height = image.height * scale;
+            const offsetX = (canvas.width - width) / 2;
+            const offsetY = (canvas.height - height) / 2;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, offsetX, offsetY, width, height);
+            
+            // Draw detected positions
+            for (const [key, data] of coordinateMap) {
+                const x = data.centerPoint.x * scale + offsetX;
+                const y = data.centerPoint.y * scale + offsetY;
+                
+                // Draw circle at detected position
+                ctx.beginPath();
+                ctx.arc(x, y, 15, 0, 2 * Math.PI);
+                ctx.strokeStyle = data.zone === 'core' ? '#E74C3C' : '#2ECC71';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Draw confidence
+                ctx.fillStyle = '#fff';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText((data.confidence * 100).toFixed(0) + '%', x, y + 25);
+            }
+        }
+        
+        function showMessage(message, type) {
+            const resultDiv = document.getElementById('resultContent');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type;
+            messageDiv.textContent = message;
+            resultDiv.insertBefore(messageDiv, resultDiv.firstChild);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+        
+        // Generate initial test image
+        window.onload = function() {
+            generateSyntheticImage();
+        };
+    </script>
+</body>
+</html>
