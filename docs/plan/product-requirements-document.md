@@ -29,9 +29,9 @@ Create a "Build Import Assistant" that lets users upload a screenshot of a Nova 
 * High confidence in the accuracy of the imported build.
 
 **2.2. Project Goals**
-* Increase user engagement and session duration.
 * Solidify the cheatsheet’s role as an indispensable community tool.
 * Provide a robust pathway for ongoing tool improvement, with no backend.
+* Ensure any feedback or accuracy-improving functions do not introduce unnecessary steps or friction, maintaining a fast and seamless user experience focused on oversight.
 
 ---
 
