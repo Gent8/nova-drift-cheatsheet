@@ -4,6 +4,7 @@
 import { loadOpenCV } from '../lib/opencv-loader.js';
 import { ImageProcessingPipeline } from './image-processing-pipeline.js';
 import { MatchingEngine } from './matching-engine.js';
+import { CanvasRecognition } from './canvas-recognition.js';
 
 export class ScreenshotImportAssistant {
   constructor(options = {}) {
@@ -17,8 +18,10 @@ export class ScreenshotImportAssistant {
     this.cv = null;
     this.pipeline = null;
     this.matchingEngine = null;
+    this.canvasRecognition = null;
     this.initialized = false;
     this.processing = false;
+    this.useOpenCV = true;
   }
 
   // Initialize the assistant
@@ -28,19 +31,33 @@ export class ScreenshotImportAssistant {
     console.log('Initializing Screenshot Import Assistant...');
     
     try {
-      // Load OpenCV
-      this.cv = await loadOpenCV();
-      console.log('OpenCV loaded successfully');
-      
-      // Initialize pipeline
-      this.pipeline = new ImageProcessingPipeline(this.cv);
-      await this.pipeline.initialize();
-      
-      // Initialize matching engine
-      this.matchingEngine = new MatchingEngine(this.pipeline.templateManager, this.cv);
+      // Try to load OpenCV first
+      try {
+        this.cv = await loadOpenCV();
+        console.log('OpenCV loaded successfully');
+        
+        // Initialize pipeline
+        this.pipeline = new ImageProcessingPipeline(this.cv);
+        await this.pipeline.initialize();
+        
+        // Initialize matching engine
+        this.matchingEngine = new MatchingEngine(this.pipeline.templateManager, this.cv);
+        
+        this.useOpenCV = true;
+        console.log('Screenshot Import Assistant initialized with OpenCV');
+        
+      } catch (opencvError) {
+        console.warn('OpenCV initialization failed, falling back to Canvas recognition:', opencvError.message);
+        
+        // Fallback to Canvas recognition
+        this.canvasRecognition = new CanvasRecognition();
+        await this.canvasRecognition.initialize();
+        
+        this.useOpenCV = false;
+        console.log('Screenshot Import Assistant initialized with Canvas recognition fallback');
+      }
       
       this.initialized = true;
-      console.log('Screenshot Import Assistant initialized successfully');
       
     } catch (error) {
       console.error('Failed to initialize Screenshot Import Assistant:', error);
@@ -62,93 +79,92 @@ export class ScreenshotImportAssistant {
     const startTime = performance.now();
     
     try {
-      // Step 1: Process image through pipeline
-      callbacks.onProgress?.({ stage: 'processing', progress: 0 });
+      callbacks.onProgress?.({ stage: 'loading', progress: 10, message: 'Loading image...' });
       
-      const processResult = await this.pipeline.process(file, (progress) => {
-        callbacks.onProgress?.({
-          stage: 'processing',
-          progress: progress.progress * 0.7, // 70% for processing
-          substage: progress.stage,
-          message: progress.message
-        });
-      });
+      // Load image to canvas
+      const canvas = await this.loadImageToCanvas(file);
       
-      // Step 2: Perform recognition
-      callbacks.onProgress?.({ 
-        stage: 'recognizing', 
-        progress: 70,
-        message: 'Recognizing upgrades...'
-      });
-      
-      const recognitionResults = await this.recognizeHexagons(
-        processResult.hexagons,
-        (progress) => {
+      if (this.useOpenCV) {
+        // OpenCV-based processing
+        callbacks.onProgress?.({ stage: 'processing', progress: 30, message: 'Processing with OpenCV...' });
+        
+        const processResult = await this.pipeline.process(file, (progress) => {
           callbacks.onProgress?.({
-            stage: 'recognizing',
-            progress: 70 + (progress * 25), // 25% for recognition
-            message: `Matching hexagon ${Math.floor(progress * processResult.hexagons.length) + 1}...`
+            stage: 'processing',
+            progress: 30 + (progress.progress * 0.4), // 40% for processing
+            substage: progress.stage,
+            message: progress.message
           });
-        }
-      );
-      
-      // Step 3: Analyze results
-      callbacks.onProgress?.({ 
-        stage: 'analyzing', 
-        progress: 95,
-        message: 'Analyzing results...'
-      });
-      
-      const analysis = this.analyzeResults(recognitionResults, processResult);
-      
-      callbacks.onProgress?.({ 
-        stage: 'complete', 
-        progress: 100,
-        message: 'Processing complete!'
-      });
-      
-      const totalTime = performance.now() - startTime;
-      
-      const result = {
-        success: true,
-        processingTime: totalTime,
-        originalImage: processResult.originalCanvas,
-        processedImage: processResult.preprocessedCanvas,
-        matches: analysis.matches,
-        highConfidenceMatches: analysis.highConfidence,
-        lowConfidenceMatches: analysis.lowConfidence,
-        statistics: analysis.statistics,
-        metadata: {
-          ...processResult.metadata,
-          recognitionTime: totalTime - processResult.metadata.processingTime,
-          totalMatches: analysis.matches.length,
-          confidenceThreshold: this.options.confidenceThreshold
-        }
-      };
-      
-      if (this.options.enableDebugMode) {
-        result.debug = {
-          processStages: processResult,
-          recognitionDetails: recognitionResults,
-          debugVisualization: this.pipeline.createDebugVisualization(processResult)
+        });
+        
+        callbacks.onProgress?.({ stage: 'recognizing', progress: 70, message: 'Recognizing upgrades...' });
+        
+        const recognitionResults = await this.recognizeHexagons(
+          processResult.hexagons,
+          (progress) => {
+            callbacks.onProgress?.({
+              stage: 'recognizing',
+              progress: 70 + (progress * 25),
+              message: `Matching hexagon ${Math.floor(progress * processResult.hexagons.length) + 1}...`
+            });
+          }
+        );
+        
+        return this.formatResults(recognitionResults, performance.now() - startTime);
+        
+      } else {
+        // Canvas-based fallback processing
+        callbacks.onProgress?.({ stage: 'processing', progress: 30, message: 'Using basic recognition mode...' });
+        
+        callbacks.onProgress?.({ stage: 'recognizing', progress: 50, message: 'Analyzing screenshot...' });
+        
+        const result = await this.canvasRecognition.processScreenshot(canvas);
+        
+        callbacks.onProgress?.({ stage: 'complete', progress: 100, message: 'Recognition complete!' });
+        
+        this.processing = false;
+        return {
+          ...result,
+          processingTime: performance.now() - startTime,
+          method: 'canvas_fallback'
         };
       }
       
-      return result;
-      
     } catch (error) {
-      console.error('Screenshot processing failed:', error);
-      callbacks.onError?.(error);
-      
-      return {
-        success: false,
-        error: error.message,
-        processingTime: performance.now() - startTime
-      };
-      
-    } finally {
       this.processing = false;
+      console.error('Screenshot processing failed:', error);
+      throw error;
     }
+  }
+
+  // Load image file to canvas
+  async loadImageToCanvas(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        
+        resolve(canvas);
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  // Get capabilities
+  getCapabilities() {
+    return {
+      hasOpenCV: this.useOpenCV,
+      hasCanvasRecognition: !!this.canvasRecognition,
+      method: this.useOpenCV ? 'opencv' : 'canvas',
+      initialized: this.initialized,
+      processing: this.processing
+    };
   }
 
   // Recognize hexagons using the matching engine

@@ -20,14 +20,14 @@ export class TemplateExtractor {
         resolve(img);
       };
       img.onerror = reject;
-      img.src = '/hex.png';
+      img.src = 'hex.png';
     });
   }
 
   // Extract sprite positions from existing CSS
   async extractCSSPositions() {
     try {
-      const response = await fetch('/hex.css');
+      const response = await fetch('hex.css');
       const cssText = await response.text();
       
       const positions = new Map();

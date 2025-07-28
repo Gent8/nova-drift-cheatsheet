@@ -1,0 +1,379 @@
+ INFO  Accepting connections at http://localhost:51809
+ HTTP  28/07/2025 18:16:25 ::1 GET /
+ HTTP  28/07/2025 18:16:25 ::1 Returned 200 in 20 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 18:16:26 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 18:16:26 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 4 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 4 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 5 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 18:16:26 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 4 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /hex.png
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 4 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 1 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /favicon.ico?
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 18:16:26 ::1 GET /js/lib/opencv-4.8.0.js
+ HTTP  28/07/2025 18:16:26 ::1 Returned 200 in 30 ms
+ HTTP  28/07/2025 18:16:46 ::1 GET /?debug=true
+ HTTP  28/07/2025 18:16:46 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /?debug=true
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 18:17:49 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 18:17:49 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 18:17:49 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /hex.png
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:17:49 ::1 GET /js/lib/opencv-4.8.0.js
+ HTTP  28/07/2025 18:17:49 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:24:29 ::1 GET /?debug=true
+ HTTP  28/07/2025 18:24:29 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 18:25:50 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 18:25:50 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /hex.png
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /favicon.ico?
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:25:50 ::1 GET /js/lib/opencv-4.8.0.js
+ HTTP  28/07/2025 18:25:50 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:28:12 ::1 GET /
+ HTTP  28/07/2025 18:28:12 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:33:45 ::1 GET /
+ HTTP  28/07/2025 18:33:45 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 18:34:23 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 18:34:23 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 18:34:23 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 200 in 4 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /hex.png
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /favicon.ico?
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:34:23 ::1 GET /js/lib/opencv-4.8.0.js
+ HTTP  28/07/2025 18:34:23 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 18:43:57 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 18:43:57 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 18:43:57 ::1 Returned 200 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/canvas-recognition.js
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 Returned 200 in 3 ms
+ HTTP  28/07/2025 18:43:57 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 18:43:57 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:43:57 ::1 GET /js/lib/opencv-4.5.5.js
+ HTTP  28/07/2025 18:43:57 ::1 Returned 200 in 18 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 18:44:35 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 18:44:35 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 18:44:35 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 4 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /hex.png
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/canvas-recognition.js
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 18:44:35 ::1 GET /js/lib/opencv-4.5.5.js
+ HTTP  28/07/2025 18:44:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:51:35 ::1 GET /
+ HTTP  28/07/2025 18:51:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:35 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 18:51:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:35 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 18:51:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:35 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 18:51:35 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 18:51:35 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 18:51:35 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 18:51:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:35 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:35 ::1 Returned 200 in 4 ms
+ HTTP  28/07/2025 18:51:35 ::1 GET /hex.png
+ HTTP  28/07/2025 18:51:35 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/canvas-recognition.js
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 18:51:36 ::1 GET /js/lib/opencv-4.5.5.js
+ HTTP  28/07/2025 18:51:36 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 19:01:37 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 19:01:37 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 19:01:37 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 200 in 2 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /hex.png
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/canvas-recognition.js
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:01:37 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 19:01:37 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 19:02:43 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 19:02:43 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 3 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/canvas-recognition.js
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:02:43 ::1 GET /favicon.ico?
+ HTTP  28/07/2025 19:02:43 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /hex.css?v=20231223_160018
+ HTTP  28/07/2025 19:02:48 ::1 GET /style.css?v=20230829_065938
+ HTTP  28/07/2025 19:02:48 ::1 GET /css/screenshot-import.css
+ HTTP  28/07/2025 19:02:48 ::1 GET /script.js?v=20230829_065938
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /main.js?v=20240821_105515
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/index.js
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 0 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/screenshot-import-assistant.js
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/lib/opencv-loader.js
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/image-processing-pipeline.js
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/matching-engine.js
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/canvas-recognition.js
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/image-loader.js
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/auto-cropper.js
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/image-preprocessor.js
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/template-manager.js
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 2 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /js/screenshot-import/template-extractor.js
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms
+ HTTP  28/07/2025 19:02:48 ::1 GET /favicon.ico?
+ HTTP  28/07/2025 19:02:48 ::1 Returned 304 in 1 ms

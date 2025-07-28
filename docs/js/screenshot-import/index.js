@@ -9,29 +9,26 @@ export class ScreenshotImportUI {
     this.uploadButton = null;
     this.modal = null;
     this.initialized = false;
+    this.assistantReady = false;
+    this.initializationError = null;
   }
 
-  // Initialize the screenshot import UI
+  // Initialize the screenshot import UI (non-blocking)
   async initialize() {
     if (this.initialized) return;
 
     try {
       console.log('Initializing Screenshot Import UI...');
       
-      // Initialize the assistant
-      this.assistant = new ScreenshotImportAssistant({
-        confidenceThreshold: 0.75,
-        enableDebugMode: window.location.search.includes('debug=true')
-      });
-      
-      await this.assistant.initialize();
-      
-      // Create and integrate UI elements
+      // Create UI immediately
       this.createUploadButton();
       this.createUploadModal();
-      
       this.initialized = true;
-      console.log('Screenshot Import UI initialized successfully');
+      
+      // Initialize assistant in the background
+      this.initializeAssistantBackground();
+      
+      console.log('Screenshot Import UI created successfully');
       
       // Add to global scope for debugging
       if (window.location.search.includes('debug=true')) {
@@ -44,8 +41,110 @@ export class ScreenshotImportUI {
     }
   }
 
+  // Initialize assistant in background (EMERGENCY MINIMAL VERSION)
+  async initializeAssistantBackground() {
+    console.log('EMERGENCY: Starting minimal initialization - skipping all complex operations');
+    
+    // Skip ALL complex initialization for now
+    setTimeout(() => {
+      console.log('EMERGENCY: Enabling basic upload mode immediately');
+      this.updateButtonState('fallback');
+      this.assistantReady = false; // Explicitly false - we'll use basic mode only
+    }, 100); // Very short delay to allow button to be created first
+    
+    // TODO: Re-enable complex initialization later in phases
+    /*
+    try {
+      console.log('DEBUG: Loading screenshot recognition engine...');
+      
+      // Show loading state
+      console.log('DEBUG: Updating button to loading state');
+      this.updateButtonState('loading');
+      
+      // Initialize the assistant with timeout
+      console.log('DEBUG: Creating ScreenshotImportAssistant...');
+      this.assistant = new ScreenshotImportAssistant({
+        confidenceThreshold: 0.75,
+        enableDebugMode: window.location.search.includes('debug=true')
+      });
+      
+      console.log('DEBUG: Assistant created, starting initialization...');
+      
+      // Add a race condition with timeout
+      const initPromise = this.assistant.initialize();
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          console.log('DEBUG: Assistant initialization timeout after 10 seconds');
+          reject(new Error('Assistant initialization timeout after 10 seconds'));
+        }, 10000);
+      });
+      
+      console.log('DEBUG: Racing initialization vs timeout...');
+      await Promise.race([initPromise, timeoutPromise]);
+      
+      console.log('DEBUG: Assistant initialization completed successfully');
+      this.assistantReady = true;
+      this.updateButtonState('ready');
+      console.log('DEBUG: Screenshot recognition engine loaded successfully');
+      
+    } catch (error) {
+      console.error('DEBUG: Failed to initialize screenshot assistant:', error);
+      this.initializationError = error;
+      
+      console.log('DEBUG: Checking if should show fallback mode...');
+      // Don't show error immediately, show fallback mode instead
+      if (!this.uploadButton || !this.uploadButton.innerHTML.includes('Basic Upload')) {
+        console.log('DEBUG: Updating to fallback mode');
+        this.updateButtonState('fallback');
+      }
+    }
+    */
+  }
+
+  // Update button state based on loading status
+  updateButtonState(state) {
+    console.log(`DEBUG: updateButtonState called with state: ${state}`);
+    console.log('DEBUG: uploadButton exists?', !!this.uploadButton);
+    
+    if (!this.uploadButton) {
+      console.error('DEBUG: Cannot update button state - uploadButton is null!');
+      return;
+    }
+    
+    console.log('DEBUG: Current button text before update:', this.uploadButton.innerHTML);
+    
+    switch (state) {
+      case 'loading':
+        this.uploadButton.innerHTML = '⏳ Loading Recognition Engine...';
+        this.uploadButton.disabled = true;
+        this.uploadButton.title = 'Please wait while the screenshot recognition engine loads';
+        break;
+      case 'ready':
+        this.uploadButton.innerHTML = '📷 Import from Screenshot';
+        this.uploadButton.disabled = false;
+        this.uploadButton.title = 'Upload a screenshot to automatically import your build';
+        break;
+      case 'fallback':
+        this.uploadButton.innerHTML = '📷 Basic Upload Mode';
+        this.uploadButton.disabled = false;
+        this.uploadButton.title = 'Upload screenshots (basic mode - advanced recognition loading in background)';
+        this.uploadButton.classList.add('fallback-mode');
+        break;
+      case 'error':
+        this.uploadButton.innerHTML = '⚠️ Recognition Unavailable';
+        this.uploadButton.disabled = true;
+        this.uploadButton.title = 'Screenshot recognition failed to load. Try refreshing the page.';
+        break;
+    }
+    
+    console.log('DEBUG: Button text after update:', this.uploadButton.innerHTML);
+    console.log('DEBUG: Button disabled after update:', this.uploadButton.disabled);
+  }
+
   // Create the upload button and integrate it into the page
   createUploadButton() {
+    console.log('DEBUG: Starting createUploadButton()');
+    
     // Find the best integration point
     const integrationPoints = [
       '.controls',
@@ -54,38 +153,83 @@ export class ScreenshotImportUI {
       'body'
     ];
     
+    console.log('DEBUG: Looking for integration points...');
     let container = null;
     for (const selector of integrationPoints) {
-      container = document.querySelector(selector);
-      if (container) break;
+      const element = document.querySelector(selector);
+      console.log(`DEBUG: Checking selector "${selector}":`, element ? 'FOUND' : 'NOT FOUND');
+      if (element) {
+        container = element;
+        console.log(`DEBUG: Selected container: ${selector}`);
+        break;
+      }
     }
     
     if (!container) {
-      console.warn('Could not find suitable container for upload button');
+      console.error('DEBUG: Could not find suitable container for upload button');
+      console.log('DEBUG: Available elements in DOM:', document.querySelectorAll('*').length);
       return;
     }
     
-    // Create upload button
+    console.log('DEBUG: Creating upload button...');
+    
+    // Create upload button (initially in loading state)
     this.uploadButton = document.createElement('button');
     this.uploadButton.className = 'screenshot-upload-btn';
-    this.uploadButton.innerHTML = 'Import from Screenshot';
-    this.uploadButton.title = 'Upload a screenshot to automatically import your build';
+    this.uploadButton.innerHTML = '⏳ Loading Recognition Engine...';
+    this.uploadButton.title = 'Please wait while the screenshot recognition engine loads';
+    this.uploadButton.disabled = true;
+    
+    console.log('DEBUG: Button created:', this.uploadButton);
     
     // Add event listener
     this.uploadButton.addEventListener('click', () => {
-      this.showUploadModal();
+      console.log('DEBUG: Button clicked!');
+      this.handleButtonClick();
     });
     
+    console.log('DEBUG: Event listener added');
+    
     // Insert button appropriately
+    let insertMethod = '';
     if (container.classList.contains('controls') || container.classList.contains('cheatsheet-controls')) {
+      console.log('DEBUG: Inserting into existing controls container');
       container.appendChild(this.uploadButton);
+      insertMethod = 'direct-append';
     } else {
+      console.log('DEBUG: Creating wrapper and inserting');
       // Create a controls wrapper if needed
       const controlsWrapper = document.createElement('div');
       controlsWrapper.style.cssText = 'margin: 10px 0; text-align: center;';
       controlsWrapper.appendChild(this.uploadButton);
       container.appendChild(controlsWrapper);
+      insertMethod = 'wrapper-append';
     }
+    
+    console.log(`DEBUG: Button inserted using method: ${insertMethod}`);
+    console.log('DEBUG: Button in DOM?', document.contains(this.uploadButton));
+    console.log('DEBUG: Button visible?', this.uploadButton.offsetParent !== null);
+    console.log('DEBUG: Button parent:', this.uploadButton.parentElement);
+  }
+
+  // Handle button click (check readiness first)
+  handleButtonClick() {
+    // In fallback mode, allow upload but with limited functionality
+    if (!this.assistantReady && this.uploadButton.innerHTML.includes('Basic Upload')) {
+      this.showUploadModal('fallback');
+      return;
+    }
+    
+    if (!this.assistantReady) {
+      if (this.initializationError) {
+        this.showError(`Screenshot recognition is not available: ${this.initializationError.message}`);
+      } else {
+        this.showError('Screenshot recognition is still loading, please wait...');
+      }
+      return;
+    }
+    
+    this.showUploadModal();
   }
 
   // Create upload modal
@@ -206,11 +350,14 @@ export class ScreenshotImportUI {
     };
   }
 
-  // Handle file upload
+  // Handle file upload (EMERGENCY MINIMAL VERSION)
   async handleFile(file) {
-    const { dropZone, progressContainer, progressStage, progressPercentage, progressFill } = this.modalElements;
+    console.log('EMERGENCY: Starting minimal file handling');
+    const { dropZone, progressContainer, progressStage, progressPercentage, progressFill, previewCanvas } = this.modalElements;
     
     try {
+      console.log('EMERGENCY: File received:', file.name, file.type, file.size);
+      
       // Validate file
       if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
         this.showError('Please upload a PNG or JPEG image');
@@ -222,46 +369,110 @@ export class ScreenshotImportUI {
         return;
       }
       
+      console.log('EMERGENCY: File validation passed');
+      
       // Show progress
       dropZone.style.display = 'none';
       progressContainer.classList.add('active');
       
-      // Process screenshot
-      const result = await this.assistant.processScreenshot(file, {
-        onProgress: (progress) => {
-          const percentage = Math.round(progress.progress);
-          progressStage.textContent = this.formatProgressMessage(progress);
-          progressPercentage.textContent = `${percentage}%`;
-          progressFill.style.width = `${percentage}%`;
-        },
-        onError: (error) => {
-          this.showError(`Processing failed: ${error.message}`);
-          this.hideUploadModal();
-        }
-      });
+      // MINIMAL MODE: Just show the image, no processing
+      console.log('EMERGENCY: Loading image for preview only...');
+      progressStage.textContent = 'Loading image for preview...';
+      progressPercentage.textContent = '25%';
+      progressFill.style.width = '25%';
       
-      if (result.success) {
-        // Apply matches to cheatsheet
-        this.applyMatches(result);
-        
-        // Show success message
-        this.showSuccess(result);
-        
-        // Hide modal after delay
-        setTimeout(() => {
-          this.hideUploadModal();
-        }, 2000);
-        
-      } else {
-        this.showError(`Processing failed: ${result.error}`);
+      // Use simple image preview
+      await this.showImagePreviewMinimal(file, previewCanvas);
+      
+      console.log('EMERGENCY: Image preview loaded successfully');
+      progressStage.textContent = 'Image loaded! (Recognition features disabled in emergency mode)';
+      progressPercentage.textContent = '100%';
+      progressFill.style.width = '100%';
+      progressStage.style.color = '#28a745';
+      
+      // Keep modal open longer so user can see the image
+      setTimeout(() => {
+        console.log('EMERGENCY: Hiding modal after image display');
         this.hideUploadModal();
-      }
+      }, 5000);
       
     } catch (error) {
-      console.error('File processing error:', error);
+      console.error('EMERGENCY: File processing error:', error);
       this.showError(`Error: ${error.message}`);
       this.hideUploadModal();
     }
+  }
+
+  // Show image preview (EMERGENCY MINIMAL VERSION)
+  async showImagePreviewMinimal(file, canvas) {
+    console.log('EMERGENCY: Starting minimal image preview');
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          console.log('EMERGENCY: Image loaded, dimensions:', img.width, 'x', img.height);
+          
+          // Calculate display size (max 400px width to prevent memory issues)
+          const maxWidth = 400;
+          const scale = Math.min(maxWidth / img.width, 1);
+          const displayWidth = Math.floor(img.width * scale);
+          const displayHeight = Math.floor(img.height * scale);
+          
+          console.log('EMERGENCY: Display size:', displayWidth, 'x', displayHeight);
+          
+          canvas.width = displayWidth;
+          canvas.height = displayHeight;
+          canvas.style.display = 'block';
+          canvas.style.maxWidth = '100%';
+          canvas.style.height = 'auto';
+          
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, displayWidth, displayHeight);
+          
+          console.log('EMERGENCY: Image drawn to canvas successfully');
+          resolve();
+        } catch (error) {
+          console.error('EMERGENCY: Error during image processing:', error);
+          reject(error);
+        }
+      };
+      img.onerror = (error) => {
+        console.error('EMERGENCY: Image loading failed:', error);
+        reject(error);
+      };
+      
+      console.log('EMERGENCY: Creating object URL for image...');
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  // Show image preview in fallback mode
+  async showImagePreview(file, canvas) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          // Calculate display size (max 500px width)
+          const maxWidth = 500;
+          const scale = Math.min(maxWidth / img.width, 1);
+          const displayWidth = img.width * scale;
+          const displayHeight = img.height * scale;
+          
+          canvas.width = displayWidth;
+          canvas.height = displayHeight;
+          canvas.style.display = 'block';
+          
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, displayWidth, displayHeight);
+          
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
   }
 
   // Apply matches to the cheatsheet
@@ -348,8 +559,20 @@ export class ScreenshotImportUI {
   }
 
   // Show upload modal
-  showUploadModal() {
+  showUploadModal(mode = 'normal') {
     if (!this.modal) return;
+    
+    // Update modal content based on mode
+    if (mode === 'fallback') {
+      const modalTitle = this.modal.querySelector('h2');
+      const dropZoneText = this.modal.querySelector('.drop-zone-text');
+      const dropZoneHint = this.modal.querySelector('.drop-zone-hint');
+      
+      if (modalTitle) modalTitle.textContent = 'Basic Screenshot Upload';
+      if (dropZoneText) dropZoneText.textContent = 'Drop screenshot here or click to browse';
+      if (dropZoneHint) dropZoneHint.textContent = 'Basic mode - image will be displayed for manual review';
+    }
+    
     this.modal.classList.add('active');
     
     // Focus the drop zone for accessibility
@@ -432,6 +655,29 @@ if (document.readyState === 'loading') {
 } else {
   // DOM already loaded
   setTimeout(initializeScreenshotImport, 100);
+}
+
+// Add debug mode for development
+if (window.location.search.includes('debug=true')) {
+  console.log('Screenshot Import: Debug mode enabled');
+  
+  // Add global test functions
+  window.testScreenshotImport = async () => {
+    if (!screenshotImportUI) {
+      console.log('Screenshot Import UI not initialized yet');
+      return;
+    }
+    
+    console.log('Status:', screenshotImportUI.getStatus());
+    
+    if (screenshotImportUI.assistant) {
+      console.log('Assistant capabilities:', screenshotImportUI.assistant.getCapabilities());
+    }
+  };
+  
+  window.forceInitializeScreenshotImport = () => {
+    initializeScreenshotImport();
+  };
 }
 
 // Export for external access
