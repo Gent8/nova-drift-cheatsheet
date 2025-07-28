@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Drift Annotation Image Injector</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #2d2d2d;
+            padding: 20px;
+            border-bottom: 2px solid #3d3d3d;
+        }
+
+        .header h1 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .upload-section {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #3d3d3d;
+        }
+
+        .file-input {
+            margin: 10px 0;
+        }
+
+        .file-input input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: #3d3d3d;
+            border: 1px solid #4d4d4d;
+            border-radius: 4px;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid;
+        }
+
+        .status.success { border-color: #4CAF50; background: #1a4a1a; }
+        .status.error { border-color: #f44336; background: #4a1a1a; }
+        .status.warning { border-color: #ff9800; background: #4a3a1a; }
+        .status.info { border-color: #2196F3; background: #1a3a4a; }
+
+        .annotation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .annotation-card {
+            background: #2d2d2d;
+            border: 1px solid #3d3d3d;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .annotation-card.matched {
+            border-color: #4CAF50;
+            background: #1a4a1a;
+        }
+
+        .annotation-card.missing {
+            border-color: #f44336;
+            background: #4a1a1a;
+        }
+
+        .annotation-filename {
+            font-weight: bold;
+            color: #4a9eff;
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+
+        .annotation-details {
+            font-size: 12px;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+        }
+
+        .annotation-status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-matched {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .status-missing {
+            background: #f44336;
+            color: white;
+        }
+
+        .manual-upload {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .manual-upload.show {
+            display: block;
+        }
+
+        .manual-upload input[type="file"] {
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: #3d3d3d;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a9eff, #66b3ff);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        button {
+            background: #4a9eff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover { background: #3d8ce6; }
+        button:disabled { background: #555; cursor: not-allowed; }
+
+        .export-section {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #3d3d3d;
+        }
+
+        pre {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #4d4d4d;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🖼️ Nova Drift Annotation Image Injector</h1>
+        <p>Add real screenshot data to your 17 existing annotations</p>
+    </div>
+
+    <div class="container">
+        <div class="upload-section">
+            <h3>Step 1: Load Annotation JSON</h3>
+            <div class="file-input">
+                <label>Load your annotation JSON file:</label>
+                <input type="file" id="annotation-file" accept=".json" />
+            </div>
+            
+            <h3>Step 2: Add Screenshot Images</h3>
+            <div class="file-input">
+                <label>Select all Nova Drift screenshots (multiple files):</label>
+                <input type="file" id="image-files" accept="image/*" multiple />
+            </div>
+            
+            <button onclick="processFiles()">Process Annotations</button>
+        </div>
+
+        <div id="results"></div>
+
+        <div class="export-section" id="export-section" style="display: none;">
+            <h3>Export Enhanced Annotations</h3>
+            <div class="progress">
+                <div class="progress-fill" id="export-progress"></div>
+            </div>
+            <button onclick="exportAnnotations()" id="export-btn">Export Enhanced JSON</button>
+            <button onclick="saveToLocalStorage()" id="save-btn">Save to LocalStorage</button>
+        </div>
+    </div>
+
+    <script>
+        let annotationData = null;
+        let imageFiles = [];
+        let processedAnnotations = [];
+
+        async function processFiles() {
+            const annotationFile = document.getElementById('annotation-file').files[0];
+            const imageFileList = document.getElementById('image-files').files;
+            
+            if (!annotationFile) {
+                showStatus('error', 'Please select an annotation JSON file');
+                return;
+            }
+            
+            if (imageFileList.length === 0) {
+                showStatus('error', 'Please select at least one screenshot image');
+                return;
+            }
+
+            try {
+                // Load annotation data
+                const annotationText = await readFileAsText(annotationFile);
+                annotationData = JSON.parse(annotationText);
+                
+                // Convert FileList to Array
+                imageFiles = Array.from(imageFileList);
+                
+                showStatus('success', `Loaded ${annotationData.annotations?.length || annotationData.length} annotations and ${imageFiles.length} images`);
+                
+                await matchImagesWithAnnotations();
+                
+            } catch (error) {
+                showStatus('error', `Error processing files: ${error.message}`);
+            }
+        }
+
+        async function matchImagesWithAnnotations() {
+            const annotations = annotationData.annotations || annotationData;
+            const results = document.getElementById('results');
+            
+            let matchedCount = 0;
+            let manualCount = 0;
+            processedAnnotations = [];
+
+            results.innerHTML = `
+                <h3>📊 Matching Results</h3>
+                <div class="annotation-grid" id="annotation-grid"></div>
+            `;
+
+            const grid = document.getElementById('annotation-grid');
+
+            for (let i = 0; i < annotations.length; i++) {
+                const annotation = annotations[i];
+                const filename = annotation.filename;
+                
+                // Try to find matching image file
+                const matchedImage = imageFiles.find(file => {
+                    const imageName = file.name.toLowerCase();
+                    const annotationName = filename.toLowerCase();
+                    
+                    // Exact match
+                    if (imageName === annotationName) return true;
+                    
+                    // Partial match (filename contains annotation name or vice versa)
+                    if (imageName.includes(annotationName.replace(/\.(png|jpg|jpeg|webp)$/i, '')) ||
+                        annotationName.includes(imageName.replace(/\.(png|jpg|jpeg|webp)$/i, ''))) {
+                        return true;
+                    }
+                    
+                    return false;
+                });
+
+                const cardDiv = document.createElement('div');
+                cardDiv.className = `annotation-card ${matchedImage ? 'matched' : 'missing'}`;
+                
+                if (matchedImage) {
+                    // Process matched image
+                    const imageDataUrl = await readFileAsDataURL(matchedImage);
+                    const enhancedAnnotation = {
+                        ...annotation,
+                        imageData: imageDataUrl,
+                        imageFile: {
+                            name: matchedImage.name,
+                            size: matchedImage.size,
+                            type: matchedImage.type,
+                            lastModified: matchedImage.lastModified
+                        }
+                    };
+                    
+                    processedAnnotations.push(enhancedAnnotation);
+                    matchedCount++;
+                    
+                    cardDiv.innerHTML = `
+                        <div class="annotation-filename">${filename}</div>
+                        <div class="annotation-details">
+                            ${annotation.image?.width || 'N/A'}x${annotation.image?.height || 'N/A'} • 
+                            UI Scale: ${annotation.metadata?.uiScale || 'N/A'}%
+                        </div>
+                        <div class="annotation-status status-matched">✅ MATCHED: ${matchedImage.name}</div>
+                    `;
+                } else {
+                    cardDiv.innerHTML = `
+                        <div class="annotation-filename">${filename}</div>
+                        <div class="annotation-details">
+                            ${annotation.image?.width || 'N/A'}x${annotation.image?.height || 'N/A'} • 
+                            UI Scale: ${annotation.metadata?.uiScale || 'N/A'}%
+                        </div>
+                        <div class="annotation-status status-missing">❌ NOT FOUND</div>
+                        <div class="manual-upload show">
+                            <input type="file" accept="image/*" onchange="manualMatch(${i}, this)" />
+                        </div>
+                    `;
+                    
+                    // Add placeholder for manual matching
+                    processedAnnotations.push(annotation);
+                    manualCount++;
+                }
+                
+                grid.appendChild(cardDiv);
+            }
+
+            showStatus('info', `Matching complete: ${matchedCount} automatic matches, ${manualCount} need manual matching`);
+            
+            if (matchedCount > 0) {
+                document.getElementById('export-section').style.display = 'block';
+                updateExportProgress();
+            }
+        }
+
+        async function manualMatch(annotationIndex, fileInput) {
+            const file = fileInput.files[0];
+            if (!file) return;
+            
+            try {
+                const imageDataUrl = await readFileAsDataURL(file);
+                const annotation = processedAnnotations[annotationIndex];
+                
+                // Enhance annotation with image data
+                processedAnnotations[annotationIndex] = {
+                    ...annotation,
+                    imageData: imageDataUrl,
+                    imageFile: {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        lastModified: file.lastModified
+                    }
+                };
+                
+                // Update card display
+                const card = fileInput.closest('.annotation-card');
+                card.className = 'annotation-card matched';
+                card.querySelector('.annotation-status').outerHTML = 
+                    `<div class="annotation-status status-matched">✅ MANUAL MATCH: ${file.name}</div>`;
+                fileInput.closest('.manual-upload').style.display = 'none';
+                
+                showStatus('success', `Manually matched: ${annotation.filename} → ${file.name}`);
+                updateExportProgress();
+                
+            } catch (error) {
+                showStatus('error', `Error processing manual match: ${error.message}`);
+            }
+        }
+
+        function updateExportProgress() {
+            const totalAnnotations = processedAnnotations.length;
+            const withImages = processedAnnotations.filter(ann => ann.imageData).length;
+            const progress = (withImages / totalAnnotations) * 100;
+            
+            document.getElementById('export-progress').style.width = progress + '%';
+            document.getElementById('export-btn').textContent = 
+                `Export Enhanced JSON (${withImages}/${totalAnnotations} with images)`;
+            
+            if (withImages > 0) {
+                document.getElementById('export-btn').disabled = false;
+                document.getElementById('save-btn').disabled = false;
+            }
+        }
+
+        async function exportAnnotations() {
+            if (processedAnnotations.length === 0) {
+                showStatus('error', 'No annotations to export');
+                return;
+            }
+            
+            const withImages = processedAnnotations.filter(ann => ann.imageData);
+            
+            const exportData = {
+                version: '2.0.0',
+                created: new Date().toISOString(),
+                totalAnnotations: processedAnnotations.length,
+                annotationsWithImages: withImages.length,
+                source: 'enhanced-with-images',
+                annotations: processedAnnotations
+            };
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                type: 'application/json' 
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nova-drift-enhanced-annotations-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            
+            showStatus('success', `Exported ${withImages.length} enhanced annotations`);
+        }
+
+        function saveToLocalStorage() {
+            if (processedAnnotations.length === 0) {
+                showStatus('error', 'No annotations to save');
+                return;
+            }
+            
+            try {
+                localStorage.setItem('nova-drift-annotations', JSON.stringify(processedAnnotations));
+                showStatus('success', `Saved ${processedAnnotations.length} annotations to localStorage`);
+            } catch (error) {
+                showStatus('error', `Failed to save to localStorage: ${error.message}`);
+            }
+        }
+
+        function readFileAsText(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(new Error('Failed to read file'));
+                reader.readAsText(file);
+            });
+        }
+
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(new Error('Failed to read image file'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function showStatus(type, message) {
+            const results = document.getElementById('results');
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = `<strong>${type.toUpperCase()}:</strong> ${message}`;
+            
+            // Insert at the top
+            if (results.firstChild) {
+                results.insertBefore(statusDiv, results.firstChild);
+            } else {
+                results.appendChild(statusDiv);
+            }
+        }
+    </script>
+</body>
+</html>

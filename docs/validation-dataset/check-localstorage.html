@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check LocalStorage for Nova Drift Annotations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .status {
+            background: #3d3d3d;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .success { border-left: 4px solid #4CAF50; }
+        .error { border-left: 4px solid #f44336; }
+        .warning { border-left: 4px solid #ff9800; }
+        .info { border-left: 4px solid #2196F3; }
+        pre {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #4d4d4d;
+        }
+        button {
+            background: #4a9eff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #3d8ce6; }
+        .annotation-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #4d4d4d;
+            border-radius: 6px;
+        }
+        .annotation-item {
+            padding: 10px;
+            border-bottom: 1px solid #3d3d3d;
+            background: #2d2d2d;
+        }
+        .annotation-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 LocalStorage Annotation Checker</h1>
+            <p>Check what annotation data is stored in your browser's localStorage</p>
+        </div>
+
+        <div id="results"></div>
+        
+        <button onclick="checkLocalStorage()">Check LocalStorage</button>
+        <button onclick="exportToFile()">Export to File</button>
+        <button onclick="clearLocalStorage()">Clear LocalStorage</button>
+    </div>
+
+    <script>
+        let annotationData = null;
+
+        function checkLocalStorage() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                const saved = localStorage.getItem('nova-drift-annotations');
+                
+                if (!saved) {
+                    resultsDiv.innerHTML = `
+                        <div class="status error">
+                            <h3>❌ No Annotations Found</h3>
+                            <p>No 'nova-drift-annotations' found in localStorage</p>
+                            <p><strong>This means:</strong> The 17 annotations in your JSON file are the only copy</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                annotationData = JSON.parse(saved);
+                
+                resultsDiv.innerHTML = `
+                    <div class="status success">
+                        <h3>✅ Annotations Found!</h3>
+                        <p><strong>Count:</strong> ${annotationData.length} annotations</p>
+                        <p><strong>Storage size:</strong> ${(saved.length / 1024).toFixed(2)} KB</p>
+                    </div>
+                    
+                    <div class="status info">
+                        <h3>📋 Annotation Structure Check</h3>
+                        <p><strong>Has image data:</strong> ${checkForImageData(annotationData)}</p>
+                        <p><strong>Sample structure:</strong></p>
+                        <pre>${JSON.stringify(annotationData[0] || {}, null, 2)}</pre>
+                    </div>
+                    
+                    <div class="status warning">
+                        <h3>📝 Annotation List</h3>
+                        <div class="annotation-list">
+                            ${annotationData.map((ann, i) => `
+                                <div class="annotation-item">
+                                    <strong>${i + 1}. ${ann.filename || 'Unknown'}</strong><br>
+                                    Size: ${ann.image?.width || 'N/A'}x${ann.image?.height || 'N/A'}<br>
+                                    UI Scale: ${ann.metadata?.uiScale || 'N/A'}%<br>
+                                    Quality: ${ann.metadata?.qualityScore || 'N/A'}/10
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="status error">
+                        <h3>❌ Error Reading LocalStorage</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>LocalStorage data may be corrupted</p>
+                    </div>
+                `;
+            }
+        }
+
+        function checkForImageData(annotations) {
+            if (!annotations || annotations.length === 0) return 'No annotations';
+            
+            const firstAnnotation = annotations[0];
+            const hasImageData = firstAnnotation.imageData || firstAnnotation.base64 || firstAnnotation.dataUrl;
+            const imageKeys = Object.keys(firstAnnotation).filter(key => 
+                key.toLowerCase().includes('image') || 
+                key.toLowerCase().includes('data') || 
+                key.toLowerCase().includes('base64')
+            );
+            
+            return hasImageData ? 
+                `✅ Yes (${imageKeys.join(', ')})` : 
+                `❌ No (only has: ${Object.keys(firstAnnotation).join(', ')})`;
+        }
+
+        function exportToFile() {
+            if (!annotationData) {
+                alert('No annotation data loaded. Check LocalStorage first.');
+                return;
+            }
+            
+            const exportData = {
+                version: '1.0.0',
+                created: new Date().toISOString(),
+                source: 'localStorage',
+                totalAnnotations: annotationData.length,
+                annotations: annotationData
+            };
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                type: 'application/json' 
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `localStorage-annotations-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        function clearLocalStorage() {
+            if (confirm('Are you sure you want to clear the localStorage annotations? This cannot be undone!')) {
+                localStorage.removeItem('nova-drift-annotations');
+                alert('LocalStorage cleared');
+                checkLocalStorage();
+            }
+        }
+
+        // Auto-check on load
+        window.addEventListener('load', checkLocalStorage);
+    </script>
+</body>
+</html>

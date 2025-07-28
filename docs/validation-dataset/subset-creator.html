@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset Subset Creator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border-bottom: 3px solid #4a9eff;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #3d3d3d;
+        }
+
+        .file-input {
+            margin: 15px 0;
+        }
+
+        .file-input input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: #3d3d3d;
+            border: 1px solid #4d4d4d;
+            border-radius: 4px;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        button {
+            background: #4a9eff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        button:hover { background: #3d8ce6; }
+        button:disabled { background: #555; cursor: not-allowed; }
+
+        .range-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .range-control input[type="range"] {
+            width: 200px;
+        }
+
+        .range-control .value {
+            background: #3d3d3d;
+            padding: 5px 10px;
+            border-radius: 4px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .annotation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .annotation-card {
+            background: #3d3d3d;
+            border: 1px solid #4d4d4d;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .annotation-card.selected {
+            border-color: #4a9eff;
+            background: #1a3a4a;
+        }
+
+        .annotation-card:hover {
+            border-color: #6a9aff;
+        }
+
+        .annotation-card input[type="checkbox"] {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .filename {
+            font-weight: bold;
+            color: #4a9eff;
+            margin-bottom: 8px;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        .details {
+            font-size: 12px;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+        }
+
+        .size-info {
+            font-size: 11px;
+            color: #888;
+            font-family: monospace;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid;
+        }
+
+        .status.success { border-color: #4CAF50; background: #1a4a1a; }
+        .status.error { border-color: #f44336; background: #4a1a1a; }
+        .status.warning { border-color: #ff9800; background: #4a3a1a; }
+        .status.info { border-color: #2196F3; background: #1a3a4a; }
+
+        .selection-summary {
+            background: #1a3a4a;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #4a9eff;
+        }
+
+        .compression-options {
+            background: #3d3d3d;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #4d4d4d;
+        }
+
+        .compression-options h4 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+            border: 1px solid #4d4d4d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Dataset Subset Creator</h1>
+            <p>Create smaller, optimized datasets for faster ROI algorithm testing</p>
+        </div>
+
+        <div class="section">
+            <h3>Load Large Dataset</h3>
+            <div class="file-input">
+                <label>Select your enhanced annotations file:</label>
+                <input type="file" id="dataset-file" accept=".json" />
+            </div>
+            <button onclick="loadDataset()">Load Dataset</button>
+            <div id="load-status"></div>
+        </div>
+
+        <div class="section" id="selection-section" style="display: none;">
+            <h3>Select Annotations</h3>
+            
+            <div class="controls">
+                <div class="range-control">
+                    <label>Quick Select:</label>
+                    <input type="range" id="subset-size" min="1" max="17" value="5" oninput="updateSubsetSize()" />
+                    <div class="value" id="subset-size-value">5</div>
+                    <button onclick="quickSelect()">Select Best</button>
+                </div>
+                <button onclick="selectAll()">Select All</button>
+                <button onclick="selectNone()">Select None</button>
+            </div>
+
+            <div class="selection-summary" id="selection-summary">
+                <strong>Selection Summary:</strong> 0 annotations selected (0 KB estimated)
+            </div>
+
+            <div class="compression-options">
+                <h4>🗜️ Compression Options</h4>
+                <div class="controls">
+                    <label>
+                        <input type="checkbox" id="compress-images" checked />
+                        Compress images (reduce to 800px max width)
+                    </label>
+                    <label>
+                        <input type="checkbox" id="optimize-quality" checked />
+                        Optimize JPEG quality (75%)
+                    </label>
+                </div>
+            </div>
+
+            <div class="annotation-grid" id="annotation-grid"></div>
+        </div>
+
+        <div class="section" id="export-section" style="display: none;">
+            <h3>Export Subset</h3>
+            <div class="controls">
+                <button onclick="createSubset()" id="create-btn">Create Optimized Subset</button>
+                <button onclick="createQuickTest()" id="quick-btn">Create Quick Test (3 best)</button>
+            </div>
+            <div id="export-status"></div>
+        </div>
+    </div>
+
+    <script>
+        let fullDataset = null;
+        let selectedAnnotations = new Set();
+
+        function loadDataset() {
+            const fileInput = document.getElementById('dataset-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showStatus('load-status', 'Please select a dataset file', 'error');
+                return;
+            }
+
+            showStatus('load-status', 'Loading dataset...', 'info');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    fullDataset = JSON.parse(e.target.result);
+                    
+                    if (!fullDataset.annotations || !Array.isArray(fullDataset.annotations)) {
+                        throw new Error('Invalid dataset format');
+                    }
+
+                    const annotations = fullDataset.annotations;
+                    const totalSize = (new Blob([e.target.result]).size / 1024).toFixed(1);
+                    
+                    showStatus('load-status', 
+                        `Dataset loaded: ${annotations.length} annotations, ${totalSize} KB total`, 
+                        'success'
+                    );
+
+                    // Update max range
+                    const rangeInput = document.getElementById('subset-size');
+                    rangeInput.max = annotations.length;
+                    
+                    displayAnnotations(annotations);
+                    document.getElementById('selection-section').style.display = 'block';
+                    document.getElementById('export-section').style.display = 'block';
+
+                } catch (error) {
+                    showStatus('load-status', `Error loading dataset: ${error.message}`, 'error');
+                }
+            };
+
+            reader.readAsText(file);
+        }
+
+        function displayAnnotations(annotations) {
+            const grid = document.getElementById('annotation-grid');
+            grid.innerHTML = '';
+
+            annotations.forEach((annotation, index) => {
+                const card = document.createElement('div');
+                card.className = 'annotation-card';
+                card.onclick = () => toggleSelection(index);
+
+                // Estimate image size
+                const imageSize = annotation.imageData ? 
+                    (annotation.imageData.length * 0.75 / 1024).toFixed(1) : 0;
+
+                card.innerHTML = `
+                    <input type="checkbox" onchange="toggleSelection(${index})" id="check-${index}" />
+                    <div class="filename">${annotation.filename}</div>
+                    <div class="details">
+                        ${annotation.image?.width || 'N/A'}x${annotation.image?.height || 'N/A'} • 
+                        UI Scale: ${annotation.metadata?.uiScale || 'N/A'}% • 
+                        Quality: ${annotation.metadata?.qualityScore || 'N/A'}/10
+                    </div>
+                    <div class="size-info">
+                        Image: ~${imageSize} KB • 
+                        Type: ${annotation.metadata?.captureType || 'N/A'}
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleSelection(index) {
+            const checkbox = document.getElementById(`check-${index}`);
+            const card = checkbox.closest('.annotation-card');
+            
+            if (selectedAnnotations.has(index)) {
+                selectedAnnotations.delete(index);
+                checkbox.checked = false;
+                card.classList.remove('selected');
+            } else {
+                selectedAnnotations.add(index);
+                checkbox.checked = true;
+                card.classList.add('selected');
+            }
+            
+            updateSelectionSummary();
+        }
+
+        function updateSubsetSize() {
+            const size = document.getElementById('subset-size').value;
+            document.getElementById('subset-size-value').textContent = size;
+        }
+
+        function quickSelect() {
+            const size = parseInt(document.getElementById('subset-size').value);
+            selectNone();
+            
+            // Select best quality annotations (highest quality score, good variety)
+            const annotations = fullDataset.annotations;
+            const scored = annotations.map((ann, index) => ({
+                index,
+                score: (ann.metadata?.qualityScore || 5) * 2 + // Quality weight
+                       (ann.image?.width * ann.image?.height / 1000000) + // Resolution bonus
+                       (ann.metadata?.captureType === 'fullscreen' ? 1 : 0) // Capture type bonus
+            })).sort((a, b) => b.score - a.score);
+
+            // Select top N
+            for (let i = 0; i < Math.min(size, scored.length); i++) {
+                selectedAnnotations.add(scored[i].index);
+                const checkbox = document.getElementById(`check-${scored[i].index}`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                    checkbox.closest('.annotation-card').classList.add('selected');
+                }
+            }
+            
+            updateSelectionSummary();
+        }
+
+        function selectAll() {
+            selectNone();
+            fullDataset.annotations.forEach((_, index) => {
+                selectedAnnotations.add(index);
+                const checkbox = document.getElementById(`check-${index}`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                    checkbox.closest('.annotation-card').classList.add('selected');
+                }
+            });
+            updateSelectionSummary();
+        }
+
+        function selectNone() {
+            selectedAnnotations.clear();
+            document.querySelectorAll('.annotation-card').forEach(card => {
+                card.classList.remove('selected');
+                card.querySelector('input[type="checkbox"]').checked = false;
+            });
+            updateSelectionSummary();
+        }
+
+        function updateSelectionSummary() {
+            const count = selectedAnnotations.size;
+            let estimatedSize = 0;
+            
+            selectedAnnotations.forEach(index => {
+                const annotation = fullDataset.annotations[index];
+                if (annotation.imageData) {
+                    estimatedSize += annotation.imageData.length * 0.75; // Base64 overhead
+                }
+            });
+            
+            estimatedSize = (estimatedSize / 1024).toFixed(1);
+            
+            const summary = document.getElementById('selection-summary');
+            summary.innerHTML = `
+                <strong>Selection Summary:</strong> ${count} annotations selected (~${estimatedSize} KB estimated)
+                ${count > 0 ? `<br><small>Recommended for testing: ${count <= 5 ? '✅ Good' : count <= 10 ? '⚠️ May be slow' : '❌ Too large'}</small>` : ''}
+            `;
+        }
+
+        function createSubset() {
+            if (selectedAnnotations.size === 0) {
+                showStatus('export-status', 'Please select at least one annotation', 'error');
+                return;
+            }
+
+            const selectedData = Array.from(selectedAnnotations)
+                .map(index => fullDataset.annotations[index]);
+
+            const shouldCompress = document.getElementById('compress-images').checked;
+            const optimizeQuality = document.getElementById('optimize-quality').checked;
+
+            if (shouldCompress || optimizeQuality) {
+                compressAndExport(selectedData, `subset-${selectedAnnotations.size}-annotations`);
+            } else {
+                exportSubset(selectedData, `subset-${selectedAnnotations.size}-annotations`);
+            }
+        }
+
+        function createQuickTest() {
+            selectNone();
+            quickSelect();
+            document.getElementById('subset-size').value = 3;
+            updateSubsetSize();
+            quickSelect();
+            
+            setTimeout(() => {
+                createSubset();
+            }, 100);
+        }
+
+        async function compressAndExport(annotations, filename) {
+            showStatus('export-status', 'Compressing images...', 'info');
+            
+            const compressedAnnotations = [];
+            let processed = 0;
+            
+            for (const annotation of annotations) {
+                try {
+                    let processedAnnotation = { ...annotation };
+                    
+                    if (annotation.imageData && document.getElementById('compress-images').checked) {
+                        processedAnnotation.imageData = await compressImage(
+                            annotation.imageData, 
+                            800, // max width
+                            document.getElementById('optimize-quality').checked ? 0.75 : 0.9
+                        );
+                    }
+                    
+                    compressedAnnotations.push(processedAnnotation);
+                    processed++;
+                    
+                    showStatus('export-status', 
+                        `Compressing images... ${processed}/${annotations.length}`, 
+                        'info'
+                    );
+                    
+                } catch (error) {
+                    console.error('Compression error:', error);
+                    compressedAnnotations.push(annotation); // Use original if compression fails
+                    processed++;
+                }
+            }
+            
+            exportSubset(compressedAnnotations, `${filename}-compressed`);
+        }
+
+        function compressImage(base64Data, maxWidth, quality) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Calculate new dimensions
+                    let { width, height } = img;
+                    if (width > maxWidth) {
+                        height = (height * maxWidth) / width;
+                        width = maxWidth;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // Draw and compress
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const compressed = canvas.toDataURL('image/jpeg', quality);
+                    resolve(compressed);
+                };
+                img.src = base64Data;
+            });
+        }
+
+        function exportSubset(annotations, filename) {
+            const subsetData = {
+                version: '2.1.0',
+                created: new Date().toISOString(),
+                source: 'subset-creator',
+                originalDataset: {
+                    totalAnnotations: fullDataset.totalAnnotations,
+                    version: fullDataset.version
+                },
+                totalAnnotations: annotations.length,
+                annotationsWithImages: annotations.filter(a => a.imageData).length,
+                annotations: annotations
+            };
+
+            const blob = new Blob([JSON.stringify(subsetData, null, 2)], { 
+                type: 'application/json' 
+            });
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+
+            URL.revokeObjectURL(url);
+
+            const sizeKB = (blob.size / 1024).toFixed(1);
+            showStatus('export-status', 
+                `Subset exported: ${annotations.length} annotations, ${sizeKB} KB`, 
+                'success'
+            );
+        }
+
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>

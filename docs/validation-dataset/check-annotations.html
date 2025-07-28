@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Annotations Status</title>
+    <style>
+        body { font-family: monospace; background: #1a1a1a; color: #e0e0e0; padding: 20px; }
+        .status { margin: 20px 0; padding: 15px; background: #2d2d2d; border-radius: 5px; }
+        .success { border-left: 4px solid #4a9eff; }
+        .warning { border-left: 4px solid orange; }
+        .error { border-left: 4px solid red; }
+        button { padding: 10px 20px; margin: 10px; background: #4a9eff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        pre { background: #3d3d3d; padding: 15px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Nova Drift Annotation Status Check</h1>
+    
+    <div id="status"></div>
+    
+    <button onclick="checkAnnotations()">Check Annotations</button>
+    <button onclick="exportIfExists()">Export Annotations</button>
+    <button onclick="clearAnnotations()">Clear Annotations</button>
+    
+    <div id="output"></div>
+
+    <script>
+        function checkAnnotations() {
+            const statusDiv = document.getElementById('status');
+            const outputDiv = document.getElementById('output');
+            
+            try {
+                const saved = localStorage.getItem('nova-drift-annotations');
+                
+                if (!saved) {
+                    statusDiv.innerHTML = '<div class="status error">❌ No annotations found in localStorage</div>';
+                    outputDiv.innerHTML = '<p>No annotation data exists. Need to:</p><ol><li>Open ground-truth-annotator.html</li><li>Upload and annotate at least 15-20 Nova Drift screenshots</li><li>Export the annotations as JSON</li></ol>';
+                    return;
+                }
+                
+                const annotations = JSON.parse(saved);
+                const count = annotations.length;
+                
+                if (count >= 15) {
+                    statusDiv.innerHTML = `<div class="status success">✅ Found ${count} annotations (sufficient for validation)</div>`;
+                } else {
+                    statusDiv.innerHTML = `<div class="status warning">⚠️ Found ${count} annotations (need at least 15 for validation)</div>`;
+                }
+                
+                outputDiv.innerHTML = `
+                    <h3>Annotation Details:</h3>
+                    <pre>${JSON.stringify(annotations.slice(0, 2), null, 2)}${count > 2 ? '\n... and ' + (count - 2) + ' more annotations' : ''}</pre>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Error reading annotations: ' + error.message + '</div>';
+                outputDiv.innerHTML = '';
+            }
+        }
+        
+        function exportIfExists() {
+            try {
+                const saved = localStorage.getItem('nova-drift-annotations');
+                if (!saved) {
+                    alert('No annotations to export');
+                    return;
+                }
+                
+                const annotations = JSON.parse(saved);
+                const exportData = {
+                    version: "1.0.0",
+                    created: new Date().toISOString().split('T')[0],
+                    totalAnnotations: annotations.length,
+                    annotations: annotations
+                };
+                
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                    type: 'application/json' 
+                });
+                
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `nova-drift-ground-truth-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                alert(`Exported ${annotations.length} annotations successfully!`);
+                
+            } catch (error) {
+                alert('Export failed: ' + error.message);
+            }
+        }
+        
+        function clearAnnotations() {
+            if (confirm('Are you sure you want to clear all annotations? This cannot be undone.')) {
+                localStorage.removeItem('nova-drift-annotations');
+                alert('Annotations cleared');
+                checkAnnotations();
+            }
+        }
+        
+        // Auto-check on load
+        window.onload = checkAnnotations;
+    </script>
+</body>
+</html>
