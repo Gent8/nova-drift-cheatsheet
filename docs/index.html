@@ -25,6 +25,7 @@
 
     <link rel="stylesheet" href="hex.css?v=20231223_160018" />
     <link rel="stylesheet" href="style.css?v=20230829_065938" />
+    <link rel="stylesheet" href="css/screenshot-import.css" />
   </head>
 
   <body>
@@ -107,6 +108,9 @@
           id="copy-prefab"
           title="Export your build for Debug Mode!"
         />
+        <div class="controls" style="margin: 10px 0;">
+          <!-- Screenshot import button will be added here automatically -->
+        </div>
         Count: <span id="hex-select-count">0</span> <br /><br />
         <label style="margin-left: 1px;" for="hex-filter">
           <span class="content-en">Search upgrades:</span>
@@ -3772,5 +3776,6 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="script.js?v=20230829_065938"></script>
     <script src="main.js?v=20240821_105515"></script>
+    <script type="module" src="js/screenshot-import/index.js"></script>
   </body>
 </html>
