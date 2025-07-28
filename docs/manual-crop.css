@@ -1,0 +1,466 @@
+/**
+ * Manual Crop Interface Styles
+ * Professional styling for Nova Drift screenshot cropping interface
+ */
+
+/* Main container */
+.manual-crop-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.crop-overlay {
+  background: #2a2d3a;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 95vw;
+  max-height: 95vh;
+  width: 1200px;
+  height: 800px;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+/* Header */
+.crop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #1e2028;
+  border-bottom: 1px solid #3a3d4a;
+}
+
+.crop-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.crop-close {
+  background: none;
+  border: none;
+  color: #a0a6b8;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.crop-close:hover {
+  background: #3a3d4a;
+  color: #ffffff;
+}
+
+/* Content area */
+.crop-content {
+  flex: 1;
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  min-height: 0;
+}
+
+.crop-image-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1c24;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.crop-canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+}
+
+/* Crop selection overlay */
+.crop-selection {
+  position: absolute;
+  border: 2px solid #4CAF50;
+  background: rgba(76, 175, 80, 0.1);
+  cursor: grab;
+  user-select: none;
+  pointer-events: all;
+}
+
+.crop-selection.dragging {
+  cursor: grabbing;
+}
+
+.crop-selection.resizing {
+  cursor: inherit;
+}
+
+/* Crop handles */
+.crop-handles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.crop-handle {
+  position: absolute;
+  background: #4CAF50;
+  border: 2px solid #ffffff;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: all;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.crop-handle:hover {
+  transform: scale(1.2);
+  background: #45a049;
+}
+
+/* Handle positions */
+.crop-handle.nw { top: -6px; left: -6px; cursor: nw-resize; }
+.crop-handle.ne { top: -6px; right: -6px; cursor: ne-resize; }
+.crop-handle.sw { bottom: -6px; left: -6px; cursor: sw-resize; }
+.crop-handle.se { bottom: -6px; right: -6px; cursor: se-resize; }
+.crop-handle.n { top: -6px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+.crop-handle.s { bottom: -6px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+.crop-handle.w { left: -6px; top: 50%; transform: translateY(-50%); cursor: w-resize; }
+.crop-handle.e { right: -6px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
+
+.crop-handle.n:hover, .crop-handle.s:hover,
+.crop-handle.w:hover, .crop-handle.e:hover {
+  transform: scale(1.2) translateX(-50%);
+}
+
+.crop-handle.w:hover, .crop-handle.e:hover {
+  transform: scale(1.2) translateY(-50%);
+}
+
+/* Drag area */
+.crop-drag-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: grab;
+}
+
+.crop-selection.dragging .crop-drag-area {
+  cursor: grabbing;
+}
+
+/* Layout guides */
+.layout-guides {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.guide-line {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+.guide-line.guide-horizontal-top,
+.guide-line.guide-horizontal-center,
+.guide-line.guide-horizontal-bottom {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.guide-line.guide-vertical-left,
+.guide-line.guide-vertical-center,
+.guide-line.guide-vertical-right {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+/* Controls panel */
+.crop-controls {
+  width: 280px;
+  background: #1e2028;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.crop-controls h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #a0a6b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Presets */
+.preset-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.preset-btn {
+  padding: 10px 12px;
+  border: 1px solid #3a3d4a;
+  background: #2a2d3a;
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.preset-btn:hover {
+  background: #34374a;
+  border-color: #4a4d5a;
+}
+
+.preset-btn.active {
+  background: #4CAF50;
+  border-color: #4CAF50;
+  color: #ffffff;
+}
+
+/* Info display */
+.info-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 12px;
+  font-size: 13px;
+  align-items: center;
+}
+
+.info-grid span:nth-child(odd) {
+  color: #a0a6b8;
+  font-weight: 500;
+}
+
+.info-grid span:nth-child(even) {
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+}
+
+/* Preview */
+.preview-canvas {
+  width: 100%;
+  height: 120px;
+  border: 1px solid #3a3d4a;
+  border-radius: 4px;
+  background: #1a1c24;
+}
+
+/* Footer */
+.crop-footer {
+  padding: 16px 20px;
+  background: #1e2028;
+  border-top: 1px solid #3a3d4a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.crop-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #4CAF50;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #45a049;
+}
+
+.btn-secondary {
+  background: #3a3d4a;
+  color: #ffffff;
+  border: 1px solid #4a4d5a;
+}
+
+.btn-secondary:hover {
+  background: #4a4d5a;
+}
+
+.crop-help {
+  color: #a0a6b8;
+  font-size: 12px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .crop-overlay {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  
+  .crop-content {
+    flex-direction: column;
+    padding: 12px;
+  }
+  
+  .crop-controls {
+    width: 100%;
+    max-height: 200px;
+  }
+  
+  .crop-footer {
+    padding: 12px;
+  }
+  
+  .crop-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    flex: 1;
+  }
+  
+  .preset-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Touch devices */
+@media (pointer: coarse) {
+  .crop-handle {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .crop-handle.nw { top: -8px; left: -8px; }
+  .crop-handle.ne { top: -8px; right: -8px; }
+  .crop-handle.sw { bottom: -8px; left: -8px; }
+  .crop-handle.se { bottom: -8px; right: -8px; }
+  .crop-handle.n { top: -8px; }
+  .crop-handle.s { bottom: -8px; }
+  .crop-handle.w { left: -8px; }
+  .crop-handle.e { right: -8px; }
+  
+  .preset-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .crop-selection {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .crop-handle {
+    background: #ffffff;
+    border-color: #000000;
+  }
+  
+  .guide-line {
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .crop-handle {
+    transition: none;
+  }
+  
+  .preset-btn {
+    transition: none;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    transition: none;
+  }
+}
+
+/* Focus indicators for accessibility */
+.crop-close:focus,
+.preset-btn:focus,
+.btn-primary:focus,
+.btn-secondary:focus {
+  outline: 2px solid #4CAF50;
+  outline-offset: 2px;
+}
+
+.manual-crop-container:focus {
+  outline: none;
+}
+
+/* Loading state */
+.crop-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #a0a6b8;
+}
+
+.crop-loading::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 2px solid #3a3d4a;
+  border-top-color: #4CAF50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

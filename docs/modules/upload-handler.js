@@ -387,11 +387,17 @@ class ScreenshotUploadHandler {
    * @param {Object} fileData - Processed file data
    */
   onFileReady(fileData) {
-    // Emit custom event for Phase 2 integration
-    const event = new CustomEvent('screenshot-ready', {
-      detail: fileData
-    });
-    document.dispatchEvent(event);
+    // Show manual crop interface (Phase 1 primary workflow)
+    if (window.manualCropInterface) {
+      window.manualCropInterface.show(fileData);
+    } else {
+      console.warn('Manual crop interface not available, falling back to event emission');
+      // Fallback: Emit custom event for legacy integration
+      const event = new CustomEvent('screenshot-ready', {
+        detail: fileData
+      });
+      document.dispatchEvent(event);
+    }
     
     console.log('Screenshot processed successfully:', {
       name: fileData.file.name,
