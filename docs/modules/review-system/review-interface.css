@@ -1,0 +1,621 @@
+/**
+ * Review Interface Styles
+ * Phase 2 enhancement styles for the mod review system
+ */
+
+/* Main interface container */
+.review-interface {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.review-interface.hidden {
+  display: none;
+}
+
+/* Overlay */
+.review-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(2px);
+}
+
+/* Main modal */
+.review-modal {
+  position: relative;
+  background: #1a1a2e;
+  border: 2px solid #16213e;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: #e94560;
+}
+
+/* Header */
+.review-header {
+  background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+  padding: 1.5rem;
+  border-bottom: 1px solid #16213e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.review-header h2 {
+  margin: 0;
+  color: #e94560;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.review-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.review-counter {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.progress-bar {
+  background: #16213e;
+  height: 6px;
+  border-radius: 3px;
+  min-width: 200px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #e94560 0%, #ff6b35 100%);
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.review-close {
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.review-close:hover {
+  background: rgba(233, 69, 96, 0.1);
+  color: #e94560;
+}
+
+/* Main content */
+.review-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.review-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Image section */
+.review-image-section {
+  min-width: 200px;
+}
+
+.review-image-section h3 {
+  margin: 0 0 1rem 0;
+  color: #e94560;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.image-snippet-container {
+  position: relative;
+  background: #0f0f23;
+  border: 2px solid #16213e;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.image-snippet {
+  display: block;
+  border-radius: 4px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.detection-overlay {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 3rem;
+  pointer-events: none;
+}
+
+.detection-bounds {
+  border: 2px solid #ff6b35;
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+.snippet-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.position-info {
+  color: #a0a0a0;
+}
+
+.confidence-info {
+  font-weight: 500;
+}
+
+.confidence-info.confidence-high { color: #4ade80; }
+.confidence-info.confidence-medium { color: #fbbf24; }
+.confidence-info.confidence-low { color: #fb923c; }
+.confidence-info.confidence-very-low { color: #ef4444; }
+
+/* Recognition section */
+.review-recognition-section {
+  min-width: 300px;
+}
+
+.review-recognition-section h3 {
+  margin: 0 0 1rem 0;
+  color: #e94560;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.candidate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.candidate-item {
+  background: #0f0f23;
+  border: 2px solid #16213e;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.candidate-item:hover {
+  border-color: #e94560;
+  background: #16213e;
+}
+
+.candidate-item.selected {
+  border-color: #e94560;
+  background: linear-gradient(135deg, #16213e 0%, #1e1e3e 100%);
+  box-shadow: 0 0 0 1px #e94560;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.candidate-name {
+  font-weight: 500;
+  color: #fff;
+}
+
+.candidate-confidence {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.top-candidate-badge {
+  position: absolute;
+  top: -8px;
+  right: 1rem;
+  background: #e94560;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.candidate-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.candidate-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.candidate-description {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.candidate-select-btn {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  background: #e94560;
+  color: #fff;
+  border: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.candidate-item:hover .candidate-select-btn,
+.candidate-item.selected .candidate-select-btn {
+  opacity: 1;
+}
+
+.no-candidates {
+  text-align: center;
+  color: #a0a0a0;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* Correction section */
+.review-correction-section {
+  min-width: 250px;
+}
+
+.review-correction-section h3 {
+  margin: 0 0 1rem 0;
+  color: #e94560;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.mod-search {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  background: #0f0f23;
+  border: 2px solid #16213e;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #e94560;
+}
+
+.search-input::placeholder {
+  color: #666;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #0f0f23;
+  border: 2px solid #16213e;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.search-results.hidden {
+  display: none;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #16213e;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: #16213e;
+}
+
+.search-result-item.selected {
+  background: #1e1e3e;
+  color: #e94560;
+}
+
+.search-result-info {
+  flex: 1;
+}
+
+.search-result-name {
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.search-result-description {
+  color: #a0a0a0;
+  font-size: 0.8rem;
+}
+
+.search-result-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.no-search-results {
+  padding: 1rem;
+  text-align: center;
+  color: #a0a0a0;
+  font-style: italic;
+}
+
+/* Action buttons */
+.review-actions {
+  background: #0f0f23;
+  border-top: 1px solid #16213e;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.review-actions button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.btn-primary {
+  background: #e94560;
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #d63851;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background: #666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-secondary {
+  background: #16213e;
+  color: #a0a0a0;
+  border: 1px solid #16213e;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #1e2a4a;
+  color: #fff;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-success {
+  background: #22c55e;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+}
+
+/* Status messages */
+.review-status {
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  border-top: 1px solid #16213e;
+  margin-top: auto;
+}
+
+.review-status.hidden {
+  display: none;
+}
+
+.review-status.success {
+  background: #16a34a;
+  color: #fff;
+}
+
+.review-status.error {
+  background: #dc2626;
+  color: #fff;
+}
+
+.review-status.warning {
+  background: #d97706;
+  color: #fff;
+}
+
+.review-status.info {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .review-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .review-header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .review-progress {
+    justify-content: space-between;
+  }
+
+  .progress-bar {
+    min-width: 150px;
+  }
+
+  .review-content {
+    padding: 1.5rem;
+  }
+
+  .review-item {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .review-image-section,
+  .review-recognition-section,
+  .review-correction-section {
+    min-width: auto;
+  }
+
+  .review-actions {
+    padding: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .review-actions button {
+    min-width: 80px;
+    flex: 1;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .candidate-item,
+  .search-result-item {
+    padding: 0.75rem;
+  }
+
+  .candidate-preview {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .review-actions button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .progress-bar {
+    min-width: 100px;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .review-modal {
+    border-width: 3px;
+  }
+
+  .candidate-item,
+  .search-input {
+    border-width: 3px;
+  }
+
+  .candidate-item.selected {
+    box-shadow: 0 0 0 3px #e94560;
+  }
+}
+
+/* Focus indicators for keyboard navigation */
+.review-interface button:focus,
+.review-interface input:focus,
+.candidate-item:focus,
+.search-result-item:focus {
+  outline: 2px solid #e94560;
+  outline-offset: 2px;
+}
+
+.review-interface *:focus:not(:focus-visible) {
+  outline: none;
+}

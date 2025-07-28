@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Nova Drift Test Screenshot</title>
+</head>
+<body>
+    <canvas id="testCanvas" width="1920" height="1080"></canvas>
+    <script>
+        const canvas = document.getElementById('testCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Dark space background
+        ctx.fillStyle = '#0a0a0f';
+        ctx.fillRect(0, 0, 1920, 1080);
+        
+        // Add some stars
+        ctx.fillStyle = '#ffffff';
+        for (let i = 0; i < 100; i++) {
+            const x = Math.random() * 1920;
+            const y = Math.random() * 1080;
+            const size = Math.random() * 2;
+            ctx.fillRect(x, y, size, size);
+        }
+        
+        // Draw game UI chrome
+        ctx.fillStyle = '#1a1c24';
+        ctx.fillRect(0, 0, 1920, 100); // Top bar
+        ctx.fillRect(0, 980, 1920, 100); // Bottom bar
+        ctx.fillRect(0, 100, 300, 880); // Left sidebar
+        ctx.fillRect(1620, 100, 300, 880); // Right sidebar
+        
+        // Draw central build area
+        ctx.fillStyle = '#2a2d3a';
+        ctx.fillRect(400, 200, 1120, 680);
+        
+        // Draw mock mod grid
+        ctx.fillStyle = '#4a4d5a';
+        ctx.strokeStyle = '#6a6d7a';
+        ctx.lineWidth = 2;
+        
+        // Core mods (top section)
+        const corePositions = [
+            {x: 600, y: 280}, // Body
+            {x: 800, y: 280}, // Shield  
+            {x: 700, y: 340}  // Weapon
+        ];
+        
+        corePositions.forEach(pos => {
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, 30, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        });
+        
+        // Regular mod grid (4-wide honeycomb)
+        const startY = 450;
+        const hexSize = 25;
+        const spacing = 60;
+        
+        for (let row = 0; row < 6; row++) {
+            for (let col = 0; col < 4; col++) {
+                const x = 550 + col * spacing + (row % 2) * (spacing / 2);
+                const y = startY + row * (spacing * 0.8);
+                
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * Math.PI) / 3;
+                    const hx = x + hexSize * Math.cos(angle);
+                    const hy = y + hexSize * Math.sin(angle);
+                    if (i === 0) ctx.moveTo(hx, hy);
+                    else ctx.lineTo(hx, hy);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+        
+        // Add UI text
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 24px Arial';
+        ctx.fillText('NOVA DRIFT', 860, 50);
+        
+        ctx.font = '16px Arial';
+        ctx.fillText('Build: Test Configuration', 400, 180);
+        
+        console.log('Test Nova Drift screenshot created');
+    </script>
+</body>
+</html>

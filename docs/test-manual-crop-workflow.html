@@ -157,6 +157,7 @@
     <script src="two-zone-grid-mapper.js"></script>
     <script src="recognition-engine/recognition-utils.js"></script>
     <script src="recognition-engine/two-zone-recognition-engine.js"></script>
+    <script src="recognition-engine/recognition-engine-v2.js"></script>
 
     <script>
         // Test utilities
@@ -185,7 +186,16 @@
                 updateStatus('state-status', 'Initialized ✅');
 
                 testUploadHandler = new ScreenshotUploadHandler();
-                updateStatus('recognition-status', typeof TwoZoneRecognitionEngine !== 'undefined' ? 'Available ✅' : 'Not loaded ❌');
+                
+                // Check recognition engine availability
+                const engineStatus = [];
+                if (typeof RecognitionEngineV2 !== 'undefined') {
+                    engineStatus.push('RecognitionEngineV2 ✅');
+                }
+                if (typeof TwoZoneRecognitionEngine !== 'undefined') {
+                    engineStatus.push('TwoZoneRecognitionEngine ✅');
+                }
+                updateStatus('recognition-status', engineStatus.length > 0 ? engineStatus.join(', ') : 'Not loaded ❌');
 
                 // Setup test event listeners
                 setupTestEventListeners();
@@ -212,6 +222,10 @@
                     
                     if (eventName === 'import-state-change') {
                         updateStatus('current-state', e.detail.newState);
+                    } else if (eventName === 'recognition-complete') {
+                        displayRecognitionResults(e.detail);
+                    } else if (eventName === 'mods-imported') {
+                        displayFinalResults(e.detail);
                     }
                 });
             });
@@ -316,6 +330,48 @@
         function clearLog() {
             testLog = [];
             updateLogDisplay();
+        }
+
+        // Display recognition results in detail
+        function displayRecognitionResults(results) {
+            log('🔍 Recognition Results Summary:');
+            log(`  • Processing Engine: ${results.metadata?.processingEngine || 'Unknown'}`);
+            log(`  • Processing Time: ${results.processingTime}ms`);
+            log(`  • Overall Confidence: ${Math.round(results.confidence * 100)}%`);
+            log(`  • Image Size: ${results.metadata?.imageSize?.width}x${results.metadata?.imageSize?.height}`);
+            
+            if (results.coreMods && results.coreMods.length > 0) {
+                log(`  • Core Mods (${results.coreMods.length}):`);
+                results.coreMods.forEach(mod => {
+                    log(`    - ${mod.name}: ${Math.round(mod.confidence * 100)}% (${mod.type || 'core'})`);
+                });
+            }
+            
+            if (results.regularMods && results.regularMods.length > 0) {
+                log(`  • Regular Mods (${results.regularMods.length}):`);
+                results.regularMods.forEach(mod => {
+                    log(`    - ${mod.name}: ${Math.round(mod.confidence * 100)}%`);
+                });
+            }
+            
+            const totalMods = (results.coreMods?.length || 0) + (results.regularMods?.length || 0);
+            log(`  • Total Detected: ${totalMods} mods`);
+        }
+
+        // Display final imported results
+        function displayFinalResults(importData) {
+            log('✅ Final Import Results:');
+            log(`  • Total Imported Mods: ${importData.metadata?.totalMods || importData.mods?.length || 0}`);
+            log(`  • Final Confidence: ${Math.round(importData.confidence * 100)}%`);
+            log(`  • Review Completed: ${importData.metadata?.reviewCompleted ? 'Yes' : 'No'}`);
+            log(`  • Total Processing Time: ${importData.metadata?.processingTime || 'Unknown'}ms`);
+            
+            if (importData.mods && importData.mods.length > 0) {
+                log(`  • Imported Mods:`);
+                importData.mods.forEach(modName => {
+                    log(`    - ${modName}`);
+                });
+            }
         }
 
         // Setup drag and drop for test area

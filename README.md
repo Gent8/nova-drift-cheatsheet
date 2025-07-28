@@ -4,6 +4,11 @@ It's an [interactive cheat sheet for Nova Drift](https://gent8.github.io/nova-dr
 ## Why
 As a new player, I found it hard to find powerups and understand the synergies between different mods. This fork adds a search feature to the interactive cheat sheet, allowing you to quickly find specific mods.
 
+## New Feature: Screenshot Import (In Development)
+We're developing a screenshot import feature that allows players to upload screenshots of their Nova Drift builds and automatically import them into the cheat sheet. 
+
+**Current Status**: Phase 0 validation complete. Manual crop will be the primary workflow due to Nova Drift's low-contrast UI making automated detection non-viable. See [Phase 0 Completion Summary](docs/phase0-completion-summary.md) for details.
+
 ## Initial setup for build
 ```
 haxelib install csv

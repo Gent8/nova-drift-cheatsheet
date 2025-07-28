@@ -2,7 +2,7 @@
 
 | **Version** | **Status**      | **Author**      | **Date**       |
 | :---------- | :-------------- | :-------------- | :------------- |
-| 1.0         | Draft for Review | Gemini & User | July 27, 2025 |
+| 1.0         | Draft for Review | User | July 27, 2025 |
 
 ---
 
