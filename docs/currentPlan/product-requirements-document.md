@@ -161,6 +161,9 @@ Create a "Build Import Assistant" that lets users upload a screenshot of a Nova 
 **Note:**  
 Technical approaches (multi-algorithm recognition, auto-cropping details, etc.) are still being considered and will be finalized during prototyping. This document only specifies the requirements and user experience expectations.
 
+**Implementation Note:**
+Hexagon recognition and template matching leverage a CSS sprite sheet (`hex.png`) for all upgrade icons. This enables efficient client-side image matching and template generation, fully compatible with static site constraints and the cheatsheet's rendering system.
+
 ---
 
 **Feedback Usage:**  
