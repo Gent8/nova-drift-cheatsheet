@@ -1,4 +1,4 @@
-# Product Requirements Document: Screenshot Build Import Assistant
+# Product Requirements Document: Screenshot Build Importer
 
 | **Version** | **Status**      | **Author**      |
 | :---------- | :-------------- | :-------------- |
