@@ -43,14 +43,7 @@ Create a "Build Copier" that lets users upload a screenshot of a Nova Drift buil
     2. **Fullscreen with upgrades on the left:** Screenshot of the full game window, with the upgrade area on the left-hand side.
 - No other in-game or menu screens are supported. This greatly simplifies detection logic, as the upgrade area will *always* be present, in a known location.
 
-**3.2. Intelligent Auto-Crop**
-- **Simplified Cropping Logic:**  
-    - If the screenshot is already perfectly cropped to the upgrade area, no auto-crop is required.
-- **Manual Crop Fallback:**  
-    - If auto-crop cannot confidently detect the upgrade area, the user will be prompted to quickly adjust a selection box. This is expected to be rare.
-
-
-**3.3. Hexagon Detection: No Recognition Area**
+**3.2. Hexagon Detection: No Recognition Area**
 
 - **Unified Detection:**  
   The recognition engine will detect all hexagons present on the screen, with no distinction or segmentation between core upgrades and mod groups.
@@ -66,17 +59,16 @@ Create a "Build Copier" that lets users upload a screenshot of a Nova Drift buil
 
 1. **Initiation:** User clicks “📷 Upload Screenshot” on the cheatsheet.
 2. **File Selection:** User selects a screenshot file.
-3. **Smart Ingestion:**
-    * proceed immediately.
-    * If detection fails, manual crop is prompted.
+3. **Ingestion:**
+  proceed immediately.
 4. **Analysis:** analyze the image.
 5. **State Display:** Cheatsheet updates; recognized hexagons are selected (leveraging the existing selection mechanism).
 6. **after:**
-    * Hexagons with <90% confidence are added to a uncertain list container above all hexagons and under the search bar and buttons, the hexagon images are put here.
+    * Hexagons with less confidence are added to a uncertain list container above all hexagons and under the search bar and buttons, the hexagon images are put here.
 
 - **Error Handling & User Experience:**  
     - If recognition fails completely, the user sees a clear, non-technical error message and tips for reuploading a screenshot.
-    - If auto-crop or detection is inconsistent, the user can re-upload or go back a step without losing their session state.
+    - If detection is inconsistent, the user can re-upload or go back a step without losing their session state.
 
 ---
 
@@ -86,7 +78,7 @@ Create a "Build Copier" that lets users upload a screenshot of a Nova Drift buil
 
 | ID | Requirement Description | Priority |
 |----|------------------------|----------|
-| **REQ-F-01** | **Screenshot Handling:**  Cropped screenshots (containing only the upgrade area) are recommended to the user for best results, but  is also supported. 
+| **REQ-F-01** | **Screenshot Handling:**  Cropped screenshots (containing only the upgrade area) are recommended to the user for best results, but fullscreen is also supported, accurate results are not garaunteed to the user, and that';s ok. 
 | **REQ-F-05** | **Direct Cheatsheet Update:** Results directly update the main cheatsheet via the checked state. 
 
 #### 5.2. Non-Functional Requirements
