@@ -274,3 +274,104 @@ input.content-ja {
   display: none;
 }
 
+/* Screenshot Build Importer Styles */
+#upload-screenshot {
+  background: linear-gradient(145deg, #4a3b8a, #6a5acd);
+  color: #ffffff;
+  border: 1px solid #7dd8ff;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 0 5px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(125, 216, 255, 0.2);
+}
+
+#upload-screenshot:hover {
+  background: linear-gradient(145deg, #5a4b9a, #7a6add);
+  box-shadow: 0 4px 8px rgba(125, 216, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+#screenshot-status {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-loading {
+  background: rgba(255, 206, 84, 0.1);
+  border: 1px solid #ffce54;
+  color: #ffce54;
+}
+
+.status-success {
+  background: rgba(72, 207, 173, 0.1);
+  border: 1px solid #48cfad;
+  color: #48cfad;
+}
+
+.status-error {
+  background: rgba(237, 85, 101, 0.1);
+  border: 1px solid #ed5565;
+  color: #ed5565;
+}
+
+#uncertain-hexagons {
+  background: linear-gradient(145deg, rgba(26, 31, 58, 0.8), rgba(12, 17, 31, 0.9));
+  border: 1px solid rgba(181, 137, 255, 0.3);
+  border-radius: 6px;
+  margin: 10px 0;
+  padding: 12px;
+}
+
+.uncertain-header {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #b589ff;
+  margin-bottom: 8px;
+  text-shadow: 0 0 3px rgba(181, 137, 255, 0.3);
+}
+
+#uncertain-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.uncertain-hex {
+  cursor: pointer !important;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  border: 2px solid rgba(255, 206, 84, 0.5) !important;
+  border-radius: 3px;
+  position: relative !important;
+  pointer-events: auto !important;
+  z-index: 10 !important;
+}
+
+.uncertain-hex:hover {
+  opacity: 1 !important;
+  border-color: #ffce54 !important;
+  box-shadow: 0 0 8px rgba(255, 206, 84, 0.4) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Ensure uncertain hexagons maintain hex shape and proper sizing */
+#uncertain-list .hex {
+  width: 42px !important;
+  height: 48px !important;
+  background-image: url('hex.png') !important;
+  background-size: 714px 2112px !important;
+}
+
+/* Override any conflicting styles for uncertain hexes */
+.uncertain-hex::before {
+  display: none !important;
+}
+

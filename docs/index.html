@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="hex.css?v=20231223_160018" />
     <link rel="stylesheet" href="style.css?v=20230829_065938" />
     <link rel="stylesheet" href="manual-crop.css?v=20250728_000001" />
+    <script async src="https://docs.opencv.org/4.10.0/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   </head>
 
   <body>
@@ -108,7 +109,31 @@
           id="copy-prefab"
           title="Export your build for Debug Mode!"
         />
+        <input
+          type="button"
+          value="📷 Upload Screenshot"
+          id="upload-screenshot"
+          title="Import build from Nova Drift screenshot"
+        />
+        <input
+          type="file"
+          id="screenshot-file"
+          accept="image/*"
+          style="display: none;"
+        />
         Count: <span id="hex-select-count">0</span> <br /><br />
+
+        <!-- Screenshot Import Status -->
+        <div id="screenshot-status" style="display: none;"></div>
+
+        <!-- Uncertain Hexagons Container -->
+        <div id="uncertain-hexagons" style="display: none;">
+          <div class="uncertain-header">
+            <span class="content-en">Uncertain upgrades - click to confirm:</span>
+            <span class="content-ja">不明なアップグレード - クリックして確認:</span>
+          </div>
+          <div id="uncertain-list"></div>
+        </div>
 
         <label style="margin-left: 1px;" for="hex-filter">
           <span class="content-en">Search upgrades:</span>
