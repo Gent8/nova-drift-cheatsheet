@@ -696,8 +696,14 @@
           var matches = findHexMatches(src);
           src.delete();
           
-          applyMatches(matches);
-          showStatus('Screenshot processed successfully!', 'success');
+      
+          if ((matches.confident && matches.confident.length) || (matches.uncertain && matches.uncertain.length)) {
+            applyMatches(matches);
+            showStatus('Screenshot processed successfully!', 'success');
+          } else {
+            console.warn('No matches found to apply.');
+            showStatus('No recognizable upgrades found in screenshot.', 'error');
+          }
           
         } catch (error) {
           console.error('Screenshot processing error:', error);
