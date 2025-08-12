@@ -561,153 +561,219 @@
   var hexTemplates = {};
   var hexTemplatePositions = {};
 
-  window.onOpenCvReady = function() {
+  window.onOpenCvReady = function () {
     isOpenCvReady = true;
-    console.log('OpenCV.js is ready');
+    console.log("OpenCV.js is ready");
     extractHexTemplates();
   };
 
   function extractHexTemplates() {
     if (!isOpenCvReady) return;
-    
-    console.log('Starting template extraction...');
-    
+
+    console.log("Starting template extraction...");
+
     // Load and parse hex.css directly to get sprite positions
-    fetch('hex.css')
-      .then(response => response.text())
-      .then(cssText => {
-        console.log('Loaded hex.css, parsing sprite positions...');
-        
+    fetch("hex.css")
+      .then((response) => response.text())
+      .then((cssText) => {
+        console.log("Loaded hex.css, parsing sprite positions...");
+
         // Parse CSS to extract background positions
         var hexPositions = {};
-        var lines = cssText.split('\n');
+        var lines = cssText.split("\n");
         var currentClass = null;
-        
-        lines.forEach(function(line) {
+
+        lines.forEach(function (line) {
           line = line.trim();
-          
+
           // Match .hex.ClassName {
           var classMatch = line.match(/\.hex\.(\w+)\s*\{/);
           if (classMatch) {
             currentClass = classMatch[1];
             return;
           }
-          
+
           // Match background-position: -XXXpx -YYYpx;
-          if (currentClass && line.includes('background-position:')) {
-            var posMatch = line.match(/background-position:\s*(-?\d+)px\s*(-?\d+)px/);
+          if (currentClass && line.includes("background-position:")) {
+            var posMatch = line.match(
+              /background-position:\s*(-?\d+)px\s*(-?\d+)px/
+            );
             if (posMatch) {
               var x = Math.abs(parseInt(posMatch[1]));
               var y = Math.abs(parseInt(posMatch[2]));
               hexPositions[currentClass] = { x: x, y: y };
-              console.log('Found position for', currentClass, ':', x, y);
+              console.log("Found position for", currentClass, ":", x, y);
             }
           }
         });
-        
-        console.log('Parsed', Object.keys(hexPositions).length, 'sprite positions');
-        
+
+        console.log(
+          "Parsed",
+          Object.keys(hexPositions).length,
+          "sprite positions"
+        );
+
         // Load sprite sheet and extract templates
         var spriteImg = new Image();
         spriteImg.crossOrigin = "anonymous";
-        spriteImg.onload = function() {
-          var canvas = document.createElement('canvas');
-          var ctx = canvas.getContext('2d');
+        spriteImg.onload = function () {
+          var canvas = document.createElement("canvas");
+          var ctx = canvas.getContext("2d");
           canvas.width = spriteImg.width;
           canvas.height = spriteImg.height;
           ctx.drawImage(spriteImg, 0, 0);
-          
-          console.log('Sprite loaded, dimensions:', spriteImg.width, 'x', spriteImg.height);
-          
+
+          console.log(
+            "Sprite loaded, dimensions:",
+            spriteImg.width,
+            "x",
+            spriteImg.height
+          );
+
           var spriteMat = cv.imread(canvas);
-          
+
           // Extract each hexagon template (42x48 pixels as per hex.css)
-          Object.keys(hexPositions).forEach(function(className) {
+          Object.keys(hexPositions).forEach(function (className) {
             var pos = hexPositions[className];
             try {
               // Ensure we don't go out of bounds
-              if (pos.x + 42 <= spriteImg.width && pos.y + 48 <= spriteImg.height) {
-                var rect = new cv.Rect(pos.x, pos.y, 42, 48);
-                var template = spriteMat.roi(rect);
-                
-                // Ensure template is properly cloned before storing
-                var clonedTemplate = new cv.Mat();
-                template.copyTo(clonedTemplate);
-                hexTemplates[className] = clonedTemplate;
-                hexTemplatePositions[className] = pos;
-                
-                template.delete();
-                console.log('Extracted template for', className, 'at', pos.x, pos.y);
+              if (pos.x < spriteImg.width && pos.y < spriteImg.height) {
+                // Clamp ROI size to fit within image bounds
+                var roiWidth = Math.min(42, spriteImg.width - pos.x);
+                var roiHeight = Math.min(48, spriteImg.height - pos.y);
+                if (roiWidth > 0 && roiHeight > 0) {
+                  var rect = new cv.Rect(pos.x, pos.y, roiWidth, roiHeight);
+                  var template = spriteMat.roi(rect);
+
+                  // Ensure template is properly cloned before storing
+                  var clonedTemplate = new cv.Mat();
+                  template.copyTo(clonedTemplate);
+                  hexTemplates[className] = clonedTemplate;
+                  hexTemplatePositions[className] = pos;
+
+                  template.delete();
+                  console.log(
+                    "Extracted template for",
+                    className,
+                    "at",
+                    pos.x,
+                    pos.y,
+                    "size",
+                    roiWidth,
+                    "x",
+                    roiHeight
+                  );
+                } else {
+                  console.warn(
+                    "Skipping",
+                    className,
+                    "- zero or negative ROI size:",
+                    pos.x,
+                    pos.y
+                  );
+                }
               } else {
-                console.warn('Skipping', className, '- position out of bounds:', pos.x, pos.y);
+                console.warn(
+                  "Skipping",
+                  className,
+                  "- position out of bounds:",
+                  pos.x,
+                  pos.y,
+                  "image:",
+                  spriteImg.width,
+                  spriteImg.height
+                );
               }
             } catch (error) {
-              console.error('Error extracting template for', className, ':', error);
+              console.error(
+                "Error extracting template for",
+                className,
+                ":",
+                error
+              );
             }
           });
-          
+
           spriteMat.delete();
-          console.log('Successfully extracted', Object.keys(hexTemplates).length, 'hex templates');
-          
+          console.log(
+            "Successfully extracted",
+            Object.keys(hexTemplates).length,
+            "hex templates"
+          );
+
           // Verify templates are valid
           var validTemplates = 0;
-          Object.keys(hexTemplates).forEach(function(className) {
+          Object.keys(hexTemplates).forEach(function (className) {
             if (hexTemplates[className] && !hexTemplates[className].empty()) {
               validTemplates++;
             } else {
-              console.warn('Invalid template for', className);
+              console.warn("Invalid template for", className);
               delete hexTemplates[className];
             }
           });
-          console.log('Verified', validTemplates, 'valid templates ready for matching');
+          console.log(
+            "Verified",
+            validTemplates,
+            "valid templates ready for matching"
+          );
         };
-        
-        spriteImg.onerror = function() {
-          console.error('Failed to load sprite image');
+
+        spriteImg.onerror = function () {
+          console.error("Failed to load sprite image");
         };
-        
-        spriteImg.src = 'hex.png';
+
+        spriteImg.src = "hex.png";
       })
-      .catch(error => {
-        console.error('Failed to load hex.css:', error);
+      .catch((error) => {
+        console.error("Failed to load hex.css:", error);
       });
   }
 
   function processScreenshot(imageFile) {
     if (!isOpenCvReady) {
-      showStatus('OpenCV.js is still loading. Please try again in a moment.', 'error');
+      showStatus(
+        "OpenCV.js is still loading. Please try again in a moment.",
+        "error"
+      );
       return;
     }
-    
-    showStatus('Processing screenshot...', 'loading');
-    
+
+    showStatus("Processing screenshot...", "loading");
+
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       var img = new Image();
-      img.onload = function() {
+      img.onload = function () {
         try {
-          var canvas = document.createElement('canvas');
-          var ctx = canvas.getContext('2d');
+          var canvas = document.createElement("canvas");
+          var ctx = canvas.getContext("2d");
           canvas.width = img.width;
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
-          
+
           var src = cv.imread(canvas);
           var matches = findHexMatches(src);
           src.delete();
-          
-      
-          if ((matches.confident && matches.confident.length) || (matches.uncertain && matches.uncertain.length)) {
+
+          if (
+            (matches.confident && matches.confident.length) ||
+            (matches.uncertain && matches.uncertain.length)
+          ) {
             applyMatches(matches);
-            showStatus('Screenshot processed successfully!', 'success');
+            showStatus("Screenshot processed successfully!", "success");
           } else {
-            console.warn('No matches found to apply.');
-            showStatus('No recognizable upgrades found in screenshot.', 'error');
+            console.warn("No matches found to apply.");
+            showStatus(
+              "No recognizable upgrades found in screenshot.",
+              "error"
+            );
           }
-          
         } catch (error) {
-          console.error('Screenshot processing error:', error);
-          showStatus('Error processing screenshot. Please try a different image.', 'error');
+          console.error("Screenshot processing error:", error);
+          showStatus(
+            "Error processing screenshot. Please try a different image.",
+            "error"
+          );
         }
       };
       img.src = e.target.result;
@@ -718,7 +784,7 @@
   function preprocessImage(srcMat, isTemplate = false) {
     // Create a processed version for better template matching
     var processed = new cv.Mat();
-    
+
     // Convert to grayscale for more consistent matching
     if (srcMat.channels() === 3) {
       cv.cvtColor(srcMat, processed, cv.COLOR_RGB2GRAY);
@@ -727,35 +793,42 @@
     } else {
       processed = srcMat.clone();
     }
-    
+
     if (isTemplate) {
       // For templates, apply minimal processing to preserve details
       var enhanced = new cv.Mat();
-      cv.GaussianBlur(processed, enhanced, new cv.Size(1, 1), 0, 0, cv.BORDER_DEFAULT);
+      cv.GaussianBlur(
+        processed,
+        enhanced,
+        new cv.Size(1, 1),
+        0,
+        0,
+        cv.BORDER_DEFAULT
+      );
       processed.delete();
       return enhanced;
     }
-    
+
     // For screenshots, apply more aggressive preprocessing
     // Apply bilateral filter to reduce noise while preserving edges
     var filtered = new cv.Mat();
     cv.bilateralFilter(processed, filtered, 9, 75, 75, cv.BORDER_DEFAULT);
     processed.delete();
-    
+
     // Enhance contrast using CLAHE
     var enhanced = new cv.Mat();
     var clahe = new cv.CLAHE(3.0, new cv.Size(8, 8));
     clahe.apply(filtered, enhanced);
     filtered.delete();
     clahe.delete();
-    
+
     // Apply morphological operations to clean up the image
     var morphed = new cv.Mat();
     var kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, new cv.Size(3, 3));
     cv.morphologyEx(enhanced, morphed, cv.MORPH_CLOSE, kernel);
     enhanced.delete();
     kernel.delete();
-    
+
     return morphed;
   }
 
@@ -767,285 +840,424 @@
     } else {
       cv.cvtColor(srcMat, gray, cv.COLOR_RGBA2GRAY);
     }
-    
+
     var edges = new cv.Mat();
     cv.Canny(gray, edges, 50, 150, 3, false);
     gray.delete();
-    
+
     return edges;
   }
 
   function findHexMatches(srcMat) {
     var matches = { confident: [], uncertain: [] };
-    var confidenceThreshold = 0.45;  // Lower confident threshold due to edge validation
-    var uncertainThreshold = 0.32;   // Lower uncertain threshold for better detection
-    
-    console.log('Starting template matching with', Object.keys(hexTemplates).length, 'templates');
-    console.log('Source image size:', srcMat.cols, 'x', srcMat.rows);
-    
+    var confidenceThreshold = 0.45; // Lower confident threshold due to edge validation
+    var uncertainThreshold = 0.32; // Lower uncertain threshold for better detection
+
+    console.log(
+      "Starting template matching with",
+      Object.keys(hexTemplates).length,
+      "templates"
+    );
+    console.log("Source image size:", srcMat.cols, "x", srcMat.rows);
+
     // Preprocess both source image and templates
     var processedSrc = preprocessImage(srcMat, false); // isTemplate = false
-    
+
     // Debug visualization
-    var debugContainer = document.getElementById('debug-container');
+    var debugContainer = document.getElementById("debug-container");
     if (debugContainer) {
-      debugContainer.innerHTML = '';
-      var title = document.createElement('h4');
-      title.textContent = 'Debug Visualization';
-      title.style.color = '#fff';
-      title.style.margin = '0 0 10px 0';
+      debugContainer.innerHTML = "";
+      var title = document.createElement("h4");
+      title.textContent = "Debug Visualization";
+      title.style.color = "#fff";
+      title.style.margin = "0 0 10px 0";
       debugContainer.appendChild(title);
     }
-    
-    showDebugCanvas(srcMat, 'Original Screenshot', 300);
-    showDebugCanvas(processedSrc, 'Processed Screenshot', 300);
-    
+
+    showDebugCanvas(srcMat, "Original Screenshot", 300);
+    showDebugCanvas(processedSrc, "Processed Screenshot", 300);
+
     // Also create edge maps for additional validation
     var srcEdges = createEdgeMap(srcMat);
-    showDebugCanvas(srcEdges, 'Edge Map', 300);
-    
+    showDebugCanvas(srcEdges, "Edge Map", 300);
+
     var allCandidates = [];
     var confidenceStats = { min: 1.0, max: 0.0, samples: [] };
-    
+
     // Prioritize more distinctive templates for better matching
-    var priorityTemplates = ['Assault', 'Stealth', 'Sentinel', 'Engineer', 'Firefly', 'Carrier', 'Hullbreaker', 'Battery', 'Architect', 'Research', 'Viper', 'Courser', 'Leviathan'];
+    var priorityTemplates = [
+      "Assault",
+      "Stealth",
+      "Sentinel",
+      "Engineer",
+      "Firefly",
+      "Carrier",
+      "Hullbreaker",
+      "Battery",
+      "Architect",
+      "Research",
+      "Viper",
+      "Courser",
+      "Leviathan",
+    ];
     var templateKeys = Object.keys(hexTemplates);
-    var orderedTemplates = priorityTemplates.filter(name => templateKeys.includes(name))
-                          .concat(templateKeys.filter(name => !priorityTemplates.includes(name)));
-    
+    var orderedTemplates = priorityTemplates
+      .filter((name) => templateKeys.includes(name))
+      .concat(templateKeys.filter((name) => !priorityTemplates.includes(name)));
+
     // Try multiple matching approaches
-    var matchMethods = [cv.TM_CCOEFF_NORMED, cv.TM_CCORR_NORMED, cv.TM_SQDIFF_NORMED];
+    var matchMethods = [
+      cv.TM_CCOEFF_NORMED,
+      cv.TM_CCORR_NORMED,
+      cv.TM_SQDIFF_NORMED,
+    ];
     var scales = [1.0, 0.9, 1.1, 0.8, 1.2]; // More scale options, starting with closer to original
-    
+
     // Enable debugging for first few templates
     var debugMode = true;
     var debugCount = 0;
-    
-    orderedTemplates.forEach(function(className) {
+
+    orderedTemplates.forEach(function (className) {
       var template = hexTemplates[className];
       if (!template) return;
-      
+
       var processedTemplate = preprocessImage(template, true); // isTemplate = true
       var bestConfidence = 0;
       var bestLocation = null;
       var bestMethod = null;
       var bestScale = 1.0;
-      
+
       // Show debug visualization for first few templates
       if (debugMode && debugCount < 3) {
-        console.log('Debug: Processing template', className);
-        showDebugCanvas(template, 'Original ' + className, 100);
-        showDebugCanvas(processedTemplate, 'Processed ' + className, 100);
+        console.log("Debug: Processing template", className);
+        showDebugCanvas(template, "Original " + className, 100);
+        showDebugCanvas(processedTemplate, "Processed " + className, 100);
         debugCount++;
       }
-      
+
       // Try different scales and methods
-      scales.forEach(function(scale) {
+      scales.forEach(function (scale) {
         var scaledTemplate = new cv.Mat();
         if (scale !== 1.0) {
           var newSize = new cv.Size(
             Math.round(processedTemplate.cols * scale),
             Math.round(processedTemplate.rows * scale)
           );
-          cv.resize(processedTemplate, scaledTemplate, newSize, 0, 0, cv.INTER_LINEAR);
+          cv.resize(
+            processedTemplate,
+            scaledTemplate,
+            newSize,
+            0,
+            0,
+            cv.INTER_LINEAR
+          );
         } else {
           scaledTemplate = processedTemplate.clone();
         }
-        
+
         // Skip if template becomes too small or too large
-        if (scaledTemplate.cols < 10 || scaledTemplate.rows < 10 || 
-            scaledTemplate.cols > processedSrc.cols || scaledTemplate.rows > processedSrc.rows) {
+        if (
+          scaledTemplate.cols < 10 ||
+          scaledTemplate.rows < 10 ||
+          scaledTemplate.cols > processedSrc.cols ||
+          scaledTemplate.rows > processedSrc.rows
+        ) {
           scaledTemplate.delete();
           return;
         }
-        
-        matchMethods.forEach(function(method) {
+
+        matchMethods.forEach(function (method) {
           var result = new cv.Mat();
           var mask = new cv.Mat();
-          
+
           try {
-            cv.matchTemplate(processedSrc, scaledTemplate, result, method, mask);
+            cv.matchTemplate(
+              processedSrc,
+              scaledTemplate,
+              result,
+              method,
+              mask
+            );
             var minMaxLoc = cv.minMaxLoc(result);
             var confidence;
-            
+
             // TM_SQDIFF_NORMED uses minimum (lower is better), others use maximum
             if (method === cv.TM_SQDIFF_NORMED) {
               confidence = 1.0 - minMaxLoc.minVal; // Convert to 0-1 scale where higher is better
             } else {
               confidence = minMaxLoc.maxVal;
             }
-            
+
             // Apply method-specific adjustments
             if (method === cv.TM_CCORR_NORMED) {
               confidence *= 0.9; // CCORR tends to give inflated scores
             }
-            
+
             // Apply scale penalty for non-standard scales
             if (scale !== 1.0) {
-              confidence *= (1.0 - Math.abs(scale - 1.0) * 0.1);
+              confidence *= 1.0 - Math.abs(scale - 1.0) * 0.1;
             }
-            
+
             if (confidence > bestConfidence) {
               bestConfidence = confidence;
-              bestLocation = method === cv.TM_SQDIFF_NORMED ? minMaxLoc.minLoc : minMaxLoc.maxLoc;
+              bestLocation =
+                method === cv.TM_SQDIFF_NORMED
+                  ? minMaxLoc.minLoc
+                  : minMaxLoc.maxLoc;
               bestMethod = method;
               bestScale = scale;
             }
           } catch (error) {
-            console.error('Error with method', method, 'scale', scale, 'for', className, ':', error);
+            console.error(
+              "Error with method",
+              method,
+              "scale",
+              scale,
+              "for",
+              className,
+              ":",
+              error
+            );
           }
-          
+
           result.delete();
           mask.delete();
         });
-        
+
         scaledTemplate.delete();
       });
-      
+
       processedTemplate.delete();
-      
+
       // Track confidence statistics
       confidenceStats.min = Math.min(confidenceStats.min, bestConfidence);
       confidenceStats.max = Math.max(confidenceStats.max, bestConfidence);
       if (confidenceStats.samples.length < 15) {
-        confidenceStats.samples.push({ className: className, confidence: bestConfidence });
+        confidenceStats.samples.push({
+          className: className,
+          confidence: bestConfidence,
+        });
       }
-      
+
       if (bestConfidence >= uncertainThreshold) {
         // Additional validation using edge matching for higher confidence candidates
         var finalConfidence = bestConfidence;
-        
+
         if (bestConfidence > 0.4) {
           try {
             var templateEdges = createEdgeMap(template);
             var scaledTemplateEdges = new cv.Mat();
-            
+
             if (bestScale !== 1.0) {
               var newSize = new cv.Size(
                 Math.round(templateEdges.cols * bestScale),
                 Math.round(templateEdges.rows * bestScale)
               );
-              cv.resize(templateEdges, scaledTemplateEdges, newSize, 0, 0, cv.INTER_LINEAR);
+              cv.resize(
+                templateEdges,
+                scaledTemplateEdges,
+                newSize,
+                0,
+                0,
+                cv.INTER_LINEAR
+              );
             } else {
               scaledTemplateEdges = templateEdges.clone();
             }
-            
+
             var edgeResult = new cv.Mat();
             var edgeMask = new cv.Mat();
-            cv.matchTemplate(srcEdges, scaledTemplateEdges, edgeResult, cv.TM_CCOEFF_NORMED, edgeMask);
+            cv.matchTemplate(
+              srcEdges,
+              scaledTemplateEdges,
+              edgeResult,
+              cv.TM_CCOEFF_NORMED,
+              edgeMask
+            );
             var edgeMatch = cv.minMaxLoc(edgeResult);
             var edgeConfidence = edgeMatch.maxVal;
-            
+
             // Combine regular and edge confidence
-            finalConfidence = (bestConfidence * 0.7) + (edgeConfidence * 0.3);
-            
+            finalConfidence = bestConfidence * 0.7 + edgeConfidence * 0.3;
+
             templateEdges.delete();
             scaledTemplateEdges.delete();
             edgeResult.delete();
             edgeMask.delete();
-            
-            console.log('Edge validation for', className, '- original:', bestConfidence.toFixed(3), 'edge:', edgeConfidence.toFixed(3), 'combined:', finalConfidence.toFixed(3));
+
+            console.log(
+              "Edge validation for",
+              className,
+              "- original:",
+              bestConfidence.toFixed(3),
+              "edge:",
+              edgeConfidence.toFixed(3),
+              "combined:",
+              finalConfidence.toFixed(3)
+            );
           } catch (error) {
-            console.warn('Edge validation failed for', className, ':', error);
+            console.warn("Edge validation failed for", className, ":", error);
             // Use original confidence if edge validation fails
           }
         }
-        
+
         allCandidates.push({
           className: className,
           confidence: finalConfidence,
           location: bestLocation,
           method: bestMethod,
           scale: bestScale,
-          originalConfidence: bestConfidence
+          originalConfidence: bestConfidence,
         });
-        console.log('Candidate:', className, 'confidence:', finalConfidence.toFixed(3), 'scale:', bestScale, 'at', bestLocation.x, bestLocation.y);
+        console.log(
+          "Candidate:",
+          className,
+          "confidence:",
+          finalConfidence.toFixed(3),
+          "scale:",
+          bestScale,
+          "at",
+          bestLocation.x,
+          bestLocation.y
+        );
       }
     });
-    
+
     processedSrc.delete();
     srcEdges.delete();
-    
-    console.log('Confidence stats - Min:', confidenceStats.min.toFixed(3), 'Max:', confidenceStats.max.toFixed(3));
-    console.log('Sample confidences:', confidenceStats.samples.map(s => s.className + ':' + s.confidence.toFixed(3)).join(', '));
-    console.log('Total candidates above', uncertainThreshold + ':', allCandidates.length);
-    
+
+    console.log(
+      "Confidence stats - Min:",
+      confidenceStats.min.toFixed(3),
+      "Max:",
+      confidenceStats.max.toFixed(3)
+    );
+    console.log(
+      "Sample confidences:",
+      confidenceStats.samples
+        .map((s) => s.className + ":" + s.confidence.toFixed(3))
+        .join(", ")
+    );
+    console.log(
+      "Total candidates above",
+      uncertainThreshold + ":",
+      allCandidates.length
+    );
+
     // Dynamic threshold adjustment based on actual data
     if (allCandidates.length < 8 && confidenceStats.max > 0.25) {
       var adaptiveThreshold = Math.max(0.25, confidenceStats.max * 0.6);
-      console.log('Applying adaptive threshold:', adaptiveThreshold.toFixed(3));
-      
-      Object.keys(hexTemplates).forEach(function(className) {
+      console.log("Applying adaptive threshold:", adaptiveThreshold.toFixed(3));
+
+      Object.keys(hexTemplates).forEach(function (className) {
         var template = hexTemplates[className];
         var processedTemplate = preprocessImage(template);
         var result = new cv.Mat();
         var mask = new cv.Mat();
-        
+
         try {
-          cv.matchTemplate(srcMat, processedTemplate, result, cv.TM_CCOEFF_NORMED, mask);
+          cv.matchTemplate(
+            srcMat,
+            processedTemplate,
+            result,
+            cv.TM_CCOEFF_NORMED,
+            mask
+          );
           var minMaxLoc = cv.minMaxLoc(result);
           var confidence = minMaxLoc.maxVal;
-          
-          if (confidence >= adaptiveThreshold && !allCandidates.some(c => c.className === className)) {
+
+          if (
+            confidence >= adaptiveThreshold &&
+            !allCandidates.some((c) => c.className === className)
+          ) {
             allCandidates.push({
               className: className,
               confidence: confidence,
               location: minMaxLoc.maxLoc,
-              method: 'adaptive'
+              method: "adaptive",
             });
-            console.log('Adaptive threshold candidate:', className, confidence.toFixed(3));
+            console.log(
+              "Adaptive threshold candidate:",
+              className,
+              confidence.toFixed(3)
+            );
           }
         } catch (error) {
           // ignore
         }
-        
+
         processedTemplate.delete();
         result.delete();
         mask.delete();
       });
     }
-    
+
     // Sort all candidates by confidence
     allCandidates.sort((a, b) => b.confidence - a.confidence);
-    console.log('Top 10 candidates:', allCandidates.slice(0, 10).map(c => c.className + ':' + c.confidence.toFixed(3)).join(', '));
-    
+    console.log(
+      "Top 10 candidates:",
+      allCandidates
+        .slice(0, 10)
+        .map((c) => c.className + ":" + c.confidence.toFixed(3))
+        .join(", ")
+    );
+
     // Improved spatial filtering with adaptive distance
     var filteredCandidates = [];
     var baseDistance = 35; // Base minimum distance
-    
-    allCandidates.forEach(function(candidate) {
-      var tooClose = filteredCandidates.some(function(existing) {
+
+    allCandidates.forEach(function (candidate) {
+      var tooClose = filteredCandidates.some(function (existing) {
         var dx = candidate.location.x - existing.location.x;
         var dy = candidate.location.y - existing.location.y;
         var distance = Math.sqrt(dx * dx + dy * dy);
-        
+
         // Use adaptive distance based on confidence difference
-        var confidenceDiff = Math.abs(candidate.confidence - existing.confidence);
+        var confidenceDiff = Math.abs(
+          candidate.confidence - existing.confidence
+        );
         var adaptiveDistance = baseDistance * (1 + confidenceDiff * 0.5);
-        
+
         return distance < adaptiveDistance;
       });
-      
+
       if (!tooClose) {
         filteredCandidates.push(candidate);
       } else {
-        console.log('Filtered out', candidate.className, 'due to spatial overlap');
+        console.log(
+          "Filtered out",
+          candidate.className,
+          "due to spatial overlap"
+        );
       }
     });
-    
+
     // Categorize filtered candidates with refined thresholds
-    filteredCandidates.forEach(function(candidate) {
+    filteredCandidates.forEach(function (candidate) {
       if (candidate.confidence >= confidenceThreshold) {
         matches.confident.push(candidate);
-        console.log('CONFIDENT match:', candidate.className, candidate.confidence.toFixed(3));
+        console.log(
+          "CONFIDENT match:",
+          candidate.className,
+          candidate.confidence.toFixed(3)
+        );
       } else {
         matches.uncertain.push(candidate);
-        console.log('UNCERTAIN match:', candidate.className, candidate.confidence.toFixed(3));
+        console.log(
+          "UNCERTAIN match:",
+          candidate.className,
+          candidate.confidence.toFixed(3)
+        );
       }
     });
-    
-    console.log('After spatial filtering - Confident:', matches.confident.length, 'Uncertain:', matches.uncertain.length);
-    
+
+    console.log(
+      "After spatial filtering - Confident:",
+      matches.confident.length,
+      "Uncertain:",
+      matches.uncertain.length
+    );
+
     // Limit results to reasonable numbers
     if (matches.confident.length > 20) {
       matches.confident = matches.confident.slice(0, 20);
@@ -1053,186 +1265,221 @@
     if (matches.uncertain.length > 12) {
       matches.uncertain = matches.uncertain.slice(0, 12);
     }
-    
+
     return matches;
   }
 
   function applyMatches(matches) {
-    console.log('Applying matches - Confident:', matches.confident.length, 'Uncertain:', matches.uncertain.length);
-    
+    console.log(
+      "Applying matches - Confident:",
+      matches.confident.length,
+      "Uncertain:",
+      matches.uncertain.length
+    );
+
     var appliedConfident = 0;
-    
+
     // Apply confident matches automatically
-    matches.confident.forEach(function(match) {
-      console.log('Applying confident match:', match.className, '(confidence:', match.confidence.toFixed(3) + ')');
-      var elements = document.querySelectorAll('.hex.' + match.className + ':not(.uncertain-hex)');
-      console.log('Found', elements.length, 'elements for', match.className);
-      
+    matches.confident.forEach(function (match) {
+      console.log(
+        "Applying confident match:",
+        match.className,
+        "(confidence:",
+        match.confidence.toFixed(3) + ")"
+      );
+      var elements = document.querySelectorAll(
+        ".hex." + match.className + ":not(.uncertain-hex)"
+      );
+      console.log("Found", elements.length, "elements for", match.className);
+
       if (elements.length > 0) {
-        elements.forEach(function(el) {
-          if (!el.hasAttribute('checked')) {
-            el.setAttribute('checked', '');
+        elements.forEach(function (el) {
+          if (!el.hasAttribute("checked")) {
+            el.setAttribute("checked", "");
             hexCheckCount++;
             appliedConfident++;
-            console.log('Set checked attribute on element:', el.className);
+            console.log("Set checked attribute on element:", el.className);
           }
         });
       } else {
-        console.warn('No valid elements found for confident match:', match.className);
+        console.warn(
+          "No valid elements found for confident match:",
+          match.className
+        );
       }
     });
-    
+
     // Display uncertain matches for user review
     displayUncertainMatches(matches.uncertain);
-    
-    console.log('Applied', appliedConfident, 'confident matches, final hexCheckCount:', hexCheckCount);
-    
+
+    console.log(
+      "Applied",
+      appliedConfident,
+      "confident matches, final hexCheckCount:",
+      hexCheckCount
+    );
+
     // Update status message with results
-    var statusMsg = 'Found ' + matches.confident.length + ' confident matches';
+    var statusMsg = "Found " + matches.confident.length + " confident matches";
     if (matches.uncertain.length > 0) {
-      statusMsg += ' and ' + matches.uncertain.length + ' uncertain matches for review';
+      statusMsg +=
+        " and " + matches.uncertain.length + " uncertain matches for review";
     }
-    showStatus(statusMsg, 'success');
-    
+    showStatus(statusMsg, "success");
+
     // Update UI
-    hexCheckCountSpan.innerHTML = '' + hexCheckCount;
+    hexCheckCountSpan.innerHTML = "" + hexCheckCount;
     if (hexCheckCount > 0) clearMatch();
   }
 
   function displayUncertainMatches(uncertainMatches) {
-    var container = document.getElementById('uncertain-hexagons');
-    var list = document.getElementById('uncertain-list');
-    
+    var container = document.getElementById("uncertain-hexagons");
+    var list = document.getElementById("uncertain-list");
+
     if (uncertainMatches.length === 0) {
-      container.style.display = 'none';
+      container.style.display = "none";
       return;
     }
-    
-    list.innerHTML = '';
-    
-    uncertainMatches.forEach(function(match) {
+
+    list.innerHTML = "";
+
+    uncertainMatches.forEach(function (match) {
       // Create container section to match existing hex structure
-      var section = document.createElement('section');
-      section.className = 'single';
-      section.style.position = 'relative';
-      section.style.width = '42px';
-      section.style.height = '48px';
-      section.style.margin = '4px';
-      
-      var hexDiv = document.createElement('div');
-      hexDiv.className = 'hex ' + match.className + ' uncertain-hex';
-      hexDiv.setAttribute('data-hex-name', match.className);
-      hexDiv.title = 'Confidence: ' + (match.confidence * 100).toFixed(1) + '% - Click to add';
-      hexDiv.style.width = '42px';
-      hexDiv.style.height = '48px';
-      hexDiv.style.cursor = 'pointer';
-      
-      hexDiv.addEventListener('click', function(e) {
+      var section = document.createElement("section");
+      section.className = "single";
+      section.style.position = "relative";
+      section.style.width = "42px";
+      section.style.height = "48px";
+      section.style.margin = "4px";
+
+      var hexDiv = document.createElement("div");
+      hexDiv.className = "hex " + match.className + " uncertain-hex";
+      hexDiv.setAttribute("data-hex-name", match.className);
+      hexDiv.title =
+        "Confidence: " +
+        (match.confidence * 100).toFixed(1) +
+        "% - Click to add";
+      hexDiv.style.width = "42px";
+      hexDiv.style.height = "48px";
+      hexDiv.style.cursor = "pointer";
+
+      hexDiv.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         // Find the actual hex elements in the main grid (not uncertain ones)
-        var elements = document.querySelectorAll('.hex.' + match.className + ':not(.uncertain-hex)');
-        console.log('Clicking uncertain hex:', match.className, 'found', elements.length, 'elements');
-        
-        elements.forEach(function(el) {
-          if (!el.hasAttribute('checked')) {
-            el.setAttribute('checked', '');
+        var elements = document.querySelectorAll(
+          ".hex." + match.className + ":not(.uncertain-hex)"
+        );
+        console.log(
+          "Clicking uncertain hex:",
+          match.className,
+          "found",
+          elements.length,
+          "elements"
+        );
+
+        elements.forEach(function (el) {
+          if (!el.hasAttribute("checked")) {
+            el.setAttribute("checked", "");
             hexCheckCount++;
-            console.log('Added', match.className, 'to selection');
+            console.log("Added", match.className, "to selection");
           }
         });
-        
-        hexCheckCountSpan.innerHTML = '' + hexCheckCount;
+
+        hexCheckCountSpan.innerHTML = "" + hexCheckCount;
         section.remove();
-        
+
         // Hide container if no more uncertain hexes
         if (list.children.length === 0) {
-          container.style.display = 'none';
+          container.style.display = "none";
         }
-        
+
         if (hexCheckCount > 0) clearMatch();
       });
-      
+
       section.appendChild(hexDiv);
       list.appendChild(section);
     });
-    
-    container.style.display = 'block';
+
+    container.style.display = "block";
   }
 
   function showDebugCanvas(mat, title, maxWidth = 200) {
     // Create debug canvas to visualize what OpenCV sees
-    var canvas = document.createElement('canvas');
+    var canvas = document.createElement("canvas");
     cv.imshow(canvas, mat);
     canvas.title = title;
-    canvas.style.border = '1px solid #ccc';
-    canvas.style.margin = '5px';
-    canvas.style.maxWidth = maxWidth + 'px';
-    
+    canvas.style.border = "1px solid #ccc";
+    canvas.style.margin = "5px";
+    canvas.style.maxWidth = maxWidth + "px";
+
     // Scale down if too large
     if (canvas.width > maxWidth) {
       var scale = maxWidth / canvas.width;
-      canvas.style.width = (canvas.width * scale) + 'px';
-      canvas.style.height = (canvas.height * scale) + 'px';
+      canvas.style.width = canvas.width * scale + "px";
+      canvas.style.height = canvas.height * scale + "px";
     }
-    
-    var debugContainer = document.getElementById('debug-container');
+
+    var debugContainer = document.getElementById("debug-container");
     if (!debugContainer) {
-      debugContainer = document.createElement('div');
-      debugContainer.id = 'debug-container';
-      debugContainer.style.background = 'rgba(0,0,0,0.8)';
-      debugContainer.style.padding = '10px';
-      debugContainer.style.margin = '10px 0';
-      debugContainer.style.borderRadius = '5px';
-      debugContainer.style.overflow = 'auto';
-      debugContainer.style.maxHeight = '300px';
+      debugContainer = document.createElement("div");
+      debugContainer.id = "debug-container";
+      debugContainer.style.background = "rgba(0,0,0,0.8)";
+      debugContainer.style.padding = "10px";
+      debugContainer.style.margin = "10px 0";
+      debugContainer.style.borderRadius = "5px";
+      debugContainer.style.overflow = "auto";
+      debugContainer.style.maxHeight = "300px";
       document.body.appendChild(debugContainer);
-      
-      var title = document.createElement('h4');
-      title.textContent = 'Debug Visualization';
-      title.style.color = '#fff';
-      title.style.margin = '0 0 10px 0';
+
+      var title = document.createElement("h4");
+      title.textContent = "Debug Visualization";
+      title.style.color = "#fff";
+      title.style.margin = "0 0 10px 0";
       debugContainer.appendChild(title);
     }
-    
-    var label = document.createElement('div');
+
+    var label = document.createElement("div");
     label.textContent = title;
-    label.style.color = '#ccc';
-    label.style.fontSize = '12px';
-    label.style.marginBottom = '5px';
-    
+    label.style.color = "#ccc";
+    label.style.fontSize = "12px";
+    label.style.marginBottom = "5px";
+
     debugContainer.appendChild(label);
     debugContainer.appendChild(canvas);
   }
 
   function showStatus(message, type) {
-    var statusDiv = document.getElementById('screenshot-status');
+    var statusDiv = document.getElementById("screenshot-status");
     statusDiv.innerHTML = message;
-    statusDiv.className = 'status-' + type;
-    statusDiv.style.display = 'block';
-    
-    if (type === 'success' || type === 'error') {
-      setTimeout(function() {
-        statusDiv.style.display = 'none';
+    statusDiv.className = "status-" + type;
+    statusDiv.style.display = "block";
+
+    if (type === "success" || type === "error") {
+      setTimeout(function () {
+        statusDiv.style.display = "none";
       }, 3000);
     }
   }
 
   // Event listeners for screenshot upload
-  document.getElementById('upload-screenshot').addEventListener('click', function() {
-    document.getElementById('screenshot-file').click();
-  });
+  document
+    .getElementById("upload-screenshot")
+    .addEventListener("click", function () {
+      document.getElementById("screenshot-file").click();
+    });
 
-  document.getElementById('screenshot-file').addEventListener('change', function(e) {
-    var file = e.target.files[0];
-    if (file) {
-      if (file.type.startsWith('image/')) {
-        processScreenshot(file);
-      } else {
-        showStatus('Please select a valid image file.', 'error');
+  document
+    .getElementById("screenshot-file")
+    .addEventListener("change", function (e) {
+      var file = e.target.files[0];
+      if (file) {
+        if (file.type.startsWith("image/")) {
+          processScreenshot(file);
+        } else {
+          showStatus("Please select a valid image file.", "error");
+        }
       }
-    }
-  });
-
+    });
 })();
